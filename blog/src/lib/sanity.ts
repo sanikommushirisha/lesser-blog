@@ -51,14 +51,30 @@ export interface PostListItem {
   excerpt: string
   mainImage: SanityImageSource & { alt?: string }
   publishedAt: string
-  category: { title: string }
+  category: { title: string; slug?: string }
   author: Author
   wordCount: number
+}
+
+export interface FaqItem {
+  question: string
+  answer: string
+}
+
+export interface HowTo {
+  name?: string
+  totalTime?: string
+  costMin?: number
+  costMax?: number
+  steps?: { name: string; text: string }[]
 }
 
 export interface Post extends Omit<PostListItem, 'wordCount'> {
   body: PortableTextBlock[]
   wordCount: number
+  reviewedBy?: string
+  faq?: FaqItem[]
+  howTo?: HowTo
   seo?: {
     metaTitle?: string
     metaDescription?: string
@@ -73,7 +89,7 @@ const postCardFields = `
   excerpt,
   mainImage,
   publishedAt,
-  category->{title},
+  category->{title, "slug": slug.current},
   author->{name, avatar, role, bio},
   "wordCount": length(string::split(pt::text(body), " "))
 `
@@ -86,7 +102,7 @@ export async function fetchPosts(): Promise<PostListItem[]> {
 
 export async function fetchPost(slug: string): Promise<Post | null> {
   return client.fetch(
-    `*[_type == "post" && slug.current == $slug][0] { ${postCardFields}, body, seo }`,
+    `*[_type == "post" && slug.current == $slug][0] { ${postCardFields}, body, reviewedBy, faq, howTo, seo }`,
     { slug }
   )
 }

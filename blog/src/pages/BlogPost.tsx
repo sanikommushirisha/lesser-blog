@@ -12,6 +12,83 @@ import {
   type PostListItem,
 } from '../lib/sanity'
 
+type Node = Record<string, unknown>
+
+function buildJsonLd(
+  post: Post,
+  opts: { siteUrl: string; canonical: string; ogImage: string | null; metaDescription: string }
+) {
+  const { siteUrl, canonical, ogImage, metaDescription } = opts
+
+  const article: Node = {
+    '@type': 'Article',
+    headline: post.title,
+    description: metaDescription,
+    ...(ogImage ? { image: ogImage } : {}),
+    datePublished: post.publishedAt,
+    dateModified: post.publishedAt,
+    ...(post.author
+      ? {
+          author: {
+            '@type': 'Person',
+            name: post.author.name,
+            ...(post.author.role ? { jobTitle: post.author.role } : {}),
+            worksFor: { '@type': 'Organization', name: 'Lesser' },
+            url: 'https://lesser.tax/about',
+          },
+        }
+      : {}),
+    ...(post.reviewedBy ? { reviewedBy: { '@type': 'Person', name: post.reviewedBy } } : {}),
+    publisher: {
+      '@type': 'Organization',
+      name: 'Lesser',
+      logo: { '@type': 'ImageObject', url: 'https://lesser.tax/logo.png' },
+    },
+    mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+  }
+
+  const graph: Node[] = [article]
+
+  if (post.howTo?.steps?.length) {
+    const { name, totalTime, costMin, costMax, steps } = post.howTo
+    const cost =
+      costMin != null && costMax != null
+        ? `${costMin}-${costMax}`
+        : costMin != null
+          ? String(costMin)
+          : costMax != null
+            ? String(costMax)
+            : null
+    graph.push({
+      '@type': 'HowTo',
+      name: name || post.title,
+      ...(totalTime ? { totalTime } : {}),
+      ...(cost ? { estimatedCost: { '@type': 'MonetaryAmount', currency: 'USD', value: cost } } : {}),
+      step: steps.map((s) => ({ '@type': 'HowToStep', name: s.name, text: s.text, url: canonical })),
+    })
+  }
+
+  if (post.faq?.length) {
+    graph.push({
+      '@type': 'FAQPage',
+      mainEntity: post.faq.map((f) => ({
+        '@type': 'Question',
+        name: f.question,
+        acceptedAnswer: { '@type': 'Answer', text: f.answer },
+      })),
+    })
+  }
+
+  const crumbs: Node[] = [{ '@type': 'ListItem', position: 1, name: 'Blog', item: `${siteUrl}/` }]
+  if (post.category) {
+    crumbs.push({ '@type': 'ListItem', position: 2, name: post.category.title })
+  }
+  crumbs.push({ '@type': 'ListItem', position: crumbs.length + 1, name: post.title })
+  graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs })
+
+  return { '@context': 'https://schema.org', '@graph': graph }
+}
+
 const components: PortableTextComponents = {
   block: {
     h2: ({ children }) => <h2 className="mt-10 mb-4 text-[28px] font-semibold text-foreground">{children}</h2>,
@@ -105,7 +182,9 @@ export function BlogPost() {
   const metaDescription = post.seo?.metaDescription ?? post.excerpt
   const ogImage = imageUrl(post.seo?.ogImage, 1200, 630) ?? imageUrl(post.mainImage, 1200, 630)
   const heroImage = imageUrl(post.mainImage, 1440, 810)
-  const canonical = `https://blog.lesser.tax/${post.slug}`
+  const siteUrl = 'https://blog.lesser.tax'
+  const canonical = `${siteUrl}/${post.slug}`
+  const jsonLd = buildJsonLd(post, { siteUrl, canonical, ogImage, metaDescription })
 
   return (
     <main className="mx-auto w-full max-w-[720px] px-4 pt-10 sm:px-6">
@@ -119,16 +198,7 @@ export function BlogPost() {
         <meta property="og:url" content={canonical} />
         {ogImage && <meta property="og:image" content={ogImage} />}
         <meta name="twitter:card" content="summary_large_image" />
-        <script type="application/ld+json">
-          {JSON.stringify({
-            '@context': 'https://schema.org',
-            '@type': 'Article',
-            headline: post.title,
-            ...(ogImage ? { image: [ogImage] } : {}),
-            datePublished: post.publishedAt,
-            ...(post.author ? { author: [{ '@type': 'Person', name: post.author.name }] } : {}),
-          })}
-        </script>
+        <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
       <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">

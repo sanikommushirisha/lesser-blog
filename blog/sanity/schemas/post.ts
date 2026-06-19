@@ -94,6 +94,58 @@ export const post = defineType({
       validation: (rule) => rule.required(),
     }),
     defineField({
+      name: 'reviewedBy',
+      title: 'Reviewed by (optional)',
+      type: 'string',
+      description: 'e.g. "Jane Doe, CPA/EA" — shown as the expert reviewer in Google structured data.',
+    }),
+    defineField({
+      name: 'faq',
+      title: 'FAQ (optional — for Google rich results)',
+      description: 'Add questions and answers to make them eligible to show as dropdowns in Google search.',
+      type: 'array',
+      of: [
+        {
+          type: 'object',
+          name: 'faqItem',
+          fields: [
+            { name: 'question', title: 'Question', type: 'string', validation: (rule: any) => rule.required() },
+            { name: 'answer', title: 'Answer', type: 'text', rows: 3, validation: (rule: any) => rule.required() },
+          ],
+          preview: { select: { title: 'question' } },
+        },
+      ],
+    }),
+    defineField({
+      name: 'howTo',
+      title: 'How-to steps (optional — for Google rich results)',
+      description: 'Fill this only if the article is a step-by-step guide.',
+      type: 'object',
+      options: { collapsible: true, collapsed: true },
+      fields: [
+        { name: 'name', title: 'How-to title', type: 'string' },
+        { name: 'totalTime', title: 'Total time (ISO 8601, e.g. P6W = 6 weeks)', type: 'string' },
+        { name: 'costMin', title: 'Estimated cost — min (USD)', type: 'number' },
+        { name: 'costMax', title: 'Estimated cost — max (USD)', type: 'number' },
+        {
+          name: 'steps',
+          title: 'Steps',
+          type: 'array',
+          of: [
+            {
+              type: 'object',
+              name: 'howToStep',
+              fields: [
+                { name: 'name', title: 'Step name', type: 'string', validation: (rule: any) => rule.required() },
+                { name: 'text', title: 'Step description', type: 'text', rows: 2, validation: (rule: any) => rule.required() },
+              ],
+              preview: { select: { title: 'name' } },
+            },
+          ],
+        },
+      ],
+    }),
+    defineField({
       name: 'seo',
       title: 'SEO (optional)',
       type: 'seo',
