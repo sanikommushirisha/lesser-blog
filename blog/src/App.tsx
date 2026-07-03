@@ -1,5 +1,5 @@
 import { lazy, Suspense } from 'react'
-import { Routes, Route, Outlet } from 'react-router-dom'
+import { Routes, Route, Outlet, useParams } from 'react-router-dom'
 import { Nav } from './components/Nav'
 import { Footer } from './components/Footer'
 import { ErrorBoundary } from './components/ErrorBoundary'
@@ -28,6 +28,12 @@ function SiteLayout() {
   )
 }
 
+// Key by slug so navigating between posts remounts with fresh state
+function PostRoute() {
+  const { slug } = useParams<{ slug: string }>()
+  return <BlogPost key={slug} />
+}
+
 export default function App() {
   return (
     <Routes>
@@ -41,7 +47,7 @@ export default function App() {
       />
       <Route element={<SiteLayout />}>
         <Route path="/" element={<BlogList />} />
-        <Route path="/:slug" element={<BlogPost />} />
+        <Route path="/:slug" element={<PostRoute />} />
       </Route>
     </Routes>
   )

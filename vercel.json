@@ -2,5 +2,11 @@
   "installCommand": "cd blog && npm install",
   "buildCommand": "cd blog && npm run build",
   "outputDirectory": "blog/dist",
-  "rewrites": [{ "source": "/((?!assets/).*)", "destination": "/index.html" }]
+  "rewrites": [
+    {
+      "source": "/((?!assets/).*)",
+      "destination": "/index.html"
+    }
+  ],
+  "trailingSlash": false
 }

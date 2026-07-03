@@ -1,16 +1,19 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { fetchPosts, isConfigured, type PostListItem } from '../lib/sanity'
 import { PostCard } from '../components/PostCard'
 import { PostCardSkeleton } from '../components/Skeleton'
+import { takeInitialData } from '../lib/initial-data'
 
 export function BlogList() {
-  const [posts, setPosts] = useState<PostListItem[] | null>(null)
+  const seeded = useMemo(() => takeInitialData('/'), [])
+  const [posts, setPosts] = useState<PostListItem[] | null>(seeded?.posts ?? null)
   const [error, setError] = useState(false)
 
   useEffect(() => {
+    if (seeded?.posts) return
     fetchPosts().then(setPosts).catch(() => setError(true))
-  }, [])
+  }, [seeded])
 
   return (
     <main className="mx-auto w-full max-w-[1200px] px-4 pt-10 pb-4 sm:px-6">
