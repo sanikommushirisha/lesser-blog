@@ -1,14 +1,17 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Helmet } from 'react-helmet-async'
 import { fetchPosts, isConfigured, type PostListItem } from '../lib/sanity'
 import { PostCard } from '../components/PostCard'
 import { PostCardSkeleton } from '../components/Skeleton'
+import { takeInitialData } from '../lib/initial-data'
 
 export function BlogList() {
-  const [posts, setPosts] = useState<PostListItem[] | null>(null)
+  const seeded = useRef(takeInitialData('/'))
+  const [posts, setPosts] = useState<PostListItem[] | null>(seeded.current?.posts ?? null)
   const [error, setError] = useState(false)
 
   useEffect(() => {
+    if (seeded.current?.posts) return
     fetchPosts().then(setPosts).catch(() => setError(true))
   }, [])
 

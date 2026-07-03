@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
@@ -11,6 +11,7 @@ import {
   type Post,
   type PostListItem,
 } from '../lib/sanity'
+import { takeInitialData } from '../lib/initial-data'
 
 type Node = Record<string, unknown>
 
@@ -144,11 +145,14 @@ function Avatar({ post, size, className }: { post: Post; size: number; className
 
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
-  const [post, setPost] = useState<Post | null | undefined>(undefined)
-  const [more, setMore] = useState<PostListItem[]>([])
+  const seeded = takeInitialData(`/${slug}`)
+  const [post, setPost] = useState<Post | null | undefined>(seeded ? (seeded.post ?? null) : undefined)
+  const [more, setMore] = useState<PostListItem[]>(seeded?.more ?? [])
+  const seededSlug = useRef<string | undefined>(seeded ? slug : undefined)
 
   useEffect(() => {
     if (!slug) return
+    if (seededSlug.current === slug) return
     window.scrollTo(0, 0)
     setPost(undefined)
     fetchPost(slug).then(setPost).catch(() => setPost(null))

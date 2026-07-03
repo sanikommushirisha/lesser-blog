@@ -5,9 +5,10 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
+    "build": "tsc -b && vite build && npm run prerender",
     "lint": "eslint .",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "prerender": "vite build --ssr src/entry-server.tsx --outDir dist-server && node scripts/prerender.mjs"
   },
   "dependencies": {
     "@portabletext/react": "^6.2.0",
