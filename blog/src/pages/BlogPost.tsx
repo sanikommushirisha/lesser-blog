@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
@@ -145,19 +145,21 @@ function Avatar({ post, size, className }: { post: Post; size: number; className
 
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
-  const seeded = takeInitialData(`/${slug}`)
+  // Prerendered pages embed this page's data; consume it once so hydration
+  // renders the same markup the server did. Client-side navigation gets null
+  // here and falls through to the fetch below.
+  const seeded = useMemo(() => takeInitialData(`/${slug}`), [slug])
   const [post, setPost] = useState<Post | null | undefined>(seeded ? (seeded.post ?? null) : undefined)
   const [more, setMore] = useState<PostListItem[]>(seeded?.more ?? [])
-  const seededSlug = useRef<string | undefined>(seeded ? slug : undefined)
 
+  // The route keys this component by slug, so navigation remounts it with
+  // fresh state and this effect only ever runs for the mounted slug.
   useEffect(() => {
-    if (!slug) return
-    if (seededSlug.current === slug) return
+    if (!slug || seeded) return
     window.scrollTo(0, 0)
-    setPost(undefined)
     fetchPost(slug).then(setPost).catch(() => setPost(null))
     fetchMorePosts(slug).then(setMore).catch(() => {})
-  }, [slug])
+  }, [slug, seeded])
 
   if (post === undefined) {
     return (

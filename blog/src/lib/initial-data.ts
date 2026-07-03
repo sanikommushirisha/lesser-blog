@@ -12,7 +12,6 @@ export interface InitialData {
 }
 
 declare global {
-  // eslint-disable-next-line no-var
   var __INITIAL_DATA__: InitialData | undefined
 }
 
