@@ -80,11 +80,13 @@ function buildJsonLd(
     })
   }
 
-  const crumbs: Node[] = [{ '@type': 'ListItem', position: 1, name: 'Blog', item: `${siteUrl}/` }]
-  if (post.category) {
-    crumbs.push({ '@type': 'ListItem', position: 2, name: post.category.title })
-  }
-  crumbs.push({ '@type': 'ListItem', position: crumbs.length + 1, name: post.title })
+  // Blog > Post only. The category has no archive page to link to, and Google
+  // requires an `item` URL on every breadcrumb entry except the last, so a
+  // category tier without a URL is invalid ("Missing field item in itemListElement").
+  const crumbs: Node[] = [
+    { '@type': 'ListItem', position: 1, name: 'Blog', item: `${siteUrl}/` },
+    { '@type': 'ListItem', position: 2, name: post.title, item: canonical },
+  ]
   graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs })
 
   return { '@context': 'https://schema.org', '@graph': graph }
