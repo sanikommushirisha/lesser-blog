@@ -85,7 +85,7 @@ console.log(`wrote sitemap.xml (${urls.length} urls)`)
 // file lives at public/<key>.txt (served at the domain root) to prove ownership.
 // Best-effort: a failed ping (e.g. before the key file is live on first deploy)
 // logs and never fails the build.
-const INDEXNOW_KEY = 'ba2a247de70d5919540031c9b960472a'
+const INDEXNOW_KEY = '38dcaec0900d4e9a86f958fea904473e'
 try {
   const host = new URL(SITE_URL).host
   const res = await fetch('https://api.indexnow.org/indexnow', {
