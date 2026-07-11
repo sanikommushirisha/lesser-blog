@@ -9,9 +9,10 @@ const AUTO_OPEN_KEY = 'lesser_blog_intercom_auto_opened'
 // The widget must be booted well before showNewMessage: calling it within
 // a few seconds of boot silently drops the pre-filled composer text
 // (verified against the live o461n2j4 workspace — 3s gap loses the text,
-// 9s keeps it). Load at 20s, open at 30s.
-const LOAD_DELAY_MS = 20_000
-const AUTO_OPEN_DELAY_MS = 30_000
+// 9s keeps it). A 10s auto-open therefore forces the load to start at 1s;
+// the script is async and layout-stable so LCP/CLS are unaffected.
+const LOAD_DELAY_MS = 1_000
+const AUTO_OPEN_DELAY_MS = 10_000
 
 type IntercomFn = ((command: string, ...args: unknown[]) => void) & {
   q?: unknown[]
@@ -81,14 +82,14 @@ export interface PostContext {
 
 /**
  * Blog-post Messenger behavior:
- * - loads the widget on first scroll (reader is engaged, launcher appears)
- * - at 30s, opens the composer pre-filled with the post title so the
+ * - loads the widget 1s after the post renders (launcher appears)
+ * - at 10s, opens the composer pre-filled with the post title so the
  *   reader only has to finish the sentence and hit send — Intercom only
  *   creates a conversation once the visitor sends a message
  * - auto-open fires once per visitor (localStorage), repeat visits just
  *   get the launcher
  * - post title/slug/category ride along as custom attributes so the
- *   inbox shows what the visitor was reading
+ *   inbox shows what the visitor was reading and Fin can tailor answers
  */
 export function useIntercomForPost(post: PostContext | null) {
   const title = post?.title
@@ -103,11 +104,8 @@ export function useIntercomForPost(post: PostContext | null) {
       ...(category ? { blog_post_category: category } : {}),
     }
 
-    const onScroll = () => ensureLoaded(attributes)
-    window.addEventListener('scroll', onScroll, { once: true, passive: true })
-
-    // Load ahead of the auto-open even if the reader never scrolls, so the
-    // widget has time to finish booting before showNewMessage fires.
+    // Load well ahead of the auto-open so the widget has time to finish
+    // booting before showNewMessage fires (see LOAD_DELAY_MS comment).
     const loadTimer = window.setTimeout(() => ensureLoaded(attributes), LOAD_DELAY_MS)
 
     const timer = window.setTimeout(() => {
@@ -121,7 +119,6 @@ export function useIntercomForPost(post: PostContext | null) {
     }, AUTO_OPEN_DELAY_MS)
 
     return () => {
-      window.removeEventListener('scroll', onScroll)
       window.clearTimeout(loadTimer)
       window.clearTimeout(timer)
     }
