@@ -81,10 +81,32 @@ const sitemap = [
 fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap)
 console.log(`wrote sitemap.xml (${urls.length} urls)`)
 
-// IndexNow: notify Bing/Yandex of the current URL set on each build. The key
-// file lives at public/<key>.txt (served at the domain root) to prove ownership.
-// Best-effort: a failed ping (e.g. before the key file is live on first deploy)
-// logs and never fails the build.
+// Bing URL Submission API: push the URL set straight into Bing's crawl queue on
+// each build. Auth is the BWT API key (Vercel env BING_WEBMASTER_API_KEY) — no
+// hosted key file, so it can't hit IndexNow's key-association 403. Best-effort:
+// failures log and never fail the build.
+const BING_API_KEY = process.env.BING_WEBMASTER_API_KEY
+if (BING_API_KEY) {
+  try {
+    const res = await fetch(
+      `https://ssl.bing.com/webmaster/api.svc/json/SubmitUrlBatch?apikey=${BING_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ siteUrl: `${SITE_URL}/`, urlList: urls.map((u) => u.loc) }),
+      }
+    )
+    console.log(`Bing SubmitUrlBatch: ${res.status} (${urls.length} urls)`)
+  } catch (e) {
+    console.warn(`Bing SubmitUrlBatch failed (non-fatal): ${e.message}`)
+  }
+} else {
+  console.warn('Bing SubmitUrlBatch skipped: BING_WEBMASTER_API_KEY not set')
+}
+
+// IndexNow: legacy secondary ping for Yandex/other engines. The key file lives at
+// public/<key>.txt; Bing has twice dropped the key association (403
+// UserForbiddedToAccessSite), which is why SubmitUrlBatch above is the primary path.
 const INDEXNOW_KEY = '38dcaec0900d4e9a86f958fea904473e'
 try {
   const host = new URL(SITE_URL).host
