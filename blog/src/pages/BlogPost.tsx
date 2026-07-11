@@ -12,6 +12,7 @@ import {
   type PostListItem,
 } from '../lib/sanity'
 import { takeInitialData } from '../lib/initial-data'
+import { useIntercomForPost } from '../lib/intercom'
 
 type Node = Record<string, unknown>
 
@@ -193,6 +194,10 @@ export function BlogPost() {
     fetchPost(slug).then(setPost).catch(() => setPost(null))
     fetchMorePosts(slug).then(setMore).catch(() => {})
   }, [slug, seeded])
+
+  useIntercomForPost(
+    post ? { title: post.title, slug: post.slug, category: post.category?.title } : null
+  )
 
   if (post === undefined) {
     return (
