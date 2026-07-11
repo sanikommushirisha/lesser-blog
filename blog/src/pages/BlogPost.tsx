@@ -120,6 +120,37 @@ const components: PortableTextComponents = {
     ),
   },
   types: {
+    comparisonTable: ({ value }: { value: { headers?: string[]; rows?: { _key?: string; cells?: string[] }[] } }) => (
+      <div className="my-7 overflow-x-auto rounded-lg border border-border">
+        <table className="w-full border-collapse text-[15px] leading-normal sm:text-base">
+          {value.headers?.some((h) => h) && (
+            <thead>
+              <tr className="bg-secondary">
+                {value.headers.map((h, i) => (
+                  <th key={i} className="px-4 py-3 text-left font-semibold text-foreground">
+                    {h}
+                  </th>
+                ))}
+              </tr>
+            </thead>
+          )}
+          <tbody>
+            {value.rows?.map((row, i) => (
+              <tr key={row._key ?? i} className="border-t border-border">
+                {(row.cells ?? []).map((c, j) => (
+                  <td
+                    key={j}
+                    className={`px-4 py-3 align-top ${j === 0 ? 'font-medium text-foreground' : 'text-muted-foreground'}`}
+                  >
+                    {c}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    ),
     image: ({ value }) => {
       const src = imageUrl(value, 1440)
       if (!src) return null
