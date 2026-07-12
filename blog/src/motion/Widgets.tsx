@@ -11,6 +11,7 @@ import {
   type PlanInput,
 } from './constants'
 import { track } from './events'
+import { isNarrow } from './viewport'
 
 const LazyRenewalPlayer = lazy(() => import('./players').then((m) => ({ default: m.RenewalPlayer })))
 const LazyStoryPlayer = lazy(() => import('./players').then((m) => ({ default: m.StoryPlayer })))
@@ -77,7 +78,7 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
       <p className="mb-4 mt-1 text-sm text-muted-foreground">
         Pick your case — the fees, dates, and timeline below are computed for you, from the verified July 2026 schedule.
       </p>
-      <div className="mb-4 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+      <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-5">
         <Field label="Consulate">
           <select value={input.consulate} onChange={(e) => set({ consulate: e.target.value as PlanInput['consulate'] })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm">
             {Object.entries(CONSULATES).map(([k, v]) => (
@@ -102,11 +103,11 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
           </select>
         </Field>
         <Field label="Next India trip">
-          <input type="date" value={input.trip ?? ''} onChange={(e) => set({ trip: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm" />
+          <input type="date" value={input.trip ?? ''} onChange={(e) => set({ trip: e.target.value })} className="w-full min-w-0 appearance-none rounded-lg border border-border bg-background px-3 py-2 text-sm" />
         </Field>
-        <Field label="First name (optional)">
+        <div className="col-span-2 lg:col-span-1"><Field label="First name (optional)">
           <input value={input.name ?? ''} maxLength={14} placeholder="Aisha" onChange={(e) => set({ name: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm" />
-        </Field>
+        </Field></div>
       </div>
 
       {!playing ? (
@@ -120,7 +121,7 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
           ▸&nbsp; Watch your timeline
         </button>
       ) : (
-        <div className="overflow-hidden rounded-xl" style={{ aspectRatio: '16/9' }}>
+        <div className="overflow-hidden rounded-xl" style={{ aspectRatio: isNarrow() ? '4/5' : '16/9', maxWidth: isNarrow() ? 420 : undefined, margin: isNarrow() ? '0 auto' : undefined }}>
           <Suspense fallback={<Poster />}>
             <LazyRenewalPlayer
               plan={plan}
@@ -215,10 +216,10 @@ export function ScrollExplainer({ slug }: { slug: string }) {
     return () => window.removeEventListener('scroll', onScroll)
   }, [mounted, slug])
   return (
-    <section ref={ref} className="my-10 font-sans" style={{ height: '220vh' }}>
+    <section ref={ref} className="my-10 font-sans" style={{ height: '200vh' }}>
       <div className="sticky top-16">
         <p className="eyebrow mb-3">Scroll the timeline</p>
-        <div className="overflow-hidden rounded-xl" style={{ aspectRatio: '16/8.5' }}>
+        <div className="overflow-hidden rounded-xl" style={{ aspectRatio: isNarrow() ? '36/35' : '16/8.5' }}>
           {mounted ? (
             <Suspense fallback={<Poster />}>
               <LazyScrollPlayer progress={progress} />
@@ -282,7 +283,7 @@ export function AskWidget({ slug, questions }: { slug: string; questions: (keyof
       </div>
       {composing && <p className="my-3 text-sm text-muted-foreground">composing your answer…</p>}
       {d && (
-        <div className="mt-3 overflow-hidden rounded-xl" style={{ aspectRatio: '16/8' }}>
+        <div className="mt-3 overflow-hidden rounded-xl" style={{ aspectRatio: isNarrow() ? '4/5' : '16/8', maxWidth: isNarrow() ? 420 : undefined, margin: isNarrow() ? '0.75rem auto 0' : undefined }}>
           <Suspense fallback={<Poster />}>
             <LazyStoryPlayer
               key={active}
