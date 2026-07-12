@@ -110,28 +110,32 @@ export function TrustFooter({ sources }: { sources: NonNullable<Sections['source
   return (
     <footer className="mt-16 font-sans">
       <p className="eyebrow !text-muted-foreground">Sources</p>
-      <ul className="mt-3 space-y-2.5">
+      <ol className="mt-4 space-y-3">
         {sources.chips.map((c, i) => (
-          <li key={i} className="flex flex-wrap items-baseline gap-x-2 text-[13.5px] leading-relaxed">
+          <li
+            key={i}
+            className="grid grid-cols-[1.75rem_minmax(0,1fr)] items-baseline gap-x-1 text-[13.5px] leading-relaxed sm:grid-cols-[1.75rem_minmax(0,1fr)_auto] sm:gap-x-4"
+          >
+            <span className="tabular-nums text-muted-foreground/50">{String(i + 1).padStart(2, '0')}</span>
+            <span className="text-muted-foreground">{c.text}</span>
             {c.href ? (
               <a
                 href={c.href}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="whitespace-nowrap rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-primary no-underline transition-colors hover:border-primary"
+                className="col-start-2 whitespace-nowrap text-xs font-medium text-primary no-underline hover:underline sm:col-start-3 sm:justify-self-end"
               >
-                {c.label}
+                {c.label} ↗
               </a>
             ) : (
-              <span className="whitespace-nowrap rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+              <span className="col-start-2 whitespace-nowrap text-xs text-muted-foreground/70 sm:col-start-3 sm:justify-self-end">
                 {c.label}
               </span>
             )}
-            <span className="min-w-0 flex-1 text-muted-foreground">{c.text}</span>
           </li>
         ))}
-      </ul>
-      {sources.closer && <p className="mt-4 text-[13px] text-muted-foreground">{sources.closer}</p>}
+      </ol>
+      {sources.closer && <p className="mt-5 text-[13px] text-muted-foreground/80">{sources.closer}</p>}
     </footer>
   )
 }

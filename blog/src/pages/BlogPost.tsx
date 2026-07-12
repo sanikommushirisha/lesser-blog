@@ -164,42 +164,60 @@ const components: PortableTextComponents = {
     ),
   },
   types: {
-    comparisonTable: ({ value }: { value: { headers?: string[]; rows?: { _key?: string; cells?: string[] }[] } }) => (
-      <div className="my-7 overflow-x-auto">
-        <table className="w-full min-w-[560px] border-collapse font-sans text-sm">
-          {value.headers?.some((h) => h) && (
-            <thead>
-              <tr>
-                {value.headers.map((h, i) => (
-                  <th
-                    key={i}
-                    className="border-b-2 border-border px-3 py-2 text-left text-[11px] font-bold uppercase tracking-[0.08em] text-muted-foreground"
-                  >
-                    {h}
-                  </th>
-                ))}
-              </tr>
-            </thead>
-          )}
-          <tbody>
-            {value.rows?.map((row, i) => (
-              <tr key={row._key ?? i} className="border-b border-border last:border-b-0">
-                {(row.cells ?? []).map((c, j) => (
-                  <td
-                    key={j}
-                    className={`px-3 py-2.5 align-top leading-normal ${
-                      j === 0 ? 'font-semibold text-foreground' : 'text-muted-foreground'
-                    }`}
-                  >
-                    {c}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    ),
+    comparisonTable: ({ value }: { value: { headers?: string[]; rows?: { _key?: string; cells?: string[] }[] } }) => {
+      const numericCol = (j: number) =>
+        j > 0 && (value.rows ?? []).every((r) => !r.cells?.[j] || /^[+\-~$€₹\d]/.test(r.cells[j].trim()))
+      const isTotal = (row: { cells?: string[] }) => /total/i.test(row.cells?.[0] ?? '')
+      return (
+        <div className="my-8 overflow-x-auto">
+          <table className="w-full min-w-[480px] border-collapse font-sans text-sm">
+            {value.headers?.some((h) => h) && (
+              <thead>
+                <tr>
+                  {value.headers.map((h, i) => (
+                    <th
+                      key={i}
+                      className={`border-b border-border px-3 pb-2.5 text-[11px] font-semibold uppercase tracking-[0.1em] text-muted-foreground ${
+                        numericCol(i) ? 'text-right' : 'text-left'
+                      }`}
+                    >
+                      {h}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+            )}
+            <tbody>
+              {value.rows?.map((row, i) => (
+                <tr
+                  key={row._key ?? i}
+                  className={
+                    isTotal(row) ? 'border-t border-border' : 'border-b border-border/60 last:border-b-0'
+                  }
+                >
+                  {(row.cells ?? []).map((c, j) => (
+                    <td
+                      key={j}
+                      className={`px-3 py-3 align-top leading-normal ${
+                        numericCol(j) ? 'text-right tabular-nums' : ''
+                      } ${
+                        isTotal(row)
+                          ? 'font-semibold text-foreground'
+                          : j === 0
+                            ? 'font-medium text-foreground'
+                            : 'text-muted-foreground'
+                      }`}
+                    >
+                      {c}
+                    </td>
+                  ))}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      )
+    },
     verifiedFact: ({ value }: { value: { headline?: string; body?: string; sourceLabel?: string; sourceUrl?: string } }) => (
       <aside className="my-7 flex gap-4 border-y border-border py-5 font-sans">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-primary text-lg font-bold text-primary-foreground">
