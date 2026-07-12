@@ -5,15 +5,24 @@ import { useEffect, useRef } from 'react'
 import { RenewalTimeline, TIMELINE_DURATION, NumberStory, NUMBERSTORY_DURATION, TatkaalExplainer, EXPLAINER_DURATION, type NumberStoryProps } from './compositions'
 import type { Plan } from './constants'
 
-const COMMON = { compositionWidth: 1280, compositionHeight: 720, fps: 30 }
+import { isNarrow, reducedMotion } from './viewport'
+
+const LANDSCAPE = { compositionWidth: 1280, compositionHeight: 720 }
+const PORTRAIT = { compositionWidth: 720, compositionHeight: 900 }
+const dims = () => (isNarrow() ? PORTRAIT : LANDSCAPE)
 
 export function RenewalPlayer({ plan, onEnded }: { plan: Plan; onEnded: () => void }) {
   const ref = useRef<PlayerRef>(null)
   useEffect(() => {
     const p = ref.current
     if (!p) return
-    p.addEventListener('ended', onEnded)
-    return () => p.removeEventListener('ended', onEnded)
+    const handle = () => {
+      // freeze on the end card instead of resetting to a blank first frame
+      p.seekTo(TIMELINE_DURATION - 1)
+      onEnded()
+    }
+    p.addEventListener('ended', handle)
+    return () => p.removeEventListener('ended', handle)
   }, [onEnded])
   return (
     <Player
@@ -21,9 +30,10 @@ export function RenewalPlayer({ plan, onEnded }: { plan: Plan; onEnded: () => vo
       component={RenewalTimeline as never}
       inputProps={{ plan } as never}
       durationInFrames={TIMELINE_DURATION}
-      {...COMMON}
+      {...dims()}
+      fps={30}
       style={{ width: '100%', height: '100%' }}
-      autoPlay
+      autoPlay={!reducedMotion()}
       controls
       acknowledgeRemotionLicense
     />
@@ -35,8 +45,12 @@ export function StoryPlayer({ props, onEnded }: { props: NumberStoryProps; onEnd
   useEffect(() => {
     const p = ref.current
     if (!p) return
-    p.addEventListener('ended', onEnded)
-    return () => p.removeEventListener('ended', onEnded)
+    const handle = () => {
+      p.seekTo(NUMBERSTORY_DURATION - 1)
+      onEnded()
+    }
+    p.addEventListener('ended', handle)
+    return () => p.removeEventListener('ended', handle)
   }, [onEnded])
   return (
     <Player
@@ -44,9 +58,10 @@ export function StoryPlayer({ props, onEnded }: { props: NumberStoryProps; onEnd
       component={NumberStory as never}
       inputProps={props as never}
       durationInFrames={NUMBERSTORY_DURATION}
-      {...COMMON}
+      {...dims()}
+      fps={30}
       style={{ width: '100%', height: '100%' }}
-      autoPlay
+      autoPlay={!reducedMotion()}
       controls
       acknowledgeRemotionLicense
     />
@@ -63,8 +78,8 @@ export function ScrollExplainerPlayer({ progress }: { progress: number }) {
       ref={ref}
       component={TatkaalExplainer}
       durationInFrames={EXPLAINER_DURATION}
-      compositionWidth={1280}
-      compositionHeight={680}
+      compositionWidth={isNarrow() ? 720 : 1280}
+      compositionHeight={isNarrow() ? 700 : 680}
       fps={30}
       style={{ width: '100%', height: '100%' }}
       acknowledgeRemotionLicense
