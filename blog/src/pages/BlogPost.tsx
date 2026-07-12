@@ -13,14 +13,22 @@ import {
 } from '../lib/sanity'
 import { takeInitialData } from '../lib/initial-data'
 import { useIntercomForPost } from '../lib/intercom'
+import { splitBody, blockText, slugify, type Block, type FaqItem } from '../lib/editorial'
+import { Toc, Takeaways, QuickAnswer, Faq, TrustFooter } from '../components/Editorial'
 
 type Node = Record<string, unknown>
 
 function buildJsonLd(
   post: Post,
-  opts: { siteUrl: string; canonical: string; ogImage: string | null; metaDescription: string }
+  opts: {
+    siteUrl: string
+    canonical: string
+    ogImage: string | null
+    metaDescription: string
+    detectedFaq?: FaqItem[]
+  }
 ) {
-  const { siteUrl, canonical, ogImage, metaDescription } = opts
+  const { siteUrl, canonical, ogImage, metaDescription, detectedFaq } = opts
 
   const article: Node = {
     '@type': 'Article',
@@ -70,10 +78,18 @@ function buildJsonLd(
     })
   }
 
-  if (post.faq?.length) {
+  // Structured FAQ wins: the Sanity field when present, else the FAQ section
+  // detected in the body (h3 questions under an FAQ h2).
+  const faqEntities = post.faq?.length
+    ? post.faq.map((f) => ({ question: f.question, answer: f.answer }))
+    : (detectedFaq ?? []).map((f) => ({
+        question: f.question,
+        answer: f.answer.map((b) => blockText(b)).join(' ').trim(),
+      }))
+  if (faqEntities.length) {
     graph.push({
       '@type': 'FAQPage',
-      mainEntity: post.faq.map((f) => ({
+      mainEntity: faqEntities.map((f) => ({
         '@type': 'Question',
         name: f.question,
         acceptedAnswer: { '@type': 'Answer', text: f.answer },
@@ -93,20 +109,47 @@ function buildJsonLd(
   return { '@context': 'https://schema.org', '@graph': graph }
 }
 
-const components: PortableTextComponents = {
-  block: {
-    h2: ({ children }) => <h2 className="mt-10 mb-4 text-[28px] font-semibold text-foreground">{children}</h2>,
-    h3: ({ children }) => <h3 className="mt-8 mb-3 text-[22px] font-semibold text-foreground">{children}</h3>,
-    normal: ({ children }) => <p className="mb-5 text-lg leading-[1.7] text-foreground">{children}</p>,
-    blockquote: ({ children }) => (
-      <blockquote className="my-6 border-l-[3px] border-primary pl-4 text-lg text-muted-foreground">
+/* Voice quote: `"quoted text" - attribution` renders as a typographic pull
+   quote with the attribution as a caption. Anything else stays a plain quote. */
+function VoiceQuote({ children }: { children?: React.ReactNode }) {
+  return (
+    <figure className="editorial-voice relative my-8 max-w-[60ch] pl-9">
+      <blockquote className="m-0 font-serif text-[19px] italic leading-[1.6] text-foreground [&_a]:text-primary">
         {children}
       </blockquote>
+    </figure>
+  )
+}
+
+const components: PortableTextComponents = {
+  block: {
+    h2: ({ children, value }) => (
+      <h2
+        id={slugify(blockText(value as unknown as Block))}
+        className="mb-4 mt-11 scroll-mt-6 font-serif text-[26px] font-semibold leading-snug tracking-[-0.01em] text-foreground"
+      >
+        {children}
+      </h2>
     ),
+    h3: ({ children }) => (
+      <h3 className="mb-3 mt-8 font-serif text-[21px] font-semibold text-foreground">{children}</h3>
+    ),
+    normal: ({ children }) => (
+      <p className="mb-5 max-w-[66ch] font-serif text-[17px] leading-[1.72] text-foreground">{children}</p>
+    ),
+    blockquote: ({ children }) => <VoiceQuote>{children}</VoiceQuote>,
   },
   list: {
-    bullet: ({ children }) => <ul className="mb-5 list-disc space-y-2 pl-6 text-lg leading-[1.7]">{children}</ul>,
-    number: ({ children }) => <ol className="mb-5 list-decimal space-y-2 pl-6 text-lg leading-[1.7]">{children}</ol>,
+    bullet: ({ children }) => (
+      <ul className="editorial-list mb-5 list-disc space-y-2 pl-6 font-serif text-[17px] leading-[1.72]">
+        {children}
+      </ul>
+    ),
+    number: ({ children }) => (
+      <ol className="editorial-list mb-5 list-decimal space-y-2 pl-6 font-serif text-[17px] leading-[1.72]">
+        {children}
+      </ol>
+    ),
   },
   marks: {
     link: ({ children, value }) => (
@@ -122,13 +165,16 @@ const components: PortableTextComponents = {
   },
   types: {
     comparisonTable: ({ value }: { value: { headers?: string[]; rows?: { _key?: string; cells?: string[] }[] } }) => (
-      <div className="my-7 overflow-x-auto rounded-lg border border-border">
-        <table className="w-full border-collapse text-[15px] leading-normal sm:text-base">
+      <div className="my-7 overflow-x-auto">
+        <table className="w-full min-w-[560px] border-collapse font-sans text-sm">
           {value.headers?.some((h) => h) && (
             <thead>
-              <tr className="bg-secondary">
+              <tr>
                 {value.headers.map((h, i) => (
-                  <th key={i} className="px-4 py-3 text-left font-semibold text-foreground">
+                  <th
+                    key={i}
+                    className="border-b-2 border-border px-3 py-2 text-left text-[11px] font-bold uppercase tracking-[0.08em] text-muted-foreground"
+                  >
                     {h}
                   </th>
                 ))}
@@ -137,11 +183,13 @@ const components: PortableTextComponents = {
           )}
           <tbody>
             {value.rows?.map((row, i) => (
-              <tr key={row._key ?? i} className="border-t border-border">
+              <tr key={row._key ?? i} className="border-b border-border last:border-b-0">
                 {(row.cells ?? []).map((c, j) => (
                   <td
                     key={j}
-                    className={`px-4 py-3 align-top ${j === 0 ? 'font-medium text-foreground' : 'text-muted-foreground'}`}
+                    className={`px-3 py-2.5 align-top leading-normal ${
+                      j === 0 ? 'font-semibold text-foreground' : 'text-muted-foreground'
+                    }`}
                   >
                     {c}
                   </td>
@@ -152,6 +200,35 @@ const components: PortableTextComponents = {
         </table>
       </div>
     ),
+    verifiedFact: ({ value }: { value: { headline?: string; body?: string; sourceLabel?: string; sourceUrl?: string } }) => (
+      <aside className="my-7 flex gap-4 rounded-xl border border-primary/25 bg-secondary px-5 py-4 font-sans">
+        <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-primary text-lg font-bold text-primary-foreground">
+          ✓
+        </span>
+        <div>
+          {value.headline && <p className="text-lg font-extrabold tracking-tight text-foreground">{value.headline}</p>}
+          {value.body && <p className="mb-2 mt-1 text-sm leading-relaxed text-foreground">{value.body}</p>}
+          {value.sourceLabel && (
+            <p className="text-xs text-muted-foreground">
+              Verified against{' '}
+              {value.sourceUrl ? (
+                <a href={value.sourceUrl} target="_blank" rel="noopener noreferrer" className="font-semibold text-primary">
+                  {value.sourceLabel}
+                </a>
+              ) : (
+                value.sourceLabel
+              )}
+            </p>
+          )}
+        </div>
+      </aside>
+    ),
+    marginNote: ({ value }: { value: { text?: string } }) =>
+      value.text ? (
+        <aside className="my-4 border-l-2 border-primary py-0.5 pl-4 font-sans text-[13px] leading-relaxed text-muted-foreground">
+          {value.text}
+        </aside>
+      ) : null,
     image: ({ value }) => {
       const src = imageUrl(value, 1440)
       if (!src) return null
@@ -199,6 +276,11 @@ export function BlogPost() {
     post ? { title: post.title, slug: post.slug, category: post.category?.title } : null
   )
 
+  const sections = useMemo(
+    () => (post?.body ? splitBody(post.body as unknown as Block[]) : null),
+    [post]
+  )
+
   if (post === undefined) {
     return (
       <main className="mx-auto w-full max-w-[720px] animate-pulse px-4 pt-10 sm:px-6" aria-busy="true">
@@ -228,10 +310,16 @@ export function BlogPost() {
   const heroImage = imageUrl(post.mainImage, 1440, 810)
   const siteUrl = 'https://blog.lesser.tax'
   const canonical = `${siteUrl}/${post.slug}`
-  const jsonLd = buildJsonLd(post, { siteUrl, canonical, ogImage, metaDescription })
+  const jsonLd = buildJsonLd(post, {
+    siteUrl,
+    canonical,
+    ogImage,
+    metaDescription,
+    detectedFaq: sections?.faq,
+  })
 
   return (
-    <main className="mx-auto w-full max-w-[720px] px-4 pt-10 sm:px-6">
+    <main className="mx-auto w-full max-w-[720px] px-4 pt-10 sm:px-6 xl:grid xl:max-w-[980px] xl:grid-cols-[180px_minmax(0,720px)] xl:gap-12">
       <Helmet>
         <title>{`${metaTitle} — Lesser Blog`}</title>
         <meta name="description" content={metaDescription} />
@@ -245,87 +333,105 @@ export function BlogPost() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-        ← All articles
-      </Link>
-
-      <article className="mt-6">
-        {post.category && (
-          <span className="inline-block rounded-full bg-secondary px-3 py-1 text-xs font-medium uppercase tracking-wide text-primary">
-            {post.category.title}
-          </span>
+      <div className="hidden xl:block">
+        <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+          ← All articles
+        </Link>
+        {sections && (
+          <div className="mt-8">
+            <Toc items={sections.toc} />
+          </div>
         )}
-        <h1 className="mt-3 text-4xl font-bold leading-tight text-foreground sm:text-[44px] sm:leading-[1.15]">
-          {post.title}
-        </h1>
-        <p className="mt-3 text-sm text-muted-foreground">
-          <time dateTime={post.publishedAt}>{formatDate(post.publishedAt)}</time>
-          {' · '}
-          {readTime(post.wordCount)}
-        </p>
-        {post.author && (
-          <div className="mt-5 flex items-center gap-3">
-            <Avatar post={post} size={80} className="h-10 w-10 rounded-full" />
-            <div>
-              <p className="text-sm font-medium text-foreground">{post.author.name}</p>
-              {post.author.role && <p className="text-xs text-muted-foreground">{post.author.role}</p>}
+      </div>
+
+      <div>
+        <div className="xl:hidden">
+          <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+            ← All articles
+          </Link>
+        </div>
+
+        <article className="mt-6 xl:mt-0">
+          {post.category && (
+            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
+              {post.category.title}
+            </span>
+          )}
+          <h1 className="mt-3 font-serif text-4xl font-bold leading-[1.16] tracking-[-0.01em] text-foreground sm:text-[40px]">
+            {post.title}
+          </h1>
+
+          <div className="mt-5 flex items-center gap-3 border-b border-border pb-4 font-sans">
+            <Avatar post={post} size={88} className="h-11 w-11 rounded-full" />
+            <div className="min-w-0 flex-1">
+              <p className="text-[14.5px] font-bold text-foreground">
+                {post.author?.name ?? 'Lesser'}
+                {post.author?.role && <span className="font-semibold text-primary"> · {post.author.role}</span>}
+              </p>
+              <p className="text-[12.5px] text-muted-foreground">{readTime(post.wordCount)}</p>
             </div>
+            <span className="whitespace-nowrap rounded-full bg-secondary px-3 py-1 text-[11.5px] font-semibold text-primary">
+              Updated {formatDate(post.publishedAt)}
+            </span>
+          </div>
+
+          {sections?.quickAnswer && <QuickAnswer block={sections.quickAnswer} components={components} />}
+          {sections && <Takeaways blocks={sections.takeaways} components={components} />}
+
+          <div className="mb-8 xl:hidden">{sections && <Toc items={sections.toc} />}</div>
+
+          {heroImage && (
+            <img
+              src={heroImage}
+              alt={post.mainImage?.alt ?? ''}
+              className="mt-2 aspect-video w-full rounded-xl object-cover"
+            />
+          )}
+
+          <div className="mt-8">
+            <PortableText value={(sections?.main ?? post.body) as never} components={components} />
+          </div>
+
+          {sections && <Faq items={sections.faq} components={components} />}
+          {sections?.sources && <TrustFooter sources={sections.sources} />}
+        </article>
+
+        {post.author?.bio && (
+          <div className="mt-12 rounded-xl bg-muted p-6 font-sans">
+            <div className="flex items-center gap-3">
+              <Avatar post={post} size={96} className="h-12 w-12 rounded-full" />
+              <div>
+                <p className="font-medium text-foreground">{post.author.name}</p>
+                {post.author.role && <p className="text-sm text-muted-foreground">{post.author.role}</p>}
+              </div>
+            </div>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{post.author.bio}</p>
           </div>
         )}
 
-        {heroImage && (
-          <img
-            src={heroImage}
-            alt={post.mainImage?.alt ?? ''}
-            className="mt-8 aspect-video w-full rounded-xl object-cover"
-          />
-        )}
-
-        <div className="mt-10">
-          <PortableText value={post.body} components={components} />
-        </div>
-      </article>
-
-      {post.author?.bio && (
-        <div className="mt-12 rounded-xl bg-muted p-6">
-          <div className="flex items-center gap-3">
-            <Avatar post={post} size={96} className="h-12 w-12 rounded-full" />
-            <div>
-              <p className="font-medium text-foreground">{post.author.name}</p>
-              {post.author.role && <p className="text-sm text-muted-foreground">{post.author.role}</p>}
+        {more.length > 0 && (
+          <section className="mt-12 border-t border-border pt-8 font-sans">
+            <h2 className="text-xl font-semibold text-foreground">Keep reading</h2>
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {more.map((p) => (
+                <Link
+                  key={p._id}
+                  to={`/${p.slug}`}
+                  className="group block rounded-xl border border-border bg-card px-4 py-4 transition-colors hover:border-primary"
+                >
+                  <p className="mb-1 text-[10.5px] font-semibold uppercase tracking-[0.17em] text-muted-foreground">
+                    Keep reading
+                  </p>
+                  <p className="text-[14.5px] font-bold leading-snug text-foreground">
+                    {p.title} <span className="text-primary">→</span>
+                  </p>
+                  <p className="mt-1 text-xs text-muted-foreground">{formatDate(p.publishedAt)}</p>
+                </Link>
+              ))}
             </div>
-          </div>
-          <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{post.author.bio}</p>
-        </div>
-      )}
-
-      {more.length > 0 && (
-        <section className="mt-12 border-t border-border pt-8">
-          <h2 className="text-xl font-semibold text-foreground">Keep reading</h2>
-          <ul className="mt-5 space-y-5">
-            {more.map((p) => {
-              const thumb = imageUrl(p.mainImage, 192, 128)
-              return (
-                <li key={p._id}>
-                  <Link to={`/${p.slug}`} className="group flex items-center gap-4">
-                    {thumb ? (
-                      <img src={thumb} alt="" loading="lazy" className="h-16 w-24 shrink-0 rounded-lg object-cover" />
-                    ) : (
-                      <div className="h-16 w-24 shrink-0 rounded-lg bg-secondary" aria-hidden="true" />
-                    )}
-                    <div>
-                      <p className="font-medium text-foreground transition-colors group-hover:text-primary">
-                        {p.title}
-                      </p>
-                      <p className="mt-0.5 text-sm text-muted-foreground">{formatDate(p.publishedAt)}</p>
-                    </div>
-                  </Link>
-                </li>
-              )
-            })}
-          </ul>
-        </section>
-      )}
+          </section>
+        )}
+      </div>
     </main>
   )
 }

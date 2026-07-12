@@ -70,3 +70,35 @@ h3 {
     animation: none !important;
   }
 }
+
+/* ---- editorial design system v2 ---- */
+.editorial-voice::before {
+  content: '\201C';
+  position: absolute;
+  left: -2px;
+  top: -14px;
+  font-family: Georgia, serif;
+  font-size: 56px;
+  line-height: 1;
+  color: hsl(var(--primary));
+  opacity: 0.85;
+}
+.editorial-faq summary::-webkit-details-marker {
+  display: none;
+}
+.editorial-takeaways ul {
+  margin-bottom: 0;
+  font-family:
+    -apple-system,
+    'Segoe UI',
+    Roboto,
+    sans-serif;
+  font-size: 15px;
+}
+.editorial-takeaways li::marker,
+.editorial-list li::marker {
+  color: hsl(var(--primary));
+}
+.editorial-capsule p {
+  margin-bottom: 0;
+}
