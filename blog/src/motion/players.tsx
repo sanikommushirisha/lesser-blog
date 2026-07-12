@@ -16,9 +16,12 @@ export function RenewalPlayer({ plan, onEnded }: { plan: Plan; onEnded: () => vo
   useEffect(() => {
     const p = ref.current
     if (!p) return
+    let fired = false
     const handle = () => {
-      // freeze on the end card instead of resetting to a blank first frame
-      p.seekTo(TIMELINE_DURATION - 1)
+      if (fired) return // seekTo near the end re-dispatches 'ended'; guard against recursion
+      fired = true
+      p.pause()
+      p.seekTo(TIMELINE_DURATION - 2)
       onEnded()
     }
     p.addEventListener('ended', handle)
@@ -45,8 +48,12 @@ export function StoryPlayer({ props, onEnded }: { props: NumberStoryProps; onEnd
   useEffect(() => {
     const p = ref.current
     if (!p) return
+    let fired = false
     const handle = () => {
-      p.seekTo(NUMBERSTORY_DURATION - 1)
+      if (fired) return
+      fired = true
+      p.pause()
+      p.seekTo(NUMBERSTORY_DURATION - 2)
       onEnded()
     }
     p.addEventListener('ended', handle)

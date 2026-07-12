@@ -465,22 +465,14 @@ export function BlogPost() {
           {motion?.concept === 'ask' && <AskWidget slug={post.slug} questions={motion.questions ?? ['fbar']} />}
 
           {sections && <Faq items={sections.faq} components={components} />}
-          {sections?.sources && <TrustFooter sources={sections.sources} />}
+          {(sections?.sources || post.author) && (
+            <TrustFooter
+              sources={sections?.sources ?? null}
+              author={post.author ?? null}
+              avatar={<Avatar post={post} size={96} className="h-12 w-12 rounded-full" />}
+            />
+          )}
         </article>
-
-        {post.author?.bio && (
-          <div className="mt-16 font-sans">
-            <p className="eyebrow !text-muted-foreground">Written by</p>
-            <div className="mt-4 flex items-center gap-3">
-              <Avatar post={post} size={96} className="h-12 w-12 rounded-full" />
-              <div>
-                <p className="font-medium text-foreground">{post.author.name}</p>
-                {post.author.role && <p className="text-sm text-muted-foreground">{post.author.role}</p>}
-              </div>
-            </div>
-            <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-muted-foreground">{post.author.bio}</p>
-          </div>
-        )}
 
         {more.length > 0 && (
           <section className="mt-16 font-sans">

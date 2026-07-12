@@ -105,37 +105,80 @@ export function Faq({ items, components }: { items: FaqItem[]; components: Porta
 }
 
 /* ---- trust footer ---- */
-export function TrustFooter({ sources }: { sources: NonNullable<Sections['sources']> }) {
-  if (!sources.chips.length) return null
+export interface FooterAuthor {
+  name: string
+  role?: string
+  bio?: string
+}
+
+export function TrustFooter({
+  sources,
+  author,
+  avatar,
+}: {
+  sources: Sections['sources']
+  author?: FooterAuthor | null
+  avatar?: React.ReactNode
+}) {
+  if (!sources?.chips.length && !author) return null
+  // "Last verified July 9, 2026." floats up next to the author; the rest
+  // (error contact / fee caveats) closes the block.
+  const closer = sources?.closer ?? ''
+  const verified = /last (verified|updated)[^.]*\./i.exec(closer)?.[0] ?? null
+  const rest = verified ? closer.replace(verified, '').trim() : closer
+
   return (
-    <footer className="mt-16 font-sans">
-      <p className="eyebrow !text-muted-foreground">Sources</p>
-      <ol className="mt-4 space-y-3">
-        {sources.chips.map((c, i) => (
-          <li
-            key={i}
-            className="grid grid-cols-[1.75rem_minmax(0,1fr)] items-baseline gap-x-1 text-[13.5px] leading-relaxed sm:grid-cols-[1.75rem_minmax(0,1fr)_auto] sm:gap-x-4"
-          >
-            <span className="tabular-nums text-muted-foreground/50">{String(i + 1).padStart(2, '0')}</span>
-            <span className="text-muted-foreground">{c.text}</span>
-            {c.href ? (
-              <a
-                href={c.href}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="col-start-2 whitespace-nowrap text-xs font-medium text-primary no-underline hover:underline sm:col-start-3 sm:justify-self-end"
+    <footer className="mt-16 border-t border-border pt-6 font-sans">
+      {author && (
+        <div className="flex flex-wrap items-center gap-x-4 gap-y-2">
+          <div className="flex items-center gap-3">
+            {avatar}
+            <div>
+              <p className="text-[15px] font-bold leading-tight text-foreground">
+                {author.name}
+                {author.role && <span className="font-semibold text-primary"> · {author.role}</span>}
+              </p>
+              <p className="text-[12px] uppercase tracking-[0.14em] text-muted-foreground">Written by</p>
+            </div>
+          </div>
+          {verified && <p className="ml-auto text-[12.5px] text-muted-foreground">{verified.replace(/\.$/, '')}</p>}
+        </div>
+      )}
+      {author?.bio && <p className="mt-3 max-w-[68ch] text-[13.5px] leading-relaxed text-muted-foreground">{author.bio}</p>}
+
+      {sources && sources.chips.length > 0 && (
+        <>
+          <p className="eyebrow mt-7 !text-muted-foreground">Sources</p>
+          <ol className="mt-3 space-y-2.5">
+            {sources.chips.map((c, i) => (
+              <li
+                key={i}
+                className="grid grid-cols-[1.75rem_minmax(0,1fr)] items-baseline gap-x-1 text-[13.5px] leading-relaxed sm:grid-cols-[1.75rem_minmax(0,1fr)_auto] sm:gap-x-4"
               >
-                {c.label} ↗
-              </a>
-            ) : (
-              <span className="col-start-2 whitespace-nowrap text-xs text-muted-foreground/70 sm:col-start-3 sm:justify-self-end">
-                {c.label}
-              </span>
-            )}
-          </li>
-        ))}
-      </ol>
-      {sources.closer && <p className="mt-5 text-[13px] text-muted-foreground/80">{sources.closer}</p>}
+                <span className="tabular-nums text-muted-foreground/50">{String(i + 1).padStart(2, '0')}</span>
+                <span className="text-muted-foreground">{c.text}</span>
+                {c.href ? (
+                  <a
+                    href={c.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="col-start-2 whitespace-nowrap text-xs font-medium text-primary no-underline hover:underline sm:col-start-3 sm:justify-self-end"
+                  >
+                    {c.label} ↗
+                  </a>
+                ) : (
+                  <span className="col-start-2 whitespace-nowrap text-xs text-muted-foreground/70 sm:col-start-3 sm:justify-self-end">
+                    {c.label}
+                  </span>
+                )}
+              </li>
+            ))}
+          </ol>
+        </>
+      )}
+      {(rest || !author) && (
+        <p className="mt-5 text-[13px] text-muted-foreground/80">{rest || closer}</p>
+      )}
     </footer>
   )
 }

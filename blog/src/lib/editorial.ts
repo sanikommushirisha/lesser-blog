@@ -106,15 +106,23 @@ function sourceChip(b: Block): SourceChip | null {
   const text = blockText(b)
   const linkDef = (b.markDefs ?? []).find((m) => m.href)
   const url = linkDef?.href ?? URL_RE.exec(text)?.[0]
+  const finish = (label: string, href?: string): SourceChip => {
+    let t = cleanText(text)
+    // the pill already shows the domain — don't repeat it at the head of the line
+    const lead = new RegExp('^' + label.replace(/\./g, '\\.') + '[\\s,:—-]*', 'i')
+    t = t.replace(lead, '')
+    t = t.charAt(0).toUpperCase() + t.slice(1)
+    return { label, href, text: t }
+  }
   if (url) {
     try {
-      return { label: new URL(url).hostname.replace(/^www\./, ''), href: url, text: cleanText(text) }
+      return finish(new URL(url).hostname.replace(/^www\./, ''), url)
     } catch {
       /* fall through to domain detection */
     }
   }
   const domain = DOMAIN_RE.exec(text)?.[0]
-  return domain ? { label: domain.replace(/^www\./, ''), text: cleanText(text) } : null
+  return domain ? finish(domain.replace(/^www\./, '')) : null
 }
 
 export function splitBody(body: Block[]): Sections {

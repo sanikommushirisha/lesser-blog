@@ -17,8 +17,6 @@ const LazyRenewalPlayer = lazy(() => import('./players').then((m) => ({ default:
 const LazyStoryPlayer = lazy(() => import('./players').then((m) => ({ default: m.StoryPlayer })))
 const LazyScrollPlayer = lazy(() => import('./players').then((m) => ({ default: m.ScrollExplainerPlayer })))
 
-const box: React.CSSProperties = {}
-
 function useSeen(ref: React.RefObject<HTMLElement | null>, cb: () => void) {
   useEffect(() => {
     const el = ref.current
@@ -42,18 +40,23 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
     trip: params?.get('t') || defaultTrip(),
     name: params?.get('n') || '',
   }))
-  const [playing, setPlaying] = useState(false)
+  const [inView, setInView] = useState(false)
+  const [userStarted, setUserStarted] = useState(false) // reduced-motion path
   const [done, setDone] = useState(false)
+  const [customized, setCustomized] = useState(false)
   const ref = useRef<HTMLDivElement>(null)
   const plan = useMemo(() => computePlan(input), [input])
   const shared = Boolean(params?.get('c'))
+  const reduced =
+    typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
-  useSeen(ref, () => track('seen', { concept: 'renewal-viz', slug, placement, variant }))
+  useSeen(ref, () => {
+    setInView(true)
+    track('seen', { concept: 'renewal-viz', slug, placement, variant })
+    if (!reduced) track('play', { concept: 'renewal-viz', slug, placement, variant, meta: { auto: true } })
+  })
   useEffect(() => {
-    if (shared) {
-      setPlaying(true)
-      track('shared-open', { concept: 'renewal-viz', slug, placement, variant })
-    }
+    if (shared) track('shared-open', { concept: 'renewal-viz', slug, placement, variant })
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
@@ -70,15 +73,51 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
   const set = (patch: Partial<PlanInput>) => {
     setInput((p) => ({ ...p, ...patch }))
     setDone(false)
+    if (!customized) {
+      setCustomized(true)
+    }
+    track('customize', { concept: 'renewal-viz', slug, placement, variant, meta: patch as Record<string, unknown> })
   }
 
+  const playerVisible = inView && (!reduced || userStarted)
+  // remount on plan change so the new timeline replays from the top
+  const planKey = `${plan.consulate}|${plan.caseType}|${plan.booklet}|${plan.trip}|${plan.name}`
+
   return (
-    <section id="your-timeline" ref={ref} className="my-10 scroll-mt-6 rounded-2xl border border-border bg-card p-5 font-sans sm:p-6" style={box}>
-      <p className="eyebrow">See your renewal as a video</p>
-      <p className="mb-4 mt-1 text-sm text-muted-foreground">
-        Pick your case — the fees, dates, and timeline below are computed for you, from the verified July 2026 schedule.
-      </p>
-      <div className="mb-4 grid grid-cols-2 gap-3 lg:grid-cols-5">
+    <section
+      id="your-timeline"
+      ref={ref}
+      className="my-10 scroll-mt-6 rounded-2xl border border-border bg-card p-4 font-sans sm:p-5"
+    >
+      <div className="overflow-hidden rounded-xl" style={{ aspectRatio: isNarrow() ? '4/5' : '16/9', maxWidth: isNarrow() ? 420 : undefined, margin: isNarrow() ? '0 auto' : undefined }}>
+        {playerVisible ? (
+          <Suspense fallback={<Poster />}>
+            <LazyRenewalPlayer
+              key={planKey}
+              plan={plan}
+              onEnded={() => {
+                setDone(true)
+                track('complete', { concept: 'renewal-viz', slug, placement, variant })
+              }}
+            />
+          </Suspense>
+        ) : (
+          <button
+            onClick={() => {
+              setUserStarted(true)
+              track('play', { concept: 'renewal-viz', slug, placement, variant, meta: { auto: false } })
+            }}
+            className="flex h-full w-full flex-col items-center justify-center gap-3 text-white"
+            style={{ background: 'linear-gradient(160deg,#101a38,#1c2a58)' }}
+            aria-label="Play your renewal timeline"
+          >
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-xl text-[#16214a]">▶</span>
+            <span className="text-sm opacity-80">your renewal, as a video</span>
+          </button>
+        )}
+      </div>
+
+      <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
         <Field label="Consulate">
           <select value={input.consulate} onChange={(e) => set({ consulate: e.target.value as PlanInput['consulate'] })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm">
             {Object.entries(CONSULATES).map(([k, v]) => (
@@ -102,37 +141,13 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
             <option value="60">60 pages</option>
           </select>
         </Field>
-        <Field label="Next India trip">
+        <Field label="India trip date">
           <input type="date" value={input.trip ?? ''} onChange={(e) => set({ trip: e.target.value })} className="w-full min-w-0 appearance-none rounded-lg border border-border bg-background px-3 py-2 text-sm" />
         </Field>
-        <div className="col-span-2 lg:col-span-1"><Field label="First name (optional)">
+        <div className="col-span-2 sm:col-span-1"><Field label="Name on video">
           <input value={input.name ?? ''} maxLength={14} placeholder="Aisha" onChange={(e) => set({ name: e.target.value })} className="w-full rounded-lg border border-border bg-background px-3 py-2 text-sm" />
         </Field></div>
       </div>
-
-      {!playing ? (
-        <button
-          onClick={() => {
-            setPlaying(true)
-            track('play', { concept: 'renewal-viz', slug, placement, variant })
-          }}
-          className="rounded-xl bg-primary px-6 py-3 text-sm font-bold text-primary-foreground hover:opacity-90"
-        >
-          ▸&nbsp; Watch your timeline
-        </button>
-      ) : (
-        <div className="overflow-hidden rounded-xl" style={{ aspectRatio: isNarrow() ? '4/5' : '16/9', maxWidth: isNarrow() ? 420 : undefined, margin: isNarrow() ? '0 auto' : undefined }}>
-          <Suspense fallback={<Poster />}>
-            <LazyRenewalPlayer
-              plan={plan}
-              onEnded={() => {
-                setDone(true)
-                track('complete', { concept: 'renewal-viz', slug, placement, variant })
-              }}
-            />
-          </Suspense>
-        </div>
-      )}
 
       {done && (
         <div className="mt-4 flex flex-wrap items-center gap-3">
@@ -159,7 +174,7 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
       )}
 
       {/* crawlable twin — always in the HTML, same constants as the video */}
-      <div className="mt-5 border-t border-border pt-4">
+      <div className="mt-4 border-t border-border pt-3">
         <p className="text-[13.5px] leading-relaxed text-muted-foreground">{planSentence(plan)}</p>
       </div>
     </section>
@@ -218,7 +233,6 @@ export function ScrollExplainer({ slug }: { slug: string }) {
   return (
     <section ref={ref} className="my-10 font-sans" style={{ height: '200vh' }}>
       <div className="sticky top-16">
-        <p className="eyebrow mb-3">Scroll the timeline</p>
         <div className="overflow-hidden rounded-xl" style={{ aspectRatio: isNarrow() ? '36/35' : '16/8.5' }}>
           {mounted ? (
             <Suspense fallback={<Poster />}>
@@ -228,7 +242,6 @@ export function ScrollExplainer({ slug }: { slug: string }) {
             <Poster />
           )}
         </div>
-        <p className="mt-2 text-xs text-muted-foreground">the video advances as you read — scroll slowly</p>
       </div>
     </section>
   )
