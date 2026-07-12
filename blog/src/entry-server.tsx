@@ -9,6 +9,7 @@ import type { InitialData } from './lib/initial-data'
 
 export { fetchPosts, fetchPost, fetchMorePosts } from './lib/sanity'
 export { VIDEOS } from './pages/WatchPage'
+export { RENEWAL_VIDEOS } from './pages/renewalVideos.generated'
 
 export function render(url: string, data: InitialData): { html: string; head: string } {
   globalThis.__INITIAL_DATA__ = data

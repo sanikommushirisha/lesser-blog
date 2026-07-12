@@ -74,6 +74,19 @@ for (const v of VIDEOS) {
   console.log(`prerendered ${route}`)
 }
 
+// Personalized share pages (/r/:combo). Prerendered so WhatsApp/social read
+// real OpenGraph + VideoObject tags (rich video preview), but deliberately
+// noindex (in the page's own <meta robots>) and OMITTED from both sitemaps —
+// they are share landings, not 64 templated SEO doorway pages.
+const { RENEWAL_VIDEOS } = await import(path.join(root, 'dist-server/entry-server.js')).then((m) => ({ RENEWAL_VIDEOS: m.RENEWAL_VIDEOS ?? {} })).catch(() => ({ RENEWAL_VIDEOS: {} }))
+for (const slug of Object.keys(RENEWAL_VIDEOS)) {
+  const route = `/r/${slug}`
+  const outDir = path.join(dist, 'r', slug)
+  fs.mkdirSync(outDir, { recursive: true })
+  fs.writeFileSync(path.join(outDir, 'index.html'), buildPage(route, { route }))
+}
+console.log(`prerendered ${Object.keys(RENEWAL_VIDEOS).length} /r/ share pages (noindex, not in sitemap)`)
+
 // sitemap.xml
 const urls = [
   { loc: `${SITE_URL}/`, lastmod: posts[0]?.publishedAt },

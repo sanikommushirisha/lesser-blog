@@ -176,8 +176,8 @@ export function RenewalTimeline({ plan }: { plan: Plan }) {
       2.5 * FPS,
       <AbsoluteFill key="s5" style={fill}>
         <FadeUp>
-          <div style={{ fontSize: 40 * u, fontWeight: 800, color: ACCENT }}>Get the packet right the first time</div>
-          <div style={{ fontSize: 22 * u, opacity: 0.75, marginTop: 12 * u }}>Lesser passport prep · $140 flat · blog.lesser.tax</div>
+          <div style={{ fontSize: 40 * u, fontWeight: 800, color: ACCENT }}>Renew with Lesser</div>
+          <div style={{ fontSize: 22 * u, opacity: 0.75, marginTop: 12 * u }}>Get the packet right the first time · $140 flat · blog.lesser.tax</div>
         </FadeUp>
         <div style={{ marginTop: 26 * u }}>
           <Tick size={56 * u} delay={6} />

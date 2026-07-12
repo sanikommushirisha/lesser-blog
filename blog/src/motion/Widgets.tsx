@@ -12,6 +12,7 @@ import {
 } from './constants'
 import { track } from './events'
 import { isNarrow } from './viewport'
+import { comboSlug } from './combos'
 
 const LazyRenewalPlayer = lazy(() => import('./players').then((m) => ({ default: m.RenewalPlayer })))
 const LazyStoryPlayer = lazy(() => import('./players').then((m) => ({ default: m.StoryPlayer })))
@@ -77,13 +78,13 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
+  // Share to the dedicated /r/:combo watch page: it serves the pre-rendered
+  // 9:16 MP4 (rich WhatsApp preview + VideoObject) and replays live if the
+  // reader opens it. trip/name ride as params for the personalized replay.
   const shareUrl = () => {
-    const u = new URL(window.location.origin + window.location.pathname)
-    u.searchParams.set('c', input.consulate)
-    u.searchParams.set('k', input.caseType)
-    u.searchParams.set('b', input.booklet)
+    const u = new URL(`${window.location.origin}/r/${comboSlug(input)}`)
     if (input.trip) u.searchParams.set('t', input.trip)
-    u.hash = 'your-timeline'
+    if (input.name) u.searchParams.set('n', input.name)
     return u.toString()
   }
 
