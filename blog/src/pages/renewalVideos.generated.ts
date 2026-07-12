@@ -13,6 +13,366 @@ export interface RenewalVideoMeta {
 }
 
 export const RENEWAL_VIDEOS: Record<string, RenewalVideoMeta> = {
+  "atlanta-lost-36": {
+    "slug": "atlanta-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/e74sunsogr/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wcvuh6c5tb/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "atlanta-lost-60": {
+    "slug": "atlanta-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wftdyrvei3/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kr20cy3sa6/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "atlanta-minor-36": {
+    "slug": "atlanta-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wdcloq9du7/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/0kthti76yc/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "atlanta-minor-60": {
+    "slug": "atlanta-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/d4ngrcdg2d/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/z69l1qi3kj/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "atlanta-normal-36": {
+    "slug": "atlanta-normal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/rslra0f3kt/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/5cls3wx44c/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "atlanta-normal-60": {
+    "slug": "atlanta-normal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wyid3vdvqx/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/ukw2t56ilc/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "atlanta-tatkaal-36": {
+    "slug": "atlanta-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/7h0ppntx0q/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/jideoa9uze/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "atlanta-tatkaal-60": {
+    "slug": "atlanta-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kw4tb5u7e3/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/r6rjakf9xq/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-lost-36": {
+    "slug": "boston-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/rlsqrkqvsf/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/ll5tsx5zgm/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-lost-60": {
+    "slug": "boston-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/hqdz7kur4l/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/fftwexfptv/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-minor-36": {
+    "slug": "boston-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/yihf4ln1e2/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/7s4a7vsuq6/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-minor-60": {
+    "slug": "boston-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wc4psxwx7g/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/o2n8czntqx/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-normal-36": {
+    "slug": "boston-normal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/dfb1zsyclt/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/cl0grm03a7/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-normal-60": {
+    "slug": "boston-normal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/hc2l4fpme5/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wqpn9s8di7/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-tatkaal-36": {
+    "slug": "boston-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/nkarc0vh0x/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/p78wlghoxv/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "boston-tatkaal-60": {
+    "slug": "boston-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/4gcktffpjy/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/0h1sxqiv0x/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-lost-36": {
+    "slug": "chicago-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/837e8f3dhs/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/x791ek2wxf/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-lost-60": {
+    "slug": "chicago-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/iodjb5a9iv/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/7bvv2o5dp3/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-minor-36": {
+    "slug": "chicago-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/336ggd4fzk/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/r8xh2csvxc/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-minor-60": {
+    "slug": "chicago-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/xmvo5ovo75/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/ldgifoazyx/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-normal-36": {
+    "slug": "chicago-normal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/yh1xh9ipci/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kbxaveyith/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-normal-60": {
+    "slug": "chicago-normal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/1p88e2fooh/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/dvls9xangx/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-tatkaal-36": {
+    "slug": "chicago-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/z88upbi0bx/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/ya1go070ie/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "chicago-tatkaal-60": {
+    "slug": "chicago-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/0pgocm7nx8/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/snym3ecbll/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-lost-36": {
+    "slug": "houston-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/go6hr60lvk/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/4ysrwp98h6/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-lost-60": {
+    "slug": "houston-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/pc4kfhczcs/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/5x8z00ej05/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-minor-36": {
+    "slug": "houston-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/yh3miz45l0/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/hpv0r0xqrk/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-minor-60": {
+    "slug": "houston-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/4jxa0wwen3/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kk7xooa9pn/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-normal-36": {
+    "slug": "houston-normal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/gdw1ey5hzr/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/p763p6wgxr/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-normal-60": {
+    "slug": "houston-normal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/x66t6pxs4d/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/1wzp6ekyla/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-tatkaal-36": {
+    "slug": "houston-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/eseuemdo9l/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/hg407rcjqp/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "houston-tatkaal-60": {
+    "slug": "houston-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/0mb1yr5g06/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/xbwal0aagr/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "new-york-lost-36": {
+    "slug": "new-york-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kckf406moo/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/y0lpzm55jh/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "new-york-lost-60": {
+    "slug": "new-york-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/ja9blzikia/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/t7y913z1gr/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "new-york-minor-36": {
+    "slug": "new-york-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/4td8bed6gl/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/h7jfcon3ao/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "new-york-minor-60": {
+    "slug": "new-york-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/3pl064f0g4/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/6wqd3dcn5k/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
   "new-york-normal-36": {
     "slug": "new-york-normal-36",
     "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/yk2gy6ro11/out.mp4",
@@ -27,6 +387,266 @@ export const RENEWAL_VIDEOS: Record<string, RenewalVideoMeta> = {
     "slug": "new-york-normal-60",
     "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/jmvvgglx7s/out.mp4",
     "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/r82ddi65s5/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "new-york-tatkaal-36": {
+    "slug": "new-york-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/7mnu72aley/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/90yxk2db49/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "new-york-tatkaal-60": {
+    "slug": "new-york-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/8xchzmua43/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/o9xjznoubm/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-lost-36": {
+    "slug": "san-francisco-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/6bdydn7hlp/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/w1s9bh6loc/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-lost-60": {
+    "slug": "san-francisco-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/pgrbs6kikc/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/m2pod364yj/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-minor-36": {
+    "slug": "san-francisco-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/nwmhwl5hfz/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/c4cpk657io/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-minor-60": {
+    "slug": "san-francisco-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/m6fg8o4w5v/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/rjpta6mwe0/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-normal-36": {
+    "slug": "san-francisco-normal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/n9ylytckql/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kprq6q732s/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-normal-60": {
+    "slug": "san-francisco-normal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/e7l49klcki/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/eta08j1wbr/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-tatkaal-36": {
+    "slug": "san-francisco-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/mrkfaadi7t/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/m36insg42j/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "san-francisco-tatkaal-60": {
+    "slug": "san-francisco-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/jla8pv693x/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/zpzi2w5ksn/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-lost-36": {
+    "slug": "seattle-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/8pxq3e1v7o/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/xcxtf781s6/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-lost-60": {
+    "slug": "seattle-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/2ifqzyr33x/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/pdd2uwp8vy/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-minor-36": {
+    "slug": "seattle-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/adwcduzx1y/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/ym3wdaz5f5/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-minor-60": {
+    "slug": "seattle-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/a7ulyuknbw/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/5duwgvabaj/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-normal-36": {
+    "slug": "seattle-normal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/tl88ojkx21/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/xcl94053fq/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-normal-60": {
+    "slug": "seattle-normal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/5fq6ueghaa/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wnt6gqxtj6/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-tatkaal-36": {
+    "slug": "seattle-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/vdvgx755dh/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/t91p7sqohu/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "seattle-tatkaal-60": {
+    "slug": "seattle-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/hf6x34u6jx/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/lek5k55p7p/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-lost-36": {
+    "slug": "washington-dc-lost-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/ljkkcl8ku3/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/1n5bctkaxq/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-lost-60": {
+    "slug": "washington-dc-lost-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/l5wiqi8kod/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/gvqgbbkm2e/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-minor-36": {
+    "slug": "washington-dc-minor-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/6pspyzwzve/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wrrrj1ysd0/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-minor-60": {
+    "slug": "washington-dc-minor-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kadnwepsy8/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/mjjgt8ftwx/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-normal-36": {
+    "slug": "washington-dc-normal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/jifwf5sq1v/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/sg1wen35fd/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-normal-60": {
+    "slug": "washington-dc-normal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/0b33rhd1t4/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/dvnremqr44/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-tatkaal-36": {
+    "slug": "washington-dc-tatkaal-36",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/8w2eqx31nt/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/x7zbzhvayu/out.png",
+    "duration": "PT18S",
+    "durationLabel": "0:18",
+    "uploadDate": "2026-07-12",
+    "width": 1080,
+    "height": 1920
+  },
+  "washington-dc-tatkaal-60": {
+    "slug": "washington-dc-tatkaal-60",
+    "mp4": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/kxghczjssx/out.mp4",
+    "poster": "https://s3.us-east-1.amazonaws.com/remotionlambda-useast1-jguuxrk7ia/renders/wq32s6vupy/out.png",
     "duration": "PT18S",
     "durationLabel": "0:18",
     "uploadDate": "2026-07-12",
