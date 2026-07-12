@@ -54,6 +54,38 @@ const isH3 = (b: Block) => b._type === 'block' && b.style === 'h3'
 const isBullet = (b: Block) => b._type === 'block' && b.listItem === 'bullet'
 
 const FAQ_H2 = /^(faq|frequently asked|common questions)/i
+
+/** A question inside an FAQ section: an h3, or a fully-bold short paragraph
+ *  ending in "?" (the format the city guides use). */
+function isFaqQuestion(b: Block): boolean {
+  if (isH3(b)) return true
+  if (b._type !== 'block' || b.style !== 'normal' || b.listItem) return false
+  const spans = (b.children ?? []).filter((c) => c.text.trim())
+  if (!spans.length) return false
+  const text = blockText(b).trim()
+  return text.endsWith('?') && text.length < 160 && spans.every((c) => (c.marks ?? []).includes('strong'))
+}
+
+/** The third authoring format: one paragraph whose leading bold run is the
+ *  question ("Q?") and whose remaining spans are the answer. Returns the
+ *  question text and a synthesized answer block, or null. */
+function splitBoldLeadQA(b: Block): { question: string; answerBlock: Block } | null {
+  if (b._type !== 'block' || b.style !== 'normal' || b.listItem) return null
+  const spans = b.children ?? []
+  let qEnd = 0
+  while (qEnd < spans.length && (spans[qEnd].marks ?? []).includes('strong')) qEnd += 1
+  if (qEnd === 0 || qEnd >= spans.length) return null
+  const question = spans
+    .slice(0, qEnd)
+    .map((c) => c.text)
+    .join('')
+    .trim()
+  if (!question.endsWith('?') || question.length > 200) return null
+  return {
+    question,
+    answerBlock: { ...b, _key: `${b._key}-a`, children: spans.slice(qEnd) },
+  }
+}
 const SOURCES_H2 = /^sources/i
 const URL_RE = /https?:\/\/[^\s)]+/
 
@@ -115,17 +147,20 @@ export function splitBody(body: Block[]): Sections {
     if (isH2(b) && FAQ_H2.test(text)) {
       i += 1
       while (i < body.length && !isH2(body[i])) {
-        if (isH3(body[i])) {
+        const qa = splitBoldLeadQA(body[i])
+        if (isFaqQuestion(body[i])) {
           const question = blockText(body[i]).trim()
           const answer: Block[] = []
           i += 1
-          while (i < body.length && !isH3(body[i]) && !isH2(body[i])) {
+          while (i < body.length && !isFaqQuestion(body[i]) && !splitBoldLeadQA(body[i]) && !isH2(body[i])) {
             answer.push(body[i])
             i += 1
           }
           faq.push({ id: slugify(question), question, answer })
+        } else if (qa) {
+          faq.push({ id: slugify(qa.question), question: qa.question, answer: [qa.answerBlock] })
+          i += 1
         } else {
-          // Question-as-bold-lead paragraphs ("Q? Answer…") stay inline.
           main.push(body[i])
           i += 1
         }
