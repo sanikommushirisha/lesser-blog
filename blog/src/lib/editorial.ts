@@ -180,7 +180,9 @@ export function splitBody(body: Block[]): Sections {
         if (isBullet(sb)) {
           const chip = sourceChip(sb)
           if (chip) chips.push(chip)
-        } else if (/last verified/i.test(st)) closer = st
+        } else if (/last (verified|updated)|verified \w+ 20\d\d|rules change/i.test(st)) {
+          closer = closer ? `${closer} ${st}` : st
+        }
         i += 1
       }
       if (chips.length) {
