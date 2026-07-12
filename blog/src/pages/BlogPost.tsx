@@ -14,6 +14,8 @@ import {
 import { takeInitialData } from '../lib/initial-data'
 import { useIntercomForPost } from '../lib/intercom'
 import { splitBody, blockText, slugify, type Block, type FaqItem } from '../lib/editorial'
+import { RenewalWidget, ScrollExplainer, AskWidget } from '../motion/Widgets'
+import { abVariant } from '../motion/events'
 import { Toc, Takeaways, QuickAnswer, Faq, TrustFooter } from '../components/Editorial'
 
 type Node = Record<string, unknown>
@@ -272,6 +274,30 @@ function Avatar({ post, size, className }: { post: Post; size: number; className
   )
 }
 
+/* ---- motion experiment placements (waves 1-2) ----
+   pillar runs the placement A/B: variant a = widget right after the takeaways,
+   variant b = injected mid-article after the cost section. SSR renders 'a';
+   the client moves it after hydration (crawlers always see the text twin). */
+const MOTION: Record<string, { concept: 'renewal' | 'scroll' | 'ask'; ab?: boolean; splitAfterH2?: RegExp; questions?: ('fbar' | 'tatkaal' | 'rsu')[] }> = {
+  'indian-passport-renewal-usa': { concept: 'renewal', ab: true, splitAfterH2: /how much does it cost/i },
+  'worth-paying-indian-passport-renewal-service': { concept: 'renewal' },
+  'tatkaal-passport-renewal-usa-eligibility': { concept: 'scroll', splitAfterH2: /how long does tatkaal take/i },
+  'fbar-form-8938-indian-accounts': { concept: 'ask', questions: ['fbar', 'rsu'] },
+  'rsu-taxes-h1b-2026': { concept: 'ask', questions: ['rsu', 'tatkaal'] },
+}
+
+/** Split main blocks after the section introduced by the h2 matching `re`
+ *  (i.e., just before the NEXT h2), so widgets can sit between sections. */
+function splitAfterSection(main: Block[], re: RegExp): [Block[], Block[]] {
+  const isH2 = (b: Block) => b._type === 'block' && b.style === 'h2'
+  let hit = -1
+  for (let i = 0; i < main.length; i++) {
+    if (hit === -1 && isH2(main[i]) && re.test(blockText(main[i]))) hit = i
+    else if (hit !== -1 && isH2(main[i])) return [main.slice(0, i), main.slice(i)]
+  }
+  return [main, []]
+}
+
 export function BlogPost() {
   const { slug } = useParams<{ slug: string }>()
   // Prerendered pages embed this page's data; consume it once so hydration
@@ -298,6 +324,12 @@ export function BlogPost() {
     () => (post?.body ? splitBody(post.body as unknown as Block[]) : null),
     [post]
   )
+
+  const motion = slug ? MOTION[slug] : undefined
+  const [variant, setVariant] = useState<'a' | 'b'>('a')
+  useEffect(() => {
+    if (motion?.ab) setVariant(abVariant('renewal-placement'))
+  }, [motion])
 
   if (post === undefined) {
     return (
@@ -406,9 +438,31 @@ export function BlogPost() {
             />
           )}
 
+          {motion?.concept === 'renewal' && (!motion.ab || variant === 'a') && (
+            <RenewalWidget slug={post.slug} placement="top" variant={motion.ab ? variant : undefined} />
+          )}
+
           <div className="mt-8">
-            <PortableText value={(sections?.main ?? post.body) as never} components={components} />
+            {motion?.splitAfterH2 && sections ? (
+              (() => {
+                const [before, after] = splitAfterSection(sections.main, motion.splitAfterH2)
+                return (
+                  <>
+                    <PortableText value={before as never} components={components} />
+                    {motion.concept === 'renewal' && motion.ab && variant === 'b' && (
+                      <RenewalWidget slug={post.slug} placement="mid" variant={variant} />
+                    )}
+                    {motion.concept === 'scroll' && <ScrollExplainer slug={post.slug} />}
+                    <PortableText value={after as never} components={components} />
+                  </>
+                )
+              })()
+            ) : (
+              <PortableText value={(sections?.main ?? post.body) as never} components={components} />
+            )}
           </div>
+
+          {motion?.concept === 'ask' && <AskWidget slug={post.slug} questions={motion.questions ?? ['fbar']} />}
 
           {sections && <Faq items={sections.faq} components={components} />}
           {sections?.sources && <TrustFooter sources={sections.sources} />}

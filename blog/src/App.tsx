@@ -5,6 +5,7 @@ import { Footer } from './components/Footer'
 import { ErrorBoundary } from './components/ErrorBoundary'
 import { BlogList } from './pages/BlogList'
 import { BlogPost } from './pages/BlogPost'
+import { WatchPage } from './pages/WatchPage'
 
 const StudioPage = lazy(() => import('./pages/StudioPage'))
 
@@ -47,6 +48,7 @@ export default function App() {
       />
       <Route element={<SiteLayout />}>
         <Route path="/" element={<BlogList />} />
+        <Route path="/videos/:vslug" element={<WatchPage />} />
         <Route path="/:slug" element={<PostRoute />} />
       </Route>
     </Routes>

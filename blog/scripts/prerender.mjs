@@ -63,10 +63,22 @@ for (const item of posts) {
   console.log(`prerendered ${route}`)
 }
 
+// Watch pages (/videos/:slug) — video is the PRIMARY content of these URLs,
+// which is what makes them eligible for Google video rich results.
+const { VIDEOS } = await import(path.join(root, 'dist-server/entry-server.js')).then((m) => ({ VIDEOS: m.VIDEOS ?? [] })).catch(() => ({ VIDEOS: [] }))
+for (const v of VIDEOS) {
+  const route = `/videos/${v.slug}`
+  const outDir = path.join(dist, 'videos', v.slug)
+  fs.mkdirSync(outDir, { recursive: true })
+  fs.writeFileSync(path.join(outDir, 'index.html'), buildPage(route, { route }))
+  console.log(`prerendered ${route}`)
+}
+
 // sitemap.xml
 const urls = [
   { loc: `${SITE_URL}/`, lastmod: posts[0]?.publishedAt },
   ...posts.map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p.publishedAt })),
+  ...VIDEOS.map((v) => ({ loc: `${SITE_URL}/videos/${v.slug}`, lastmod: v.uploadDate })),
 ]
 const sitemap = [
   '<?xml version="1.0" encoding="UTF-8"?>',
@@ -80,6 +92,19 @@ const sitemap = [
 ].join('\n')
 fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap)
 console.log(`wrote sitemap.xml (${urls.length} urls)`)
+
+// video-sitemap.xml (Google video sitemap extension)
+if (VIDEOS.length) {
+  const vs = [
+    '<?xml version="1.0" encoding="UTF-8"?>',
+    '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:video="http://www.google.com/schemas/sitemap-video/1.1">',
+    ...VIDEOS.map((v) => `  <url><loc>${SITE_URL}/videos/${v.slug}</loc><video:video><video:thumbnail_loc>${SITE_URL}${v.poster}</video:thumbnail_loc><video:title>${v.title.replace(/&/g,'&amp;')}</video:title><video:description>${v.description.replace(/&/g,'&amp;')}</video:description><video:content_loc>${SITE_URL}${v.mp4}</video:content_loc><video:publication_date>${v.uploadDate}</video:publication_date></video:video></url>`),
+    '</urlset>',
+    '',
+  ].join('\n')
+  fs.writeFileSync(path.join(dist, 'video-sitemap.xml'), vs)
+  console.log(`wrote video-sitemap.xml (${VIDEOS.length} videos)`)
+}
 
 // Bing URL Submission API: push the URL set straight into Bing's crawl queue on
 // each build. Auth is the BWT API key (Vercel env BING_WEBMASTER_API_KEY) — no
