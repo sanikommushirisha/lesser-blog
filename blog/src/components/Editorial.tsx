@@ -110,26 +110,28 @@ export function TrustFooter({ sources }: { sources: NonNullable<Sections['source
   return (
     <footer className="mt-12 border-t border-border pt-5 font-sans">
       <p className="eyebrow !text-muted-foreground">Sources</p>
-      {sources.closer && <p className="mb-3 mt-2 text-[13px] text-muted-foreground">{sources.closer}</p>}
-      <div className="flex flex-wrap gap-2">
-        {sources.chips.map((c, i) =>
-          c.href ? (
-            <a
-              key={i}
-              href={c.href}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground no-underline transition-colors hover:border-primary hover:text-primary"
-            >
-              {c.label}
-            </a>
-          ) : (
-            <span key={i} className="rounded-full border border-border bg-card px-3 py-1 text-xs text-muted-foreground">
-              {c.label}
-            </span>
-          )
-        )}
-      </div>
+      <ul className="mt-3 space-y-2.5">
+        {sources.chips.map((c, i) => (
+          <li key={i} className="flex flex-wrap items-baseline gap-x-2 text-[13.5px] leading-relaxed">
+            {c.href ? (
+              <a
+                href={c.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="whitespace-nowrap rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-primary no-underline transition-colors hover:border-primary"
+              >
+                {c.label}
+              </a>
+            ) : (
+              <span className="whitespace-nowrap rounded-full border border-border bg-card px-2.5 py-0.5 text-xs font-medium text-muted-foreground">
+                {c.label}
+              </span>
+            )}
+            <span className="min-w-0 flex-1 text-muted-foreground">{c.text}</span>
+          </li>
+        ))}
+      </ul>
+      {sources.closer && <p className="mt-4 text-[13px] text-muted-foreground">{sources.closer}</p>}
     </footer>
   )
 }

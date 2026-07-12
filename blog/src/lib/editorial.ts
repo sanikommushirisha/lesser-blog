@@ -36,6 +36,8 @@ export interface FaqItem {
 export interface SourceChip {
   label: string
   href?: string
+  /** the bullet's text with the raw URL stripped — "what this source verifies" */
+  text: string
 }
 
 export interface Sections {
@@ -57,19 +59,29 @@ const URL_RE = /https?:\/\/[^\s)]+/
 
 const DOMAIN_RE = /\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:gov(?:\.in)?|com|org|in|net)\b/i
 
+function cleanText(text: string): string {
+  return text
+    .replace(URL_RE, '')
+    .replace(/\(\s*\)/g, '')
+    .replace(/\s{2,}/g, ' ')
+    .replace(/\s+([,.:;])/g, '$1')
+    .replace(/[,:;\s]+$/, '')
+    .trim()
+}
+
 function sourceChip(b: Block): SourceChip | null {
   const text = blockText(b)
   const linkDef = (b.markDefs ?? []).find((m) => m.href)
   const url = linkDef?.href ?? URL_RE.exec(text)?.[0]
   if (url) {
     try {
-      return { label: new URL(url).hostname.replace(/^www\./, ''), href: url }
+      return { label: new URL(url).hostname.replace(/^www\./, ''), href: url, text: cleanText(text) }
     } catch {
       /* fall through to domain detection */
     }
   }
   const domain = DOMAIN_RE.exec(text)?.[0]
-  return domain ? { label: domain.replace(/^www\./, '') } : null
+  return domain ? { label: domain.replace(/^www\./, ''), text: cleanText(text) } : null
 }
 
 export function splitBody(body: Block[]): Sections {
