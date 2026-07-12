@@ -31,16 +31,16 @@ export function Toc({ items }: { items: Sections['toc'] }) {
     <nav aria-label="On this page" className="text-[13px] xl:block">
       <div className="xl:sticky xl:top-8">
         <p className="eyebrow mb-2 hidden !text-muted-foreground xl:block">On this page</p>
-        <div className="flex flex-wrap gap-2 xl:block">
+        <div className="flex flex-wrap gap-2 xl:block xl:space-y-3">
           {items.map((t) => (
             <a
               key={t.id}
               href={`#${t.id}`}
               className={
-                'block rounded-full border border-border bg-card px-3 py-1 leading-snug no-underline transition-colors xl:rounded-none xl:border-0 xl:border-l-2 xl:bg-transparent xl:px-0 xl:py-1.5 xl:pl-3 ' +
+                'block rounded-full bg-secondary px-3 py-1 leading-snug no-underline transition-colors xl:rounded-none xl:bg-transparent xl:p-0 ' +
                 (active === t.id
-                  ? 'border-primary text-primary xl:border-l-primary xl:font-semibold'
-                  : 'text-muted-foreground hover:text-primary xl:border-l-border')
+                  ? 'font-medium text-primary'
+                  : 'text-muted-foreground hover:text-foreground')
               }
             >
               {t.label}
@@ -108,7 +108,7 @@ export function Faq({ items, components }: { items: FaqItem[]; components: Porta
 export function TrustFooter({ sources }: { sources: NonNullable<Sections['sources']> }) {
   if (!sources.chips.length) return null
   return (
-    <footer className="mt-12 border-t border-border pt-5 font-sans">
+    <footer className="mt-16 font-sans">
       <p className="eyebrow !text-muted-foreground">Sources</p>
       <ul className="mt-3 space-y-2.5">
         {sources.chips.map((c, i) => (

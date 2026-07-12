@@ -397,30 +397,31 @@ export function BlogPost() {
         </article>
 
         {post.author?.bio && (
-          <div className="mt-12 rounded-xl bg-muted p-6 font-sans">
-            <div className="flex items-center gap-3">
+          <div className="mt-16 font-sans">
+            <p className="eyebrow !text-muted-foreground">Written by</p>
+            <div className="mt-4 flex items-center gap-3">
               <Avatar post={post} size={96} className="h-12 w-12 rounded-full" />
               <div>
                 <p className="font-medium text-foreground">{post.author.name}</p>
                 {post.author.role && <p className="text-sm text-muted-foreground">{post.author.role}</p>}
               </div>
             </div>
-            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">{post.author.bio}</p>
+            <p className="mt-3 max-w-[60ch] text-sm leading-relaxed text-muted-foreground">{post.author.bio}</p>
           </div>
         )}
 
         {more.length > 0 && (
-          <section className="mt-12 border-t border-border pt-8 font-sans">
-            <h2 className="text-xl font-semibold text-foreground">Keep reading</h2>
-            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          <section className="mt-16 font-sans">
+            <p className="eyebrow !text-muted-foreground">Keep reading</p>
+            <div className="mt-6 grid gap-x-12 gap-y-8 sm:grid-cols-2">
               {more.map((p) => (
                 <Link
                   key={p._id}
                   to={`/${p.slug}`}
-                  className="group block border-t border-border py-4"
+                  className="group block"
                 >
-                  <p className="text-[14.5px] font-bold leading-snug text-foreground">
-                    {p.title} <span className="text-primary">→</span>
+                  <p className="text-[15px] font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
+                    {p.title} <span className="inline-block text-primary opacity-0 transition-opacity group-hover:opacity-100">→</span>
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">{formatDate(p.publishedAt)}</p>
                 </Link>

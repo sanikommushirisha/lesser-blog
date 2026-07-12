@@ -62,6 +62,7 @@ const DOMAIN_RE = /\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:gov(?:\.in)?|com|org|in|net
 function cleanText(text: string): string {
   return text
     .replace(URL_RE, '')
+    .replace(/\(\s*[a-z0-9-]+(?:\.[a-z0-9-]+)+[^)]*\)/gi, '') // "(domain/path)" — the pill already shows it
     .replace(/\(\s*\)/g, '')
     .replace(/\s{2,}/g, ' ')
     .replace(/\s+([,.:;])/g, '$1')

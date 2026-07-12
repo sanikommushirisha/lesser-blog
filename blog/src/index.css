@@ -97,7 +97,7 @@ h3 {
 }
 .editorial-takeaways li::marker,
 .editorial-list li::marker {
-  color: hsl(var(--primary));
+  color: hsl(var(--muted-foreground) / 0.6);
 }
 .editorial-capsule p {
   margin-bottom: 0;
