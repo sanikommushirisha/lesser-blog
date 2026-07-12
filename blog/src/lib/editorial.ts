@@ -55,7 +55,9 @@ const FAQ_H2 = /^(faq|frequently asked|common questions)/i
 const SOURCES_H2 = /^sources/i
 const URL_RE = /https?:\/\/[^\s)]+/
 
-function sourceChip(b: Block): SourceChip {
+const DOMAIN_RE = /\b[a-z0-9-]+(?:\.[a-z0-9-]+)*\.(?:gov(?:\.in)?|com|org|in|net)\b/i
+
+function sourceChip(b: Block): SourceChip | null {
   const text = blockText(b)
   const linkDef = (b.markDefs ?? []).find((m) => m.href)
   const url = linkDef?.href ?? URL_RE.exec(text)?.[0]
@@ -63,10 +65,11 @@ function sourceChip(b: Block): SourceChip {
     try {
       return { label: new URL(url).hostname.replace(/^www\./, ''), href: url }
     } catch {
-      /* fall through to text label */
+      /* fall through to domain detection */
     }
   }
-  return { label: text.slice(0, 60) }
+  const domain = DOMAIN_RE.exec(text)?.[0]
+  return domain ? { label: domain.replace(/^www\./, '') } : null
 }
 
 export function splitBody(body: Block[]): Sections {
@@ -120,16 +123,24 @@ export function splitBody(body: Block[]): Sections {
     if (isH2(b) && SOURCES_H2.test(text)) {
       const chips: SourceChip[] = []
       let closer: string | null = null
+      const sectionBlocks: Block[] = [b]
       i += 1
       while (i < body.length && !isH2(body[i])) {
         const sb = body[i]
         const st = blockText(sb).trim()
-        if (isBullet(sb)) chips.push(sourceChip(sb))
-        else if (/last verified/i.test(st)) closer = st
-        // intro lines ("Every number…") are re-stated by the footer itself
+        sectionBlocks.push(sb)
+        if (isBullet(sb)) {
+          const chip = sourceChip(sb)
+          if (chip) chips.push(chip)
+        } else if (/last verified/i.test(st)) closer = st
         i += 1
       }
-      sources = { count: chips.length, chips, closer }
+      if (chips.length) {
+        sources = { count: chips.length, chips, closer }
+      } else {
+        // Not a link list we can turn into chips — leave the section inline.
+        main.push(...sectionBlocks)
+      }
       continue
     }
 

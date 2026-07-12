@@ -106,18 +106,11 @@ export function Faq({ items, components }: { items: FaqItem[]; components: Porta
 
 /* ---- trust footer ---- */
 export function TrustFooter({ sources }: { sources: NonNullable<Sections['sources']> }) {
+  if (!sources.chips.length) return null
   return (
-    <footer className="mt-12 border-t-2 border-border pt-5 font-sans">
-      <p className="flex items-center gap-2 text-sm font-bold text-foreground">
-        <span className="flex h-[22px] w-[22px] items-center justify-center rounded-md bg-primary text-xs text-primary-foreground">
-          ✓
-        </span>
-        Every claim in this guide links to an official source
-      </p>
-      <p className="mb-3 mt-2 text-[13px] text-muted-foreground">
-        {sources.count} {sources.count === 1 ? 'source' : 'sources'}
-        {sources.closer ? ` · ${sources.closer}` : ''}
-      </p>
+    <footer className="mt-12 border-t border-border pt-5 font-sans">
+      <p className="eyebrow !text-muted-foreground">Sources</p>
+      {sources.closer && <p className="mb-3 mt-2 text-[13px] text-muted-foreground">{sources.closer}</p>}
       <div className="flex flex-wrap gap-2">
         {sources.chips.map((c, i) =>
           c.href ? (
