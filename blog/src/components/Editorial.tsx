@@ -30,9 +30,7 @@ export function Toc({ items }: { items: Sections['toc'] }) {
   return (
     <nav aria-label="On this page" className="text-[13px] xl:block">
       <div className="xl:sticky xl:top-8">
-        <p className="mb-2 hidden text-[10.5px] font-semibold uppercase tracking-[0.17em] text-muted-foreground xl:block">
-          On this page
-        </p>
+        <p className="eyebrow mb-2 hidden !text-muted-foreground xl:block">On this page</p>
         <div className="flex flex-wrap gap-2 xl:block">
           {items.map((t) => (
             <a
@@ -58,10 +56,8 @@ export function Toc({ items }: { items: Sections['toc'] }) {
 export function Takeaways({ blocks, components }: { blocks: Block[]; components: PortableTextComponents }) {
   if (!blocks.length) return null
   return (
-    <section className="my-6 rounded-xl border border-border bg-card px-5 py-4 font-sans">
-      <p className="mb-2 text-[10.5px] font-semibold uppercase tracking-[0.17em] text-muted-foreground">
-        Key takeaways
-      </p>
+    <section className="mb-8 border-t border-border pt-5">
+      <p className="eyebrow mb-3">Key takeaways</p>
       <div className="editorial-takeaways text-[15px] leading-relaxed">
         <PortableText value={blocks as never} components={components} />
       </div>
@@ -69,11 +65,11 @@ export function Takeaways({ blocks, components }: { blocks: Block[]; components:
   )
 }
 
-/* ---- quick answer capsule ---- */
+/* ---- quick answer: typographic, hairline-framed, no box ---- */
 export function QuickAnswer({ block, components }: { block: Block; components: PortableTextComponents }) {
   return (
-    <section className="my-6 rounded-xl border border-primary/25 bg-secondary px-5 py-4">
-      <div className="editorial-capsule text-lg leading-[1.7]">
+    <section className="my-8 border-y border-border py-6">
+      <div className="editorial-capsule font-prose text-[19px] leading-[1.65]">
         <PortableText value={[{ ...block, style: 'normal' }] as never} components={components} />
       </div>
     </section>
@@ -119,7 +115,8 @@ export function TrustFooter({ sources }: { sources: NonNullable<Sections['source
         Every claim in this guide links to an official source
       </p>
       <p className="mb-3 mt-2 text-[13px] text-muted-foreground">
-        {sources.count} sources{sources.closer ? ` · ${sources.closer}` : ''}
+        {sources.count} {sources.count === 1 ? 'source' : 'sources'}
+        {sources.closer ? ` · ${sources.closer}` : ''}
       </p>
       <div className="flex flex-wrap gap-2">
         {sources.chips.map((c, i) =>

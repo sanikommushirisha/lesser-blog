@@ -114,7 +114,7 @@ function buildJsonLd(
 function VoiceQuote({ children }: { children?: React.ReactNode }) {
   return (
     <figure className="editorial-voice relative my-8 max-w-[60ch] pl-9">
-      <blockquote className="m-0 font-serif text-[19px] italic leading-[1.6] text-foreground [&_a]:text-primary">
+      <blockquote className="m-0 font-prose text-[19px] italic leading-[1.6] text-foreground [&_a]:text-primary">
         {children}
       </blockquote>
     </figure>
@@ -126,27 +126,27 @@ const components: PortableTextComponents = {
     h2: ({ children, value }) => (
       <h2
         id={slugify(blockText(value as unknown as Block))}
-        className="mb-4 mt-11 scroll-mt-6 font-serif text-[26px] font-semibold leading-snug tracking-[-0.01em] text-foreground"
+        className="mb-4 mt-11 scroll-mt-6 font-display text-[26px] font-semibold leading-snug tracking-[-0.01em] text-foreground"
       >
         {children}
       </h2>
     ),
     h3: ({ children }) => (
-      <h3 className="mb-3 mt-8 font-serif text-[21px] font-semibold text-foreground">{children}</h3>
+      <h3 className="mb-3 mt-8 font-display text-[21px] font-semibold text-foreground">{children}</h3>
     ),
     normal: ({ children }) => (
-      <p className="mb-5 max-w-[66ch] font-serif text-[17px] leading-[1.72] text-foreground">{children}</p>
+      <p className="mb-5 max-w-[66ch] font-prose text-[17.5px] leading-[1.75] text-foreground">{children}</p>
     ),
     blockquote: ({ children }) => <VoiceQuote>{children}</VoiceQuote>,
   },
   list: {
     bullet: ({ children }) => (
-      <ul className="editorial-list mb-5 list-disc space-y-2 pl-6 font-serif text-[17px] leading-[1.72]">
+      <ul className="editorial-list mb-5 list-disc space-y-2 pl-6 font-prose text-[17.5px] leading-[1.75]">
         {children}
       </ul>
     ),
     number: ({ children }) => (
-      <ol className="editorial-list mb-5 list-decimal space-y-2 pl-6 font-serif text-[17px] leading-[1.72]">
+      <ol className="editorial-list mb-5 list-decimal space-y-2 pl-6 font-prose text-[17.5px] leading-[1.75]">
         {children}
       </ol>
     ),
@@ -201,7 +201,7 @@ const components: PortableTextComponents = {
       </div>
     ),
     verifiedFact: ({ value }: { value: { headline?: string; body?: string; sourceLabel?: string; sourceUrl?: string } }) => (
-      <aside className="my-7 flex gap-4 rounded-xl border border-primary/25 bg-secondary px-5 py-4 font-sans">
+      <aside className="my-7 flex gap-4 border-y border-border py-5 font-sans">
         <span className="flex h-9 w-9 flex-none items-center justify-center rounded-lg bg-primary text-lg font-bold text-primary-foreground">
           ✓
         </span>
@@ -353,11 +353,11 @@ export function BlogPost() {
 
         <article className="mt-6 xl:mt-0">
           {post.category && (
-            <span className="font-mono text-[11px] font-medium uppercase tracking-[0.2em] text-primary">
+            <span className="eyebrow">
               {post.category.title}
             </span>
           )}
-          <h1 className="mt-3 font-serif text-4xl font-bold leading-[1.16] tracking-[-0.01em] text-foreground sm:text-[40px]">
+          <h1 className="mt-3 font-display text-4xl font-bold leading-[1.14] tracking-[-0.01em] text-foreground sm:text-[40px]">
             {post.title}
           </h1>
 
@@ -370,7 +370,7 @@ export function BlogPost() {
               </p>
               <p className="text-[12.5px] text-muted-foreground">{readTime(post.wordCount)}</p>
             </div>
-            <span className="whitespace-nowrap rounded-full bg-secondary px-3 py-1 text-[11.5px] font-semibold text-primary">
+            <span className="whitespace-nowrap text-[12.5px] text-muted-foreground">
               Updated {formatDate(post.publishedAt)}
             </span>
           </div>
@@ -384,7 +384,7 @@ export function BlogPost() {
             <img
               src={heroImage}
               alt={post.mainImage?.alt ?? ''}
-              className="mt-2 aspect-video w-full rounded-xl object-cover"
+              className="mt-2 aspect-video w-full rounded-md object-cover"
             />
           )}
 
@@ -417,11 +417,8 @@ export function BlogPost() {
                 <Link
                   key={p._id}
                   to={`/${p.slug}`}
-                  className="group block rounded-xl border border-border bg-card px-4 py-4 transition-colors hover:border-primary"
+                  className="group block border-t border-border py-4"
                 >
-                  <p className="mb-1 text-[10.5px] font-semibold uppercase tracking-[0.17em] text-muted-foreground">
-                    Keep reading
-                  </p>
                   <p className="text-[14.5px] font-bold leading-snug text-foreground">
                     {p.title} <span className="text-primary">→</span>
                   </p>
