@@ -18,16 +18,33 @@ const LazyStoryPlayer = lazy(() => import('./players').then((m) => ({ default: m
 const LazyScrollPlayer = lazy(() => import('./players').then((m) => ({ default: m.ScrollExplainerPlayer })))
 
 function useSeen(ref: React.RefObject<HTMLElement | null>, cb: () => void) {
+  // Hold the latest cb in a ref and guard with a fire-once flag so the effect
+  // depends only on [ref]. Widgets that re-render on scroll (ScrollExplainer's
+  // setProgress) would otherwise pass a new inline cb every frame, tearing down
+  // and re-subscribing the observer — which re-fires 'seen' on each frame while
+  // the element is on screen (observed live: 287 'seen' from one visitor).
+  const cbRef = useRef(cb)
+  useEffect(() => {
+    cbRef.current = cb
+  })
+  const fired = useRef(false)
   useEffect(() => {
     const el = ref.current
-    if (!el || typeof IntersectionObserver === 'undefined') return
+    if (!el || fired.current || typeof IntersectionObserver === 'undefined') return
     const io = new IntersectionObserver(
-      (es) => es.forEach((e) => e.isIntersecting && (cb(), io.disconnect())),
+      (es) =>
+        es.forEach((e) => {
+          if (e.isIntersecting && !fired.current) {
+            fired.current = true
+            cbRef.current()
+            io.disconnect()
+          }
+        }),
       { threshold: 0.4 }
     )
     io.observe(el)
     return () => io.disconnect()
-  }, [ref, cb])
+  }, [ref])
 }
 
 /* ================= Concept 1: Your Renewal, Visualized ================= */
