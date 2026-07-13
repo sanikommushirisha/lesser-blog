@@ -78,6 +78,18 @@ export function WatchPage() {
         <title>{`${video.title} — Lesser Blog`}</title>
         <meta name="description" content={video.description} />
         <link rel="canonical" href={canonical} />
+        {/* Open Graph / Twitter — so shared links render a rich card (poster + video) */}
+        <meta property="og:type" content="video.other" />
+        <meta property="og:title" content={video.title} />
+        <meta property="og:description" content={video.description} />
+        <meta property="og:url" content={canonical} />
+        <meta property="og:image" content={siteUrl + video.poster} />
+        <meta property="og:video" content={siteUrl + video.mp4} />
+        <meta property="og:video:type" content="video/mp4" />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={video.title} />
+        <meta name="twitter:description" content={video.description} />
+        <meta name="twitter:image" content={siteUrl + video.poster} />
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
       <Link to="/" className="text-sm text-muted-foreground hover:text-primary">
