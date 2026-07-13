@@ -51,6 +51,7 @@ export interface PostListItem {
   excerpt: string
   mainImage: SanityImageSource & { alt?: string }
   publishedAt: string
+  _updatedAt: string
   category: { title: string; slug?: string }
   author: Author
   wordCount: number
@@ -89,6 +90,7 @@ const postCardFields = `
   excerpt,
   mainImage,
   publishedAt,
+  _updatedAt,
   category->{title, "slug": slug.current},
   author->{name, avatar, role, bio},
   "wordCount": length(string::split(pt::text(body), " "))

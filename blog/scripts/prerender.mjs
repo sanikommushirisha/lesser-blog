@@ -89,8 +89,8 @@ console.log(`prerendered ${Object.keys(RENEWAL_VIDEOS).length} /r/ share pages (
 
 // sitemap.xml
 const urls = [
-  { loc: `${SITE_URL}/`, lastmod: posts[0]?.publishedAt },
-  ...posts.map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p.publishedAt })),
+  { loc: `${SITE_URL}/`, lastmod: posts[0]?._updatedAt || posts[0]?.publishedAt },
+  ...posts.map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p._updatedAt || p.publishedAt })),
   ...VIDEOS.map((v) => ({ loc: `${SITE_URL}/videos/${v.slug}`, lastmod: v.uploadDate })),
 ]
 const sitemap = [
