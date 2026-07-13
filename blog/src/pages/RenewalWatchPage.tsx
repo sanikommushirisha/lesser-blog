@@ -7,7 +7,7 @@ import { lazy, Suspense } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { computePlan, planSentence, CONSULATES, type PlanInput } from '../motion/constants'
-import { parseComboSlug } from '../motion/combos'
+import { comboSlug, parseComboSlug } from '../motion/combos'
 import { RENEWAL_VIDEOS } from './renewalVideos.generated'
 import { track } from '../motion/events'
 
@@ -36,10 +36,12 @@ export function RenewalWatchPage() {
     trip: params?.get('t') || undefined,
     name: params?.get('n') || undefined,
   }
+  // key is non-null past the guard, so the canonical slug is a guaranteed string.
+  const comboId = comboSlug(key)
   const plan = computePlan(input)
   const cons = CONSULATES[key.consulate]
-  const video = RENEWAL_VIDEOS[combo!]
-  const canonical = `${SITE}/r/${combo}`
+  const video = RENEWAL_VIDEOS[comboId]
+  const canonical = `${SITE}/r/${comboId}`
   const title = `${cons.label} · ${caseLabel(key.caseType)} — your renewal timeline`
   const description = planSentence(plan)
 
@@ -91,8 +93,8 @@ export function RenewalWatchPage() {
             muted
             playsInline
             poster={video.poster}
-            onPlay={() => track('play', { concept: 'renewal-share', slug: combo, meta: { auto: true } })}
-            onEnded={() => track('complete', { concept: 'renewal-share', slug: combo })}
+            onPlay={() => track('play', { concept: 'renewal-share', slug: comboId, meta: { auto: true } })}
+            onEnded={() => track('complete', { concept: 'renewal-share', slug: comboId })}
             className="w-full"
             style={{ aspectRatio: '9/16', background: '#101a38' }}
           >
@@ -101,7 +103,7 @@ export function RenewalWatchPage() {
         ) : (
           // No pre-rendered MP4 for this combo yet — replay live in-browser.
           <Suspense fallback={<div className="flex aspect-[9/16] items-center justify-center bg-[#101a38] text-sm text-white">loading…</div>}>
-            <LazyRenewalPlayer plan={plan} onEnded={() => track('complete', { concept: 'renewal-share', slug: combo })} />
+            <LazyRenewalPlayer plan={plan} onEnded={() => track('complete', { concept: 'renewal-share', slug: comboId })} />
           </Suspense>
         )}
       </div>
@@ -114,7 +116,7 @@ export function RenewalWatchPage() {
           href="https://lesser.tax/services/passport-renewal"
           target="_blank"
           rel="noopener noreferrer"
-          onClick={() => track('cta', { concept: 'renewal-share', slug: combo })}
+          onClick={() => track('cta', { concept: 'renewal-share', slug: comboId })}
           className="rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground no-underline"
         >
           Renew with Lesser · $140 flat
