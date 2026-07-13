@@ -38,7 +38,7 @@ function buildJsonLd(
     description: metaDescription,
     ...(ogImage ? { image: ogImage } : {}),
     datePublished: post.publishedAt,
-    dateModified: post.publishedAt,
+    dateModified: post._updatedAt || post.publishedAt,
     ...(post.author
       ? {
           author: {
@@ -421,7 +421,9 @@ export function BlogPost() {
               <p className="text-[12.5px] text-muted-foreground">{readTime(post.wordCount)}</p>
             </div>
             <span className="whitespace-nowrap text-[12.5px] text-muted-foreground">
-              Updated {formatDate(post.publishedAt)}
+              {post._updatedAt && formatDate(post._updatedAt) !== formatDate(post.publishedAt)
+                ? `Updated ${formatDate(post._updatedAt)}`
+                : `Published ${formatDate(post.publishedAt)}`}
             </span>
           </div>
 
