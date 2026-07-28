@@ -61,7 +61,10 @@ function SectionDecorations({ variant = "default" }: { variant?: "default" | "al
 }
 
 function useInView(threshold = 0.15) {
-  const ref = useRef<HTMLDivElement>(null);
+  // `HTMLDivElement | null` rather than `HTMLDivElement`: with a bare `null`
+  // initial value the returned ref object is readonly, which blocks callers
+  // that need to attach this ref alongside one of their own.
+  const ref = useRef<HTMLDivElement | null>(null);
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -367,7 +370,7 @@ const urgencyItems = [
 
 function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const heroRef = useRef<HTMLDivElement>(null);
+  const heroRef = useRef<HTMLDivElement | null>(null);
   const { ref, isVisible } = useInView(0.1);
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -381,9 +384,10 @@ function HeroSection() {
   return (
     <section
       ref={(el: HTMLDivElement | null) => {
+        // One element, two refs: heroRef for the mouse-parallax measurements
+        // and useInView's ref for the IntersectionObserver.
         heroRef.current = el;
-        if (typeof ref === 'function') ref(el as HTMLDivElement);
-        else if (ref && 'current' in ref) (ref as { current: HTMLDivElement | null }).current = el;
+        ref.current = el;
       }}
       className="relative bg-white dark:bg-background overflow-hidden pt-20 pb-10 lg:pt-28 lg:pb-20"
       onMouseMove={handleMouseMove}
