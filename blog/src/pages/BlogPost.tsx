@@ -12,7 +12,6 @@ import {
   type PostListItem,
 } from '../lib/sanity'
 import { takeInitialData } from '../lib/initial-data'
-import { SITE_URL } from '../lib/base'
 import { useIntercomForPost } from '../lib/intercom'
 import { splitBody, blockText, slugify, type Block, type FaqItem } from '../lib/editorial'
 import { RenewalWidget, ScrollExplainer, AskWidget } from '../motion/Widgets'
@@ -55,7 +54,7 @@ function buildJsonLd(
     publisher: {
       '@type': 'Organization',
       name: 'Lesser',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
+      logo: { '@type': 'ImageObject', url: 'https://lesser.tax/logo.png' },
     },
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
   }
@@ -359,7 +358,7 @@ export function BlogPost() {
   const metaDescription = post.seo?.metaDescription ?? post.excerpt
   const ogImage = imageUrl(post.seo?.ogImage, 1200, 630) ?? imageUrl(post.mainImage, 1200, 630)
   const heroImage = imageUrl(post.mainImage, 1440, 810)
-  const siteUrl = SITE_URL
+  const siteUrl = 'https://blog.lesser.tax'
   const canonical = `${siteUrl}/${post.slug}`
   const jsonLd = buildJsonLd(post, {
     siteUrl,

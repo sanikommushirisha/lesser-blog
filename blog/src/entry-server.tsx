@@ -6,7 +6,6 @@ import { StaticRouter } from 'react-router'
 import { HelmetProvider, type HelmetServerState } from 'react-helmet-async'
 import App from './App'
 import type { InitialData } from './lib/initial-data'
-import { BASE_PATH } from './lib/base'
 
 export { fetchPosts, fetchPost, fetchMorePosts } from './lib/sanity'
 export { VIDEOS } from './pages/WatchPage'
@@ -17,13 +16,7 @@ export function render(url: string, data: InitialData): { html: string; head: st
   const helmetContext: { helmet?: HelmetServerState } = {}
   const html = renderToString(
     <HelmetProvider context={helmetContext}>
-      {/*
-        basename must match the client's BrowserRouter, and the location has to
-        carry it too. Without this every <Link> in the prerendered HTML is
-        emitted as "/<slug>" instead of "/blog/<slug>", pointing the whole blog's
-        internal link graph at the marketing app's 404.
-      */}
-      <StaticRouter basename={BASE_PATH} location={`${BASE_PATH}${url}`}>
+      <StaticRouter location={url}>
         <App />
       </StaticRouter>
     </HelmetProvider>

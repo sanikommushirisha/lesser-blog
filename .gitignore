@@ -5,8 +5,3 @@ dist/
 *.local
 .DS_Store
 .vercel
-
-# from the lesser.tax marketing app
-server/public
-vite.config.ts.*
-*.tar.gz
