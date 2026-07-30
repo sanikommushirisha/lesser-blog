@@ -3,7 +3,7 @@ export function Footer() {
     <footer className="mt-20 border-t border-border bg-muted">
       <div className="mx-auto grid max-w-[1100px] gap-10 px-4 py-12 sm:grid-cols-3 sm:px-6">
         <div>
-          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lesser" className="h-10" />
+          <img src="/logo.png" alt="Lesser" className="h-10" />
           <p className="mt-3 text-sm text-muted-foreground">
             Flat-fee tax planning &amp; filing for tech professionals.
           </p>
@@ -11,16 +11,16 @@ export function Footer() {
         <div>
           <h2 className="text-sm font-semibold text-foreground">Quick links</h2>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li><a href="/" className="transition-colors hover:text-primary">Home</a></li>
-            <li><a href="/#pricing" className="transition-colors hover:text-primary">Pricing</a></li>
-            <li><a href="/blog" className="transition-colors hover:text-primary">Blog</a></li>
+            <li><a href="https://lesser.tax" className="transition-colors hover:text-primary">Home</a></li>
+            <li><a href="https://lesser.tax/#pricing" className="transition-colors hover:text-primary">Pricing</a></li>
+            <li><a href="/" className="transition-colors hover:text-primary">Blog</a></li>
           </ul>
         </div>
         <div>
           <h2 className="text-sm font-semibold text-foreground">Legal</h2>
           <ul className="mt-3 space-y-2 text-sm text-muted-foreground">
-            <li><a href="/privacy" className="transition-colors hover:text-primary">Privacy policy</a></li>
-            <li><a href="/terms" className="transition-colors hover:text-primary">Terms of service</a></li>
+            <li><a href="https://lesser.tax/privacy" className="transition-colors hover:text-primary">Privacy policy</a></li>
+            <li><a href="https://lesser.tax/terms" className="transition-colors hover:text-primary">Terms of service</a></li>
           </ul>
         </div>
       </div>

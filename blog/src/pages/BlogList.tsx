@@ -4,7 +4,6 @@ import { fetchPosts, isConfigured, type PostListItem } from '../lib/sanity'
 import { PostCard } from '../components/PostCard'
 import { PostCardSkeleton } from '../components/Skeleton'
 import { takeInitialData } from '../lib/initial-data'
-import { SITE_URL } from '../lib/base'
 
 export function BlogList() {
   const seeded = useMemo(() => takeInitialData('/'), [])
@@ -24,9 +23,9 @@ export function BlogList() {
           name="description"
           content="Tax strategy, equity compensation, and filing guides from the Lesser team."
         />
-        <link rel="canonical" href={SITE_URL} />
+        <link rel="canonical" href="https://blog.lesser.tax/" />
         <meta property="og:title" content="Blog — Lesser" />
-        <meta property="og:url" content={SITE_URL} />
+        <meta property="og:url" content="https://blog.lesser.tax/" />
         <meta property="og:type" content="website" />
       </Helmet>
 

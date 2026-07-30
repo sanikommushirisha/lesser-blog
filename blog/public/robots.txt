@@ -1,10 +1,5 @@
-# Only the robots.txt at the domain root is honoured by crawlers, and the blog
-# is now served under lesser.tax/blog — so the live rules live in the marketing
-# app's client/public/robots.txt. This file is kept for the case where the blog
-# is ever deployed standalone on its own domain again.
 User-agent: *
 Allow: /
 Disallow: /studio
 
-Sitemap: https://lesser.tax/blog/sitemap.xml
-Sitemap: https://lesser.tax/blog/video-sitemap.xml
+Sitemap: https://blog.lesser.tax/sitemap.xml

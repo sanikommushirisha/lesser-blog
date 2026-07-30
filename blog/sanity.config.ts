@@ -7,7 +7,7 @@ export default defineConfig({
   title: 'Lesser Blog',
   projectId: import.meta.env.VITE_SANITY_PROJECT_ID,
   dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
-  basePath: '/blog/studio',
+  basePath: '/studio',
   plugins: [structureTool()],
   schema: {
     types: schemaTypes,
