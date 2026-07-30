@@ -1,7 +1,7 @@
-#!/usr/bin/env node
+﻿#!/usr/bin/env node
 // Build-time prerender: emits real HTML (content + meta + JSON-LD) for the blog
 // list and every published post, plus sitemap.xml. Crawlers that do not execute
-// JavaScript (bingbot, PerplexityBot, GPTBot, ClaudeBot) need this — the SPA
+// JavaScript (bingbot, PerplexityBot, GPTBot, ClaudeBot) need this â€” the SPA
 // shell alone is invisible to them.
 //
 // Runs after `vite build` (client) and `vite build --ssr` (server bundle):
@@ -10,15 +10,22 @@
 
 import fs from 'node:fs'
 import path from 'node:path'
-import { fileURLToPath } from 'node:url'
+import { fileURLToPath, pathToFileURL } from 'node:url'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dist = path.join(root, 'dist')
-const SITE_URL = 'https://blog.lesser.tax'
+// The blog is served under lesser.tax/blog, not on its own subdomain. Routes
+// below stay basename-relative ("/", "/<slug>") â€” they are written into dist/,
+// which the server mounts at /blog â€” so only the public URLs carry the prefix.
+const SITE_URL = 'https://lesser.tax/blog'
+const url = (route) => `${SITE_URL}${route === '/' ? '' : route}`
 
-const { render, fetchPosts, fetchPost, fetchMorePosts } = await import(
-  path.join(root, 'dist-server/entry-server.js')
-)
+// pathToFileURL, not a bare path: dynamic import() of a Windows absolute path
+// ("C:\...") is rejected as an unsupported URL scheme, so local builds on
+// Windows would fail here even though CI on Linux is fine.
+const entryServer = pathToFileURL(path.join(root, 'dist-server/entry-server.js')).href
+
+const { render, fetchPosts, fetchPost, fetchMorePosts } = await import(entryServer)
 
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
 
@@ -41,7 +48,7 @@ function buildPage(route, data) {
 
 const posts = await fetchPosts()
 if (!posts?.length) {
-  console.error('prerender: fetchPosts returned no posts — refusing to emit an empty site')
+  console.error('prerender: fetchPosts returned no posts â€” refusing to emit an empty site')
   process.exit(1)
 }
 
@@ -53,7 +60,7 @@ console.log(`prerendered / (${posts.length} posts on list)`)
 for (const item of posts) {
   const [post, more] = await Promise.all([fetchPost(item.slug), fetchMorePosts(item.slug)])
   if (!post) {
-    console.warn(`prerender: skipping ${item.slug} — fetchPost returned null`)
+    console.warn(`prerender: skipping ${item.slug} â€” fetchPost returned null`)
     continue
   }
   const route = `/${item.slug}`
@@ -63,9 +70,9 @@ for (const item of posts) {
   console.log(`prerendered ${route}`)
 }
 
-// Watch pages (/videos/:slug) — video is the PRIMARY content of these URLs,
+// Watch pages (/videos/:slug) â€” video is the PRIMARY content of these URLs,
 // which is what makes them eligible for Google video rich results.
-const { VIDEOS } = await import(path.join(root, 'dist-server/entry-server.js')).then((m) => ({ VIDEOS: m.VIDEOS ?? [] })).catch(() => ({ VIDEOS: [] }))
+const { VIDEOS } = await import(entryServer).then((m) => ({ VIDEOS: m.VIDEOS ?? [] })).catch(() => ({ VIDEOS: [] }))
 for (const v of VIDEOS) {
   const route = `/videos/${v.slug}`
   const outDir = path.join(dist, 'videos', v.slug)
@@ -76,9 +83,9 @@ for (const v of VIDEOS) {
 
 // Personalized share pages (/r/:combo). Prerendered so WhatsApp/social read
 // real OpenGraph + VideoObject tags (rich video preview), but deliberately
-// noindex (in the page's own <meta robots>) and OMITTED from both sitemaps —
+// noindex (in the page's own <meta robots>) and OMITTED from both sitemaps â€”
 // they are share landings, not 64 templated SEO doorway pages.
-const { RENEWAL_VIDEOS } = await import(path.join(root, 'dist-server/entry-server.js')).then((m) => ({ RENEWAL_VIDEOS: m.RENEWAL_VIDEOS ?? {} })).catch(() => ({ RENEWAL_VIDEOS: {} }))
+const { RENEWAL_VIDEOS } = await import(entryServer).then((m) => ({ RENEWAL_VIDEOS: m.RENEWAL_VIDEOS ?? {} })).catch(() => ({ RENEWAL_VIDEOS: {} }))
 for (const slug of Object.keys(RENEWAL_VIDEOS)) {
   const route = `/r/${slug}`
   const outDir = path.join(dist, 'r', slug)
@@ -89,7 +96,7 @@ console.log(`prerendered ${Object.keys(RENEWAL_VIDEOS).length} /r/ share pages (
 
 // sitemap.xml
 const urls = [
-  { loc: `${SITE_URL}/`, lastmod: posts[0]?._updatedAt || posts[0]?.publishedAt },
+  { loc: url('/'), lastmod: posts[0]?._updatedAt || posts[0]?.publishedAt },
   ...posts.map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p._updatedAt || p.publishedAt })),
   ...VIDEOS.map((v) => ({ loc: `${SITE_URL}/videos/${v.slug}`, lastmod: v.uploadDate })),
 ]
@@ -120,10 +127,21 @@ if (VIDEOS.length) {
 }
 
 // Bing URL Submission API: push the URL set straight into Bing's crawl queue on
-// each build. Auth is the BWT API key (Vercel env BING_WEBMASTER_API_KEY) — no
+// each build. Auth is the BWT API key (Vercel env BING_WEBMASTER_API_KEY) â€” no
 // hosted key file, so it can't hit IndexNow's key-association 403. Best-effort:
 // failures log and never fail the build.
-const BING_API_KEY = process.env.BING_WEBMASTER_API_KEY
+// Only from a real deploy build. A developer running `npm run build` locally
+// should not be announcing URLs to Bing/Yandex - especially while /blog is not
+// live yet, which would submit URLs that currently 404. Set SUBMIT_URLS=1 to
+// force it.
+const SUBMIT_URLS = Boolean(
+  process.env.VERCEL || process.env.CI || process.env.SUBMIT_URLS,
+)
+
+const BING_API_KEY = SUBMIT_URLS ? process.env.BING_WEBMASTER_API_KEY : null
+if (!SUBMIT_URLS) {
+  console.log('local build: skipping Bing + IndexNow submission (set SUBMIT_URLS=1 to force)')
+}
 if (BING_API_KEY) {
   try {
     const res = await fetch(
@@ -146,7 +164,7 @@ if (BING_API_KEY) {
 // public/<key>.txt; Bing has twice dropped the key association (403
 // UserForbiddedToAccessSite), which is why SubmitUrlBatch above is the primary path.
 const INDEXNOW_KEY = '38dcaec0900d4e9a86f958fea904473e'
-try {
+if (SUBMIT_URLS) try {
   const host = new URL(SITE_URL).host
   const res = await fetch('https://api.indexnow.org/indexnow', {
     method: 'POST',
