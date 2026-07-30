@@ -10,10 +10,11 @@ import { computePlan, planSentence, CONSULATES, type PlanInput } from '../motion
 import { comboSlug, parseComboSlug } from '../motion/combos'
 import { RENEWAL_VIDEOS } from './renewalVideos.generated'
 import { track } from '../motion/events'
+import { SITE_URL } from '../lib/base'
 
 const LazyRenewalPlayer = lazy(() => import('../motion/players').then((m) => ({ default: m.RenewalPlayer })))
 
-const SITE = 'https://blog.lesser.tax'
+const SITE = SITE_URL
 
 export function RenewalWatchPage() {
   const { combo } = useParams<{ combo: string }>()
@@ -54,7 +55,7 @@ export function RenewalWatchPage() {
     uploadDate: video.uploadDate,
     duration: video.duration,
     contentUrl: video.mp4,
-    publisher: { '@type': 'Organization', name: 'Lesser', logo: { '@type': 'ImageObject', url: 'https://lesser.tax/logo.png' } },
+    publisher: { '@type': 'Organization', name: 'Lesser', logo: { '@type': 'ImageObject', url: `${SITE}/logo.png` } },
   }
 
   return (

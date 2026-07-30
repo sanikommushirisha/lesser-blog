@@ -5,6 +5,7 @@
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { track } from '../motion/events'
+import { SITE_URL, asset } from '../lib/base'
 
 export interface WatchVideo {
   slug: string
@@ -59,7 +60,7 @@ export function WatchPage() {
       </main>
     )
   }
-  const siteUrl = 'https://blog.lesser.tax'
+  const siteUrl = SITE_URL
   const canonical = `${siteUrl}/videos/${video.slug}`
   const jsonLd = {
     '@context': 'https://schema.org',
@@ -70,7 +71,7 @@ export function WatchPage() {
     uploadDate: video.uploadDate,
     duration: video.duration,
     contentUrl: siteUrl + video.mp4,
-    publisher: { '@type': 'Organization', name: 'Lesser', logo: { '@type': 'ImageObject', url: 'https://lesser.tax/logo.png' } },
+    publisher: { '@type': 'Organization', name: 'Lesser', logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` } },
   }
   return (
     <main className="mx-auto w-full max-w-[860px] px-4 pt-10 font-sans sm:px-6">
@@ -100,14 +101,14 @@ export function WatchPage() {
       <video
         controls
         preload="none"
-        poster={video.poster}
+        poster={asset(video.poster)}
         playsInline
         onPlay={() => track('play', { concept: 'watch-page', slug: video.slug })}
         onEnded={() => track('complete', { concept: 'watch-page', slug: video.slug })}
         className="w-full rounded-xl"
         style={{ aspectRatio: '16/8.5', background: '#101a38' }}
       >
-        <source src={video.mp4} type="video/mp4" />
+        <source src={asset(video.mp4)} type="video/mp4" />
       </video>
       <p className="mt-4 max-w-[70ch] text-[15px] leading-relaxed text-muted-foreground">{video.description}</p>
 

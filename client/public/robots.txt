@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /blog/studio
+
+Sitemap: https://lesser.tax/sitemap.xml
+Sitemap: https://lesser.tax/blog/sitemap.xml
+Sitemap: https://lesser.tax/blog/video-sitemap.xml
