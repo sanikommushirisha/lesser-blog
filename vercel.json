@@ -1,12 +1,19 @@
 {
-  "installCommand": "cd blog && npm install",
-  "buildCommand": "cd blog && npm run build",
-  "outputDirectory": "blog/dist",
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "framework": null,
+  "installCommand": "npm install",
+  "buildCommand": "npm run build",
+  "outputDirectory": "dist/public",
+  "trailingSlash": false,
+  "functions": {
+    "api/index.ts": {
+      "includeFiles": "dist/public/**/index.html"
+    }
+  },
   "rewrites": [
     {
-      "source": "/((?!assets/).*)",
-      "destination": "/index.html"
+      "source": "/(.*)",
+      "destination": "/api/index"
     }
-  ],
-  "trailingSlash": false
+  ]
 }

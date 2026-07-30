@@ -13,7 +13,7 @@ interface PageMeta {
   canonical: string;
 }
 
-const PAGE_META: Record<string, PageMeta> = {
+export const PAGE_META: Record<string, PageMeta> = {
   "/": {
     title: "Lesser - Flat-Fee Tax Planning & Filing for Tech Professionals",
     description: "Big Four-trained CPAs. AI-powered platform. Flat-fee pricing from $99/year. Year-round tax strategy for tech professionals with equity compensation — RSUs, ISOs, and stock options.",
@@ -96,7 +96,7 @@ const PAGE_META: Record<string, PageMeta> = {
   },
 };
 
-function injectMeta(html: string, meta: PageMeta): string {
+export function injectMeta(html: string, meta: PageMeta): string {
   let result = html;
 
   result = result.replace(/<title>[^<]*<\/title>/, `<title>${meta.title}</title>`);
