@@ -238,7 +238,7 @@ function HeroSection() {
 
           <div className="hero-btn-appear flex flex-wrap justify-center items-center gap-4 mb-10">
             <a
-              href="https://app.lesser.tax/auth/sign-up"
+              href="https://lesser.tax/app/auth/sign-up"
               className="hero-btn-3d inline-flex items-center gap-2 text-base font-semibold bg-primary text-white rounded-xl px-8 py-4 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
               data-testid="button-hero-cta"
             >
@@ -468,7 +468,7 @@ function HowItWorksSection() {
 
         <div className={`text-center mt-12 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <a
-            href="https://app.lesser.tax/auth/sign-up"
+            href="https://lesser.tax/app/auth/sign-up"
             className="inline-flex items-center gap-2 bg-primary text-white rounded-xl px-8 py-4 text-base font-semibold shadow-xl shadow-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
             data-testid="button-how-it-works-cta"
           >
@@ -592,7 +592,7 @@ function DeadlineSection() {
             Start now to file on time.
           </p>
           <a
-            href="https://app.lesser.tax/auth/sign-up"
+            href="https://lesser.tax/app/auth/sign-up"
             className="inline-flex items-center gap-2 bg-primary text-white rounded-xl px-8 py-4 text-base font-semibold shadow-xl shadow-primary/20 transition-all duration-300 hover:shadow-lg hover:shadow-primary/25"
             data-testid="button-deadline-cta"
           >
@@ -639,7 +639,7 @@ function CTASection() {
         </p>
         <div className={`flex flex-wrap justify-center gap-4 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <a
-            href="https://app.lesser.tax/auth/sign-up"
+            href="https://lesser.tax/app/auth/sign-up"
             onClick={(e) => { createRipple(e); }}
             className="group relative inline-flex items-center gap-2.5 px-8 py-4 text-base font-semibold text-foreground bg-white rounded-xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(255,255,255,0.25)] hover:scale-[1.03] active:scale-[0.98] overflow-hidden cta-btn-shimmer"
             data-testid="button-cta-primary"

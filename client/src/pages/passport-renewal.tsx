@@ -17,7 +17,7 @@ import {
 import SharedNavbar from "@/components/shared-navbar";
 import lesserLogo from "@assets/lesser_blue_logo_1770346541058.png";
 
-const APP_URL = "https://app.lesser.tax/auth/sign-up";
+const APP_URL = "https://lesser.tax/app/auth/sign-up";
 
 const INCLUDED = [
   {

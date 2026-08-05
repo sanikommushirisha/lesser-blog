@@ -176,7 +176,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
             </a>
 
             <a
-              href="https://app.lesser.tax/auth/sign-up"
+              href="https://lesser.tax/app/auth/sign-up"
               onClick={(e) => { createRipple(e); }}
               className="hidden sm:inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-primary rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.03] active:scale-[0.98] no-default-hover-elevate relative overflow-hidden"
               data-testid="button-nav-cta"
@@ -266,7 +266,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
                   Connect on WhatsApp
                 </a>
                 <a
-                  href="https://app.lesser.tax/auth/sign-up"
+                  href="https://lesser.tax/app/auth/sign-up"
                   onClick={() => { setMobileOpen(false); }}
                   className="flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-semibold rounded-xl bg-primary text-white transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 sm:hidden"
                   data-testid="button-nav-cta-mobile"

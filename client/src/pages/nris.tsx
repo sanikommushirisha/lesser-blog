@@ -429,7 +429,7 @@ function HeroSection() {
                 className="bg-primary text-white rounded-xl px-8 py-6 text-base font-semibold shadow-xl shadow-primary/20 btn-glow-effect overflow-hidden"
                 data-testid="button-hero-cta"
               >
-                <a href="https://app.lesser.tax/auth/sign-up">
+                <a href="https://lesser.tax/app/auth/sign-up">
                   <span className="btn-magnetic-text relative z-10 flex items-center gap-2">
                     Book a Free NRI Tax Consultation
                     <ArrowRight className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" />
@@ -704,7 +704,7 @@ function WhoWeServeSection() {
 
         <div className={`text-center mt-12 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <a
-            href="https://app.lesser.tax/auth/sign-up"
+            href="https://lesser.tax/app/auth/sign-up"
             onClick={(e) => { createRipple(e); }}
             className="group relative inline-flex items-center gap-2.5 px-8 py-4 text-base font-semibold text-foreground bg-white rounded-xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(255,255,255,0.25)] hover:scale-[1.03] active:scale-[0.98] overflow-hidden cta-btn-shimmer"
             data-testid="button-serve-cta"
@@ -1052,7 +1052,7 @@ function HowItWorksSection() {
             className="bg-primary text-white rounded-xl px-8 py-6 text-base font-semibold shadow-xl shadow-primary/20 btn-glow-effect overflow-hidden"
             data-testid="button-how-it-works-cta"
           >
-            <a href="https://app.lesser.tax/auth/sign-up">
+            <a href="https://lesser.tax/app/auth/sign-up">
               <span className="btn-magnetic-text relative z-10 flex items-center gap-2">
                 Talk to our expert team
                 <ArrowRight className="w-4 h-4" />
@@ -1167,7 +1167,7 @@ function PricingSection() {
                     size="lg"
                     data-testid={`button-plan-${plan.id}`}
                   >
-                    <a href="https://app.lesser.tax/auth/sign-up">
+                    <a href="https://lesser.tax/app/auth/sign-up">
                       <span className="btn-magnetic-text relative z-10">Get Started</span>
                     </a>
                   </Button>
@@ -1184,7 +1184,7 @@ function PricingSection() {
             className="bg-primary text-white rounded-xl px-8 py-6 text-base font-semibold shadow-xl shadow-primary/20 btn-glow-effect overflow-hidden"
             data-testid="button-pricing-consultation"
           >
-            <a href="https://app.lesser.tax/auth/sign-up">
+            <a href="https://lesser.tax/app/auth/sign-up">
               <span className="btn-magnetic-text relative z-10 flex items-center gap-2">
                 Get a Free Tax Planning Consultation
                 <ArrowRight className="w-4 h-4" />
@@ -1314,7 +1314,7 @@ function CTASection() {
 
         <div className={`flex flex-wrap justify-center gap-4 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
           <a
-            href="https://app.lesser.tax/auth/sign-up"
+            href="https://lesser.tax/app/auth/sign-up"
             onClick={(e) => { createRipple(e); }}
             className="group relative inline-flex items-center gap-2.5 px-8 py-4 text-base font-semibold text-foreground bg-white rounded-xl transition-all duration-300 hover:shadow-[0_8px_32px_rgba(255,255,255,0.25)] hover:scale-[1.03] active:scale-[0.98] overflow-hidden cta-btn-shimmer"
             data-testid="button-cta-primary"

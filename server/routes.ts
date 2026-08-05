@@ -137,7 +137,7 @@ export async function registerRoutes(
   // /get-started has never been a route on this site, so older blog and
   // campaign links to it 404'd. Send them to the app's sign-up instead.
   app.get("/get-started", (_req: Request, res: Response) => {
-    res.redirect(302, "https://app.lesser.tax/auth/sign-up");
+    res.redirect(302, "https://lesser.tax/app/auth/sign-up");
   });
 
   app.post("/api/signups", async (req: Request, res: Response) => {

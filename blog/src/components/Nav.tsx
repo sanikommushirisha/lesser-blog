@@ -19,7 +19,7 @@ export function Nav() {
             Pricing
           </a>
           <a
-            href="https://app.lesser.tax/auth/sign-up"
+            href="https://lesser.tax/app/auth/sign-up"
             className="rounded-full bg-primary px-5 py-2 text-sm font-medium text-primary-foreground transition-colors hover:bg-primary-dark"
           >
             Get Started
