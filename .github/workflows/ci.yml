@@ -1,0 +1,110 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+jobs:
+  # ── Security audit (parallel, non-blocking) ─────────────────────
+  security-audit:
+    name: Security audit (npm)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: "npm"
+      - run: npm install
+      - run: npm audit --audit-level=critical
+        continue-on-error: true
+
+  # ── Build & typecheck (marketing app + blog) ────────────────────
+  # Runs the real production build: tsc for the marketing app, then
+  # blog's own tsc + vite build + Sanity prerender (script/build.ts
+  # builds both from their separate package.json / toolchains).
+  build:
+    name: Build & typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-node@v6
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install marketing deps
+        run: npm ci
+
+      - name: Typecheck marketing app
+        run: npm run check
+
+      - name: Install blog deps
+        run: npm ci
+        working-directory: blog
+
+      - name: Lint blog
+        run: npm run lint
+        working-directory: blog
+
+      - name: Build (marketing + blog, incl. Sanity prerender)
+        run: npm run build
+        env:
+          # Public Sanity identifiers (baked into the client bundle, not
+          # secrets) — see OPERATIONS.md. Override via repo Variables if
+          # the project ever changes.
+          VITE_SANITY_PROJECT_ID: ${{ vars.VITE_SANITY_PROJECT_ID || '1mxaoto5' }}
+          VITE_SANITY_DATASET: ${{ vars.VITE_SANITY_DATASET || 'production' }}
+
+  # ── Deploy: EC2 (lesser.tax) ─────────────────────────────────────
+  # This repo's production target is NOT Vercel — lesser.tax is served
+  # by the "lesser-blog" PM2 process on this EC2 box (nginx -> :3001).
+  deploy-ec2:
+    name: Deploy to EC2 (lesser.tax)
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    needs: build
+    if: github.event_name == 'push' || github.event_name == 'workflow_dispatch'
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1
+        with:
+          # Same box as apps/portal/lesser's staging/prod PM2 processes —
+          # reuse those secrets rather than adding a new host/key pair.
+          host: ${{ secrets.STAGING_EC2_HOST }}
+          username: ${{ secrets.STAGING_EC2_USER }}
+          key: ${{ secrets.STAGING_EC2_SSH_KEY }}
+          script_stop: true
+          script: |
+            source ~/.nvm/nvm.sh
+            cd /home/ubuntu/apps/portfolio/lesser-blog
+            git fetch origin main
+            git checkout main
+            git reset --hard origin/main
+            npm ci
+            npm run build
+            pm2 restart lesser-blog --update-env
+
+  # ── Post-deploy smoke check ──────────────────────────────────────
+  smoke-test:
+    name: Smoke test (lesser.tax)
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    needs: deploy-ec2
+    steps:
+      - name: Check marketing site + blog respond
+        run: |
+          for url in \
+            https://lesser.tax/ \
+            https://lesser.tax/blog \
+            https://blog.lesser.tax/sitemap.xml; do
+            code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
+            echo "$url -> $code"
+            if [ "$code" -ge 400 ]; then
+              echo "::error::$url returned $code"
+              exit 1
+            fi
+          done
