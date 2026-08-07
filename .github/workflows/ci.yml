@@ -100,7 +100,7 @@ jobs:
           for url in \
             https://lesser.tax/ \
             https://lesser.tax/blog \
-            https://blog.lesser.tax/sitemap.xml; do
+            https://lesser.tax/blog/sitemap.xml; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
             echo "$url -> $code"
             if [ "$code" -ge 400 ]; then
