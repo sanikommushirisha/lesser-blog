@@ -115,7 +115,7 @@ export const RENEWAL_VIDEOS: Record<string, RenewalVideoMeta> = ${JSON.stringify
       composition: COMPOSITION, inputProps: { plan },
       codec: 'h264', privacy: 'public', downloadBehavior: { type: 'play-in-browser' },
     })
-    let outputFile = ''
+    let outputFile: string
     for (;;) {
       const p = await getRenderProgress({ renderId, bucketName, functionName: fn.functionName, region })
       if (p.fatalErrorEncountered) throw new Error(`Render ${slug} failed: ${p.errors?.[0]?.message}`)

@@ -1,4 +1,4 @@
-import { defineField, defineType } from 'sanity'
+import { defineField, defineType, type Rule } from 'sanity'
 
 export const post = defineType({
   name: 'post',
@@ -86,7 +86,7 @@ export const post = defineType({
           type: 'image',
           options: { hotspot: true },
           fields: [
-            { name: 'alt', title: 'Alternative text', type: 'string', validation: (rule: any) => rule.required() },
+            { name: 'alt', title: 'Alternative text', type: 'string', validation: (rule: Rule) => rule.required() },
             { name: 'caption', title: 'Caption', type: 'string' },
           ],
         },
@@ -109,8 +109,8 @@ export const post = defineType({
           type: 'object',
           name: 'faqItem',
           fields: [
-            { name: 'question', title: 'Question', type: 'string', validation: (rule: any) => rule.required() },
-            { name: 'answer', title: 'Answer', type: 'text', rows: 3, validation: (rule: any) => rule.required() },
+            { name: 'question', title: 'Question', type: 'string', validation: (rule: Rule) => rule.required() },
+            { name: 'answer', title: 'Answer', type: 'text', rows: 3, validation: (rule: Rule) => rule.required() },
           ],
           preview: { select: { title: 'question' } },
         },
@@ -136,8 +136,8 @@ export const post = defineType({
               type: 'object',
               name: 'howToStep',
               fields: [
-                { name: 'name', title: 'Step name', type: 'string', validation: (rule: any) => rule.required() },
-                { name: 'text', title: 'Step description', type: 'text', rows: 2, validation: (rule: any) => rule.required() },
+                { name: 'name', title: 'Step name', type: 'string', validation: (rule: Rule) => rule.required() },
+                { name: 'text', title: 'Step description', type: 'text', rows: 2, validation: (rule: Rule) => rule.required() },
               ],
               preview: { select: { title: 'name' } },
             },

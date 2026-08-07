@@ -19,4 +19,12 @@ export default defineConfig([
       globals: globals.browser,
     },
   },
+  {
+    // Build-time SSR entry (see scripts/prerender.mjs) — never loaded through
+    // the Vite dev server's HMR graph, so Fast Refresh doesn't apply here.
+    files: ['src/entry-server.tsx'],
+    rules: {
+      'react-refresh/only-export-components': 'off',
+    },
+  },
 ])

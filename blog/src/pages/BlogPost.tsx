@@ -329,6 +329,10 @@ export function BlogPost() {
   const motion = slug ? MOTION[slug] : undefined
   const [variant, setVariant] = useState<'a' | 'b'>('a')
   useEffect(() => {
+    // abVariant() reads localStorage, so it must stay client-only: SSR always
+    // renders the 'a' default, then this patches in the real bucket post-mount
+    // to avoid a hydration mismatch — computing it during render is not an option.
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     if (motion?.ab) setVariant(abVariant('renewal-placement'))
   }, [motion])
 

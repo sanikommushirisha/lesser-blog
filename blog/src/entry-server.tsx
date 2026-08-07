@@ -9,7 +9,7 @@ import type { InitialData } from './lib/initial-data'
 import { BASE_PATH } from './lib/base'
 
 export { fetchPosts, fetchPost, fetchMorePosts } from './lib/sanity'
-export { VIDEOS } from './pages/WatchPage'
+export { VIDEOS } from './pages/watchVideos'
 export { RENEWAL_VIDEOS } from './pages/renewalVideos.generated'
 
 export function render(url: string, data: InitialData): { html: string; head: string } {
