@@ -71,20 +71,71 @@ jobs:
     steps:
       - name: Deploy over SSH
         uses: appleboy/ssh-action@v1
+        env:
+          DEPLOY_SHA: ${{ github.sha }}
+          GH_TOKEN: ${{ secrets.GH_DEPLOY_TOKEN }}
+          REPO_URL: https://github.com/${{ github.repository }}.git
+          VITE_SANITY_PROJECT_ID: ${{ vars.VITE_SANITY_PROJECT_ID || '1mxaoto5' }}
+          VITE_SANITY_DATASET: ${{ vars.VITE_SANITY_DATASET || 'production' }}
         with:
           # Same box as apps/portal/lesser's staging/prod PM2 processes —
           # reuse those secrets rather than adding a new host/key pair.
           host: ${{ secrets.STAGING_EC2_HOST }}
           username: ${{ secrets.STAGING_EC2_USER }}
           key: ${{ secrets.STAGING_EC2_SSH_KEY }}
-          script_stop: true
+          envs: DEPLOY_SHA,GH_TOKEN,REPO_URL,VITE_SANITY_PROJECT_ID,VITE_SANITY_DATASET
+          # NOTE: `script_stop` is a v0.x input and is silently ignored by
+          # v1 — it produces an "Unexpected input(s)" warning while the
+          # script keeps running past every failure. `set -e` is what
+          # actually aborts. (-u is deliberately omitted: nvm.sh reads
+          # unset vars and would trip it.)
           script: |
+            set -eo pipefail
             source ~/.nvm/nvm.sh
             cd /home/ubuntu/apps/portfolio/lesser-blog
-            git fetch origin main
-            git checkout main
+
+            # Pin origin to HTTPS. GIT_ASKPASS below is only consulted for
+            # the HTTPS transport; if the host's origin is left as an SSH
+            # URL (git@github.com:...) git never asks for a password at
+            # all and fails with "Permission denied (publickey)". Setting
+            # it on every deploy is idempotent and keeps the box from
+            # drifting.
+            git remote set-url origin "$REPO_URL"
+
+            # The host has no stored GitHub credentials, so an
+            # unauthenticated fetch of this private repo prompts for a
+            # username, finds no TTY, and dies with "could not read
+            # Username" (exit 128). Feed the PAT in through an askpass
+            # helper rather than embedding it in the remote URL: this
+            # keeps it out of `ps` output and out of .git/config, so
+            # nothing persists on the box after the deploy.
+            ASKPASS="$(mktemp)"
+            trap 'rm -f "$ASKPASS"' EXIT
+            printf '#!/bin/sh\ncase "$1" in\n  Username*) echo x-access-token ;;\n  Password*) echo "$GH_TOKEN" ;;\nesac\n' > "$ASKPASS"
+            chmod 700 "$ASKPASS"
+
+            # GIT_TERMINAL_PROMPT=0 turns a bad/expired token into an
+            # immediate auth error instead of a hang or the misleading
+            # username prompt.
+            GIT_ASKPASS="$ASKPASS" GIT_TERMINAL_PROMPT=0 \
+              git fetch origin +refs/heads/main:refs/remotes/origin/main
+
+            git checkout -f -B main origin/main
             git reset --hard origin/main
+
+            # A failed `git fetch` leaves origin/main pointing at a stale
+            # ref, so the reset above "succeeds" and redeploys old code.
+            # Assert we actually landed on the commit this workflow was
+            # triggered for.
+            ACTUAL_SHA="$(git rev-parse HEAD)"
+            if [ "$ACTUAL_SHA" != "$DEPLOY_SHA" ]; then
+              echo "::error::Checked out ${ACTUAL_SHA} but expected ${DEPLOY_SHA}."
+              echo "::error::The fetch did not reach GitHub — check the origin remote and its credentials on this host."
+              exit 1
+            fi
+
             npm ci
+            npm ci --prefix blog
             npm run build
             pm2 restart lesser-blog --update-env
 
