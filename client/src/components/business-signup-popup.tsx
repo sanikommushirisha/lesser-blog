@@ -156,7 +156,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
 
         <div className="h-1 bg-gray-100">
           <div
-            className="h-full bg-[#1C41F7] transition-all duration-500 ease-out"
+            className="h-full bg-[#034f46] transition-all duration-500 ease-out"
             style={{ width: `${(step / 3) * 100}%` }}
             data-testid="business-signup-progress-bar"
           />
@@ -164,14 +164,14 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
 
         <div className="px-8 py-8">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider" data-testid="text-business-step-indicator">
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider" data-testid="text-business-step-indicator">
               Step {step} of 3
             </span>
           </div>
 
           {step === 1 && (
             <div data-testid="business-signup-step-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+              <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-gray-900 mb-1">
                 Tell us about your business
               </h2>
               <p className="text-gray-500 text-sm mb-6">
@@ -188,7 +188,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                       type="text"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className={`w-full px-4 py-3 rounded-lg border ${errors.firstName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                      className={`w-full px-4 py-3 rounded-lg border ${errors.firstName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                       placeholder="John"
                       data-testid="input-business-first-name"
                     />
@@ -204,7 +204,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                       type="text"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className={`w-full px-4 py-3 rounded-lg border ${errors.lastName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                      className={`w-full px-4 py-3 rounded-lg border ${errors.lastName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                       placeholder="Doe"
                       data-testid="input-business-last-name"
                     />
@@ -222,7 +222,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border ${errors.email ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                    className={`w-full px-4 py-3 rounded-lg border ${errors.email ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                     placeholder="john@company.com"
                     data-testid="input-business-email"
                   />
@@ -239,7 +239,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                    className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                     placeholder="(555) 123-4567"
                     data-testid="input-business-phone"
                   />
@@ -256,7 +256,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                     type="text"
                     value={businessName}
                     onChange={(e) => setBusinessName(e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border ${errors.businessName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                    className={`w-full px-4 py-3 rounded-lg border ${errors.businessName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                     placeholder="Acme Inc."
                     data-testid="input-business-name"
                   />
@@ -270,14 +270,14 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                 onClick={() => {
                   if (validateStep1()) setStep(2);
                 }}
-                className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1C41F7] text-white font-semibold rounded-xl hover:bg-[#1533c5] transition-colors text-sm"
+                className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#034f46] text-white font-semibold rounded-xl hover:bg-[#023d35] transition-colors text-sm"
                 data-testid="button-business-step1-continue"
               >
                 Continue
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <p className="text-center text-xs text-gray-400 mt-4">
+              <p className="text-center text-xs text-gray-500 mt-4">
                 We'll never share your information with third parties.
               </p>
             </div>
@@ -285,7 +285,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
 
           {step === 2 && (
             <div data-testid="business-signup-step-2">
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+              <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-gray-900 mb-1">
                 Business details
               </h2>
               <p className="text-gray-500 text-sm mb-6">
@@ -304,7 +304,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                         onClick={() => setBusinessType(opt.value)}
                         className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
                           businessType === opt.value
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-business-type-${opt.value.toLowerCase().replace(/[\s-]/g, "-")}`}
@@ -329,7 +329,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                         onClick={() => setFormType(opt.value)}
                         className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all text-left ${
                           formType === opt.value
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-form-type-${opt.value.toLowerCase().replace(/[\s()\/]/g, "-")}`}
@@ -354,7 +354,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                         onClick={() => setAnnualRevenue(opt.value)}
                         className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
                           annualRevenue === opt.value
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-revenue-${opt.value}`}
@@ -376,7 +376,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                     type="text"
                     value={stateOfIncorporation}
                     onChange={(e) => setStateOfIncorporation(e.target.value)}
-                    className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm"
+                    className="w-full px-4 py-3 rounded-lg border border-gray-200 bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm"
                     placeholder="e.g. Delaware, California"
                     data-testid="input-state-incorporation"
                   />
@@ -396,7 +396,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                         onClick={() => setHasFiledBefore(opt.value)}
                         className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
                           hasFiledBefore === opt.value
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-filed-before-${opt.value ? "yes" : "no"}`}
@@ -427,7 +427,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
                 <button
                   onClick={handleStep2Continue}
                   disabled={submitting}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1C41F7] text-white font-semibold rounded-xl hover:bg-[#1533c5] disabled:opacity-60 transition-colors text-sm"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-[#034f46] text-white font-semibold rounded-xl hover:bg-[#023d35] disabled:opacity-60 transition-colors text-sm"
                   data-testid="button-business-step2-continue"
                 >
                   {submitting ? "Saving..." : "Continue"}
@@ -440,10 +440,10 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
           {step === 3 && (
             <div data-testid="business-signup-step-3">
               <div className="text-center">
-                <div className="mx-auto w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mb-4">
-                  <Check className="w-7 h-7 text-green-600" />
+                <div className="mx-auto w-14 h-14 rounded-full bg-[#ecfdf5] flex items-center justify-center mb-4">
+                  <Check className="w-7 h-7 text-[#059669]" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-gray-900 mb-2">
                   Thanks, {firstName}!
                 </h2>
                 <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
@@ -452,7 +452,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
 
                 <button
                   onClick={openCalendlyAndClose}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#1C41F7] text-white font-semibold rounded-xl hover:bg-[#1533c5] transition-colors text-sm"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#034f46] text-white font-semibold rounded-xl hover:bg-[#023d35] transition-colors text-sm"
                   data-testid="button-business-book-call"
                 >
                   <Calendar className="w-5 h-5" />
@@ -461,7 +461,7 @@ export default function BusinessSignupPopup({ open, onClose, sourcePage }: Busin
 
                 <button
                   onClick={resetAndClose}
-                  className="mt-3 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                  className="mt-3 text-sm text-gray-500 hover:text-gray-600 transition-colors"
                   data-testid="button-business-skip-booking"
                 >
                   Skip for now

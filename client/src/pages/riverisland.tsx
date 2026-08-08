@@ -20,7 +20,7 @@ import { useState, useEffect, useRef } from "react";
 import { Helmet } from "react-helmet";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
-import lesserLogo from "@assets/lesser_blue_logo_1770346541058.png";
+import lesserLogo from "@assets/lesser_logo.png";
 import teamDavidImg from "@assets/team_david_clean.png";
 import teamVishweshImg from "@assets/team_vishwesh_clean.png";
 import teamJithendraImg from "@assets/team_jithendra_clean.png";
@@ -44,7 +44,7 @@ function createRipple(e: React.MouseEvent<HTMLElement>) {
 
 
 function SectionDecorations({ variant = "default" }: { variant?: "default" | "alt" | "dark" }) {
-  const color = variant === "dark" ? "255,255,255" : "28,65,247";
+  const color = variant === "dark" ? "255,255,255" : "3,79,70";
   const baseOpacity = variant === "dark" ? 0.04 : 0.03;
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -172,7 +172,7 @@ function Custom3DCursor() {
           data-x="-100" data-y="-100"
           className="fixed top-0 left-0 w-[6px] h-[6px] rounded-full pointer-events-none"
           style={{
-            background: `rgba(28, 65, 247, ${0.2 - i * 0.035})`,
+            background: `rgba(3, 79, 70, ${0.2 - i * 0.035})`,
             zIndex: 9996 - i,
             willChange: 'transform',
           }}
@@ -402,8 +402,8 @@ function HeroSection() {
           </defs>
           <rect width="100%" height="100%" fill="url(#ri-hero-grid)" />
         </svg>
-        <div className="absolute top-[15%] left-[8%] w-72 h-72 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(28,65,247,0.15) 0%, transparent 70%)' }} />
-        <div className="absolute bottom-[10%] right-[12%] w-64 h-64 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(28,65,247,0.12) 0%, transparent 70%)' }} />
+        <div className="absolute top-[15%] left-[8%] w-72 h-72 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(3,79,70,0.15) 0%, transparent 70%)' }} />
+        <div className="absolute bottom-[10%] right-[12%] w-64 h-64 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(3,79,70,0.12) 0%, transparent 70%)' }} />
       </div>
 
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{ transform: `translate(${mousePos.x * -6}px, ${mousePos.y * -6}px)`, transition: 'transform 0.3s ease-out' }}>
@@ -421,7 +421,7 @@ function HeroSection() {
             </div>
 
             <h1
-              className={`text-3xl sm:text-4xl lg:text-[48px] xl:text-[56px] font-bold text-foreground tracking-tight leading-[1.65] mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-3xl sm:text-4xl lg:text-[48px] xl:text-[56px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight leading-[1.65] mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
               data-testid="text-hero-heading"
             >
               Your U.S.–India taxes,
@@ -555,7 +555,7 @@ function RiskCheckSection() {
       <div className="relative max-w-5xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-risk-heading"
           >
             If You Have{" "}
@@ -573,7 +573,7 @@ function RiskCheckSection() {
             return (
               <div
                 key={index}
-                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden p-5 transition-all duration-500 hover:shadow-[0_8px_24px_-4px_rgba(28,65,247,0.1)] hover:border-primary/20 hover:-translate-y-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden p-5 transition-all duration-500 hover:shadow-[0_8px_24px_-4px_rgba(3,79,70,0.1)] hover:border-primary/20 hover:-translate-y-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-risk-${index}`}
               >
@@ -613,7 +613,7 @@ function CoreAreasSection() {
             <span className="text-xs font-semibold text-primary uppercase tracking-[0.15em]">Cross-Border Compliance</span>
           </div>
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-core-heading"
           >
             Core Areas of{" "}
@@ -628,7 +628,7 @@ function CoreAreasSection() {
             return (
               <div
                 key={area.id}
-                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-area-${area.id}`}
               >
@@ -638,7 +638,7 @@ function CoreAreasSection() {
                     <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-primary/20">
                       {area.num}
                     </div>
-                    <h3 className="text-xl font-bold text-foreground" data-testid={`text-area-title-${area.id}`}>{area.title}</h3>
+                    <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground" data-testid={`text-area-title-${area.id}`}>{area.title}</h3>
                   </div>
                   <p className="text-sm text-muted-foreground leading-relaxed mb-4" data-testid={`text-area-desc-${area.id}`}>
                     {area.description}
@@ -666,7 +666,7 @@ function TeamSection() {
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-team-heading"
           >
             We Specialize in{" "}
@@ -683,8 +683,8 @@ function TeamSection() {
             return (
               <div
                 key={member.id}
-                className={`group relative rounded-3xl overflow-hidden transition-all duration-700 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 border border-blue-100/80 dark:border-border/40 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] flex flex-col ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
-                style={{ transitionDelay: `${baseDelay}ms`, background: 'hsl(220 40% 95%)' }}
+                className={`group relative rounded-3xl overflow-hidden transition-all duration-700 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 border border-[#e0e8e5] dark:border-border/40 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] flex flex-col ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+                style={{ transitionDelay: `${baseDelay}ms`, background: 'hsl(171 39% 94%)' }}
                 data-testid={`card-team-${member.id}`}
               >
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -699,7 +699,7 @@ function TeamSection() {
                 </div>
                 <div className="relative mx-3 mb-3 bg-white dark:bg-card rounded-2xl px-5 py-5 shadow-[0_1px_6px_rgba(0,0,0,0.05)] group-hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-shadow duration-500 flex-1 flex flex-col">
                   <h3
-                    className={`text-xl lg:text-2xl font-bold text-foreground leading-tight mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
+                    className={`text-xl lg:text-2xl font-extrabold tracking-[-0.03em] text-foreground leading-tight mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
                     style={{ transitionDelay: `${baseDelay + 200}ms` }}
                     data-testid={`text-team-name-${member.id}`}
                   >
@@ -738,7 +738,7 @@ function LocalTestimonialsSection() {
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-testimonials-heading"
           >
             Trusted by{" "}
@@ -757,7 +757,7 @@ function LocalTestimonialsSection() {
             return (
               <div
                 key={testimonial.id}
-                className={`group relative bg-white dark:bg-card rounded-2xl border border-gray-200 dark:border-border overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+                className={`group relative bg-white dark:bg-card rounded-2xl border border-gray-200 dark:border-border overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-testimonial-${testimonial.id}`}
               >
@@ -820,7 +820,7 @@ function PricingSection() {
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-pricing-heading"
           >
             Everything included.{" "}
@@ -851,8 +851,8 @@ function PricingSection() {
                 key={plan.id}
                 className={`group relative bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-700 ease-out ${
                   plan.featured
-                    ? 'border-2 border-primary shadow-[0_8px_32px_-4px_rgba(28,65,247,0.15)] md:-translate-y-4 hover:shadow-[0_16px_48px_-8px_rgba(28,65,247,0.22)] hover:-translate-y-5'
-                    : 'border border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5'
+                    ? 'border-2 border-primary shadow-[0_8px_32px_-4px_rgba(3,79,70,0.15)] md:-translate-y-4 hover:shadow-[0_16px_48px_-8px_rgba(3,79,70,0.22)] hover:-translate-y-5'
+                    : 'border border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5'
                 } ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-plan-${plan.id}`}
@@ -874,7 +874,7 @@ function PricingSection() {
                 )}
 
                 <div className={`p-7 lg:p-8 ${plan.featured ? 'pt-10' : ''}`}>
-                  <h3 className="text-xl font-bold text-foreground mb-1" data-testid={`text-plan-name-${plan.id}`}>
+                  <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground mb-1" data-testid={`text-plan-name-${plan.id}`}>
                     {plan.name}
                   </h3>
                   <p className="text-xs text-muted-foreground mb-5" data-testid={`text-plan-subtitle-${plan.id}`}>
@@ -964,7 +964,7 @@ function UrgencySection() {
             return (
               <div
                 key={index}
-                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden p-6 text-center transition-all duration-500 hover:shadow-[0_8px_24px_-4px_rgba(28,65,247,0.1)] hover:border-primary/20 hover:-translate-y-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden p-6 text-center transition-all duration-500 hover:shadow-[0_8px_24px_-4px_rgba(3,79,70,0.1)] hover:border-primary/20 hover:-translate-y-1 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-urgency-${index}`}
               >
@@ -992,7 +992,7 @@ function FAQSection() {
       <div className="relative max-w-3xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-faq-heading"
           >
             Frequently{" "}
@@ -1006,7 +1006,7 @@ function FAQSection() {
             return (
               <div
                 key={index}
-                className={`group relative bg-white rounded-2xl border overflow-hidden transition-all duration-500 ease-out ${isOpen ? 'border-primary/20 shadow-[0_8px_30px_-6px_rgba(28,65,247,0.1)]' : 'border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] hover:border-primary/15 hover:shadow-[0_6px_24px_-4px_rgba(28,65,247,0.08)]'} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
+                className={`group relative bg-white rounded-2xl border overflow-hidden transition-all duration-500 ease-out ${isOpen ? 'border-primary/20 shadow-[0_8px_30px_-6px_rgba(3,79,70,0.1)]' : 'border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] hover:border-primary/15 hover:shadow-[0_6px_24px_-4px_rgba(3,79,70,0.08)]'} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
                 style={{ transitionDelay: `${200 + index * 80}ms` }}
                 data-testid={`card-faq-${index}`}
               >
@@ -1052,8 +1052,8 @@ function CTASection() {
     <section ref={ref} className="relative py-24 lg:py-32 overflow-hidden" data-testid="section-cta">
       <div className="absolute inset-0 bg-foreground" />
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(28,65,247,0.15) 0%, transparent 70%)' }} />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 60% at 80% 100%, rgba(28,65,247,0.08) 0%, transparent 60%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(3,79,70,0.15) 0%, transparent 70%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 60% at 80% 100%, rgba(3,79,70,0.08) 0%, transparent 60%)' }} />
         <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.03 }}>
           <defs>
             <pattern id="ri-cta-grid" width="40" height="40" patternUnits="userSpaceOnUse">
@@ -1064,17 +1064,17 @@ function CTASection() {
         </svg>
       </div>
 
-      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(28,65,247,0.3) 50%, transparent)' }} />
+      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(3,79,70,0.3) 50%, transparent)' }} />
 
       <div className="relative max-w-3xl mx-auto px-6 text-center">
         <h2
-          className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+          className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-white tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           data-testid="text-cta-heading"
         >
           Don't Guess With{" "}
           <span className="relative">
             Cross-Border Taxes.
-            <span className="absolute -bottom-2 left-0 right-0 h-[3px] rounded-full" style={{ background: 'linear-gradient(90deg, rgba(28,65,247,0.8), rgba(28,65,247,0.2))' }} />
+            <span className="absolute -bottom-2 left-0 right-0 h-[3px] rounded-full" style={{ background: 'linear-gradient(90deg, rgba(3,79,70,0.8), rgba(3,79,70,0.2))' }} />
           </span>
         </h2>
 
@@ -1115,7 +1115,7 @@ function CTASection() {
 function RiFooter() {
   return (
     <footer className="relative bg-foreground overflow-hidden" data-testid="section-footer">
-      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(28,65,247,0.2) 50%, transparent)' }} />
+      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(3,79,70,0.2) 50%, transparent)' }} />
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">

@@ -18,7 +18,7 @@ import { useState, useEffect, useRef, useCallback } from "react";
 import { Helmet } from "react-helmet";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
-import lesserLogo from "@assets/lesser_blue_logo_1770346541058.png";
+import lesserLogo from "@assets/lesser_logo.png";
 import teamDavidImg from "@assets/team_david_clean.png";
 import teamVishweshImg from "@assets/team_vishwesh_clean.png";
 import teamJithendraImg from "@assets/team_jithendra_clean.png";
@@ -38,7 +38,7 @@ function createRipple(e: React.MouseEvent<HTMLElement>) {
 
 
 function SectionDecorations({ variant = "default" }: { variant?: "default" | "alt" | "dark" }) {
-  const color = variant === "dark" ? "255,255,255" : "28,65,247";
+  const color = variant === "dark" ? "255,255,255" : "3,79,70";
   const baseOpacity = variant === "dark" ? 0.04 : 0.03;
   return (
     <div className="absolute inset-0 overflow-hidden pointer-events-none" aria-hidden="true">
@@ -163,7 +163,7 @@ function Custom3DCursor() {
           data-x="-100" data-y="-100"
           className="fixed top-0 left-0 w-[6px] h-[6px] rounded-full pointer-events-none"
           style={{
-            background: `rgba(28, 65, 247, ${0.2 - i * 0.035})`,
+            background: `rgba(3, 79, 70, ${0.2 - i * 0.035})`,
             zIndex: 9996 - i,
             willChange: 'transform',
           }}
@@ -414,15 +414,15 @@ function NextdoorHeroBackground() {
         <rect width="100%" height="100%" fill="url(#nextdoor-hero-grid)" style={{ animation: 'hero-grid-draw 2s ease-out forwards' }} />
       </svg>
 
-      <div className="absolute top-[15%] left-[8%] w-72 h-72 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(28,65,247,0.15) 0%, transparent 70%)', animation: 'hero-glow-pulse 6s ease-in-out infinite' }} />
-      <div className="absolute bottom-[10%] right-[5%] w-96 h-96 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(28,65,247,0.12) 0%, transparent 70%)', animation: 'hero-glow-pulse 8s ease-in-out infinite 2s' }} />
-      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(28,65,247,0.08) 0%, transparent 60%)', animation: 'hero-glow-pulse 10s ease-in-out infinite 1s' }} />
+      <div className="absolute top-[15%] left-[8%] w-72 h-72 rounded-full opacity-20" style={{ background: 'radial-gradient(circle, rgba(3,79,70,0.15) 0%, transparent 70%)', animation: 'hero-glow-pulse 6s ease-in-out infinite' }} />
+      <div className="absolute bottom-[10%] right-[5%] w-96 h-96 rounded-full opacity-15" style={{ background: 'radial-gradient(circle, rgba(3,79,70,0.12) 0%, transparent 70%)', animation: 'hero-glow-pulse 8s ease-in-out infinite 2s' }} />
+      <div className="absolute top-[50%] left-[50%] -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] rounded-full opacity-10" style={{ background: 'radial-gradient(circle, rgba(3,79,70,0.08) 0%, transparent 60%)', animation: 'hero-glow-pulse 10s ease-in-out infinite 1s' }} />
 
       <div className="absolute top-[20%] right-[15%]" style={{ animation: 'hero-float-1 8s ease-in-out infinite' }}>
-        <div className="w-16 h-16 rounded-2xl border border-primary/10 bg-primary/[0.03] backdrop-blur-sm rotate-12" style={{ boxShadow: '0 8px 32px rgba(28,65,247,0.06)' }} />
+        <div className="w-16 h-16 rounded-2xl border border-primary/10 bg-primary/[0.03] backdrop-blur-sm rotate-12" style={{ boxShadow: '0 8px 32px rgba(3,79,70,0.06)' }} />
       </div>
       <div className="absolute bottom-[25%] left-[10%]" style={{ animation: 'hero-float-2 10s ease-in-out infinite' }}>
-        <div className="w-12 h-12 rounded-xl border border-primary/8 bg-primary/[0.02] backdrop-blur-sm -rotate-6" style={{ boxShadow: '0 8px 32px rgba(28,65,247,0.04)' }} />
+        <div className="w-12 h-12 rounded-xl border border-primary/8 bg-primary/[0.02] backdrop-blur-sm -rotate-6" style={{ boxShadow: '0 8px 32px rgba(3,79,70,0.04)' }} />
       </div>
       <div className="absolute top-[35%] left-[20%]" style={{ animation: 'hero-float-3 12s ease-in-out infinite' }}>
         <div className="w-8 h-8 rounded-lg border border-primary/6 bg-primary/[0.02] rotate-45" />
@@ -478,7 +478,7 @@ function HeroSection() {
       <NextdoorHeroBackground />
 
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true" style={{ transform: `translate(${mousePos.x * -8}px, ${mousePos.y * -8}px)`, transition: 'transform 0.3s ease-out' }}>
-        <div className="absolute top-[18%] right-[18%] w-20 h-20 rounded-2xl border border-primary/8 bg-gradient-to-br from-primary/[0.04] to-transparent rotate-12" style={{ boxShadow: '0 12px 40px rgba(28,65,247,0.06)' }} />
+        <div className="absolute top-[18%] right-[18%] w-20 h-20 rounded-2xl border border-primary/8 bg-gradient-to-br from-primary/[0.04] to-transparent rotate-12" style={{ boxShadow: '0 12px 40px rgba(3,79,70,0.06)' }} />
         <div className="absolute bottom-[22%] left-[15%] w-14 h-14 rounded-xl border border-primary/6 bg-gradient-to-br from-primary/[0.03] to-transparent -rotate-12" />
       </div>
 
@@ -494,7 +494,7 @@ function HeroSection() {
           </div>
 
           <h1
-            className="hero-text-reveal text-4xl sm:text-5xl lg:text-[75px] font-bold text-foreground tracking-tight mb-8"
+            className="hero-text-reveal text-4xl sm:text-5xl lg:text-[75px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-8"
             data-testid="text-nextdoor-hero-heading"
           >
             Tax Filing & Strategic Planning for
@@ -581,13 +581,13 @@ function CompensationCard({ item, index, isVisible }: { item: typeof compensatio
           transition: 'transform 0.15s ease-out, box-shadow 0.4s ease-out',
           transformStyle: 'preserve-3d',
           boxShadow: isHovered
-            ? '0 20px 60px -12px rgba(28,65,247,0.15), 0 0 0 1px rgba(28,65,247,0.1)'
+            ? '0 20px 60px -12px rgba(3,79,70,0.15), 0 0 0 1px rgba(3,79,70,0.1)'
             : '0 4px 16px -4px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.04)',
         }}
       >
         <div className="absolute inset-0 rounded-2xl opacity-0 transition-opacity duration-500" style={{
           opacity: isHovered ? 0.08 : 0,
-          background: `radial-gradient(circle at ${50 + tilt.y * 8}% ${50 + tilt.x * -8}%, rgba(28,65,247,0.4) 0%, transparent 60%)`,
+          background: `radial-gradient(circle at ${50 + tilt.y * 8}% ${50 + tilt.x * -8}%, rgba(3,79,70,0.4) 0%, transparent 60%)`,
         }} />
 
         <div className="relative bg-white p-7 lg:p-8 h-full">
@@ -596,16 +596,16 @@ function CompensationCard({ item, index, isVisible }: { item: typeof compensatio
               className="relative w-14 h-14 rounded-2xl flex items-center justify-center flex-shrink-0 transition-all duration-500"
               style={{
                 background: isHovered
-                  ? 'linear-gradient(135deg, rgba(28,65,247,0.15) 0%, rgba(28,65,247,0.05) 100%)'
-                  : 'rgba(28,65,247,0.06)',
+                  ? 'linear-gradient(135deg, rgba(3,79,70,0.15) 0%, rgba(3,79,70,0.05) 100%)'
+                  : 'rgba(3,79,70,0.06)',
                 transform: isHovered ? `translateZ(20px) rotate(${tilt.y * 0.5}deg)` : 'translateZ(0)',
               }}
             >
               <IconComponent className="w-6 h-6 text-primary" />
-              <div className="absolute inset-0 rounded-2xl border border-primary/10 transition-colors duration-500" style={{ borderColor: isHovered ? 'rgba(28,65,247,0.2)' : 'rgba(28,65,247,0.08)' }} />
+              <div className="absolute inset-0 rounded-2xl border border-primary/10 transition-colors duration-500" style={{ borderColor: isHovered ? 'rgba(3,79,70,0.2)' : 'rgba(3,79,70,0.08)' }} />
             </div>
             <div>
-              <h3 className="text-lg font-bold text-foreground leading-tight" data-testid={`text-comp-title-${index}`}>{item.title}</h3>
+              <h3 className="text-lg font-extrabold tracking-[-0.03em] text-foreground leading-tight" data-testid={`text-comp-title-${index}`}>{item.title}</h3>
               <p className="text-xs text-muted-foreground mt-0.5">{item.subtitle}</p>
             </div>
           </div>
@@ -632,8 +632,8 @@ function CompensationSection() {
   return (
     <section ref={ref} className="relative py-20 lg:py-28 bg-muted/20 overflow-hidden" data-testid="section-compensation">
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 50% 50% at 80% 20%, rgba(28,65,247,0.03) 0%, transparent 70%)' }} />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 40% 40% at 20% 80%, rgba(28,65,247,0.02) 0%, transparent 70%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 50% 50% at 80% 20%, rgba(3,79,70,0.03) 0%, transparent 70%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 40% 40% at 20% 80%, rgba(3,79,70,0.02) 0%, transparent 70%)' }} />
       </div>
 
       <div className="relative max-w-7xl mx-auto px-6">
@@ -643,7 +643,7 @@ function CompensationSection() {
             <span className="text-xs font-semibold text-primary uppercase tracking-[0.15em]" data-testid="text-compensation-badge">Your Compensation Is Different</span>
           </div>
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-compensation-heading"
           >
             Your Income Isn't Just a{" "}
@@ -664,7 +664,7 @@ function CompensationSection() {
         </div>
 
         <div className={`text-center mt-14 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-          <div className="inline-flex flex-col items-center gap-2 bg-white rounded-2xl border border-primary/15 shadow-[0_8px_32px_-4px_rgba(28,65,247,0.08)] px-8 py-6">
+          <div className="inline-flex flex-col items-center gap-2 bg-white rounded-2xl border border-primary/15 shadow-[0_8px_32px_-4px_rgba(3,79,70,0.08)] px-8 py-6">
             <p className="text-xs text-muted-foreground" data-testid="text-equity-tagline">This isn't generic tax prep.</p>
             <p className="text-base font-bold text-primary" data-testid="text-equity-tagline-bold">This is equity-aware tax strategy.</p>
           </div>
@@ -686,7 +686,7 @@ function EquityStrategiesSection() {
             <span className="text-xs font-semibold text-primary uppercase tracking-[0.15em]">Advanced Equity Strategies</span>
           </div>
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-strategies-heading"
           >
             Built for <span className="text-primary italic">Equity-Heavy</span> Professionals
@@ -699,7 +699,7 @@ function EquityStrategiesSection() {
             return (
               <div
                 key={index}
-                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+                className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-strategy-${index}`}
               >
@@ -709,7 +709,7 @@ function EquityStrategiesSection() {
                   <div className="w-12 h-12 rounded-xl bg-primary/8 flex items-center justify-center mb-5 group-hover:bg-primary/12 transition-colors duration-300">
                     <strategy.icon className="w-6 h-6 text-primary" strokeWidth={1.5} />
                   </div>
-                  <h3 className="font-bold text-foreground text-base mb-2" data-testid={`text-strategy-title-${index}`}>
+                  <h3 className="font-extrabold tracking-[-0.03em] text-foreground text-base mb-2" data-testid={`text-strategy-title-${index}`}>
                     {strategy.title}
                   </h3>
                   <p className="text-sm text-muted-foreground leading-relaxed" data-testid={`text-strategy-desc-${index}`}>
@@ -734,7 +734,7 @@ function TeamSection() {
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-team-heading"
           >
             Year-round support from{" "}
@@ -748,8 +748,8 @@ function TeamSection() {
             return (
               <div
                 key={member.id}
-                className={`group relative rounded-3xl overflow-hidden transition-all duration-700 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 border border-blue-100/80 dark:border-border/40 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] flex flex-col ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
-                style={{ transitionDelay: `${baseDelay}ms`, background: 'hsl(220 40% 95%)' }}
+                className={`group relative rounded-3xl overflow-hidden transition-all duration-700 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 border border-[#e0e8e5] dark:border-border/40 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] flex flex-col ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+                style={{ transitionDelay: `${baseDelay}ms`, background: 'hsl(171 39% 94%)' }}
                 data-testid={`card-team-${member.id}`}
               >
                 <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
@@ -765,7 +765,7 @@ function TeamSection() {
                 </div>
                 <div className="relative mx-3 mb-3 bg-white dark:bg-card rounded-2xl px-5 py-5 shadow-[0_1px_6px_rgba(0,0,0,0.05)] group-hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-shadow duration-500 flex-1 flex flex-col">
                   <h3
-                    className={`text-xl lg:text-2xl font-bold text-foreground leading-tight mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
+                    className={`text-xl lg:text-2xl font-extrabold tracking-[-0.03em] text-foreground leading-tight mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
                     style={{ transitionDelay: `${baseDelay + 200}ms` }}
                     data-testid={`text-team-name-${member.id}`}
                   >
@@ -804,7 +804,7 @@ function TestimonialsSection() {
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="text-center mb-16">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-testimonials-heading"
           >
             Trusted by{" "}
@@ -824,7 +824,7 @@ function TestimonialsSection() {
             return (
               <div
                 key={testimonial.id}
-                className={`group relative bg-white dark:bg-card rounded-2xl border border-gray-200 dark:border-border overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+                className={`group relative bg-white dark:bg-card rounded-2xl border border-gray-200 dark:border-border overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-testimonial-${testimonial.id}`}
               >
@@ -901,7 +901,7 @@ function HowItWorksSection() {
             <span className="text-xs font-semibold text-primary uppercase tracking-[0.15em]">How It Works</span>
           </div>
           <h2
-            className={`text-3xl sm:text-4xl lg:text-[52px] lg:leading-[1.1] font-bold text-foreground tracking-tight mb-4 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-[52px] lg:leading-[1.1] font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-how-it-works-heading"
           >
             Simple. Structured.{" "}
@@ -914,7 +914,7 @@ function HowItWorksSection() {
 
         <div className="grid lg:grid-cols-3 gap-8 lg:gap-6">
           <div
-            className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+            className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
             style={{ transitionDelay: '300ms' }}
             data-testid="card-step-0"
           >
@@ -924,7 +924,7 @@ function HowItWorksSection() {
                 <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-primary/20">
                   01
                 </div>
-                <h3 className="text-xl font-bold text-foreground" data-testid="text-step-0-title">{howItWorksSteps[0].title}</h3>
+                <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-step-0-title">{howItWorksSteps[0].title}</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6" data-testid="text-step-0-desc">
                 {howItWorksSteps[0].desc}
@@ -950,7 +950,7 @@ function HowItWorksSection() {
           </div>
 
           <div
-            className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+            className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
             style={{ transitionDelay: '450ms' }}
             data-testid="card-step-1"
           >
@@ -960,7 +960,7 @@ function HowItWorksSection() {
                 <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-primary/20">
                   02
                 </div>
-                <h3 className="text-xl font-bold text-foreground" data-testid="text-step-1-title">{howItWorksSteps[1].title}</h3>
+                <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-step-1-title">{howItWorksSteps[1].title}</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6" data-testid="text-step-1-desc">
                 {howItWorksSteps[1].desc}
@@ -994,7 +994,7 @@ function HowItWorksSection() {
           </div>
 
           <div
-            className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
+            className={`group relative bg-white rounded-2xl border border-gray-200 overflow-hidden shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] transition-all duration-700 ease-out hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
             style={{ transitionDelay: '600ms' }}
             data-testid="card-step-2"
           >
@@ -1004,7 +1004,7 @@ function HowItWorksSection() {
                 <div className="w-10 h-10 rounded-xl bg-primary text-white flex items-center justify-center text-sm font-bold shadow-lg shadow-primary/20">
                   03
                 </div>
-                <h3 className="text-xl font-bold text-foreground" data-testid="text-step-2-title">{howItWorksSteps[2].title}</h3>
+                <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-step-2-title">{howItWorksSteps[2].title}</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6" data-testid="text-step-2-desc">
                 {howItWorksSteps[2].desc}
@@ -1019,7 +1019,7 @@ function HowItWorksSection() {
                     <p className="text-sm font-semibold text-foreground" data-testid="text-status-review">CPA Review Complete</p>
                     <p className="text-[11px] text-muted-foreground">Your return has been verified</p>
                   </div>
-                  <CheckCircle2 className="w-5 h-5 text-emerald-500 ml-auto flex-shrink-0" />
+                  <CheckCircle2 className="w-5 h-5 text-emerald-600 ml-auto flex-shrink-0" />
                 </div>
 
                 <div className="flex items-center gap-3 p-3.5 rounded-xl bg-primary/[0.04] border border-primary/10">
@@ -1076,7 +1076,7 @@ function PricingSection() {
       <div className="relative max-w-7xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-pricing-heading"
           >
             Transparent, <span className="text-primary italic">Flat-Fee</span> Pricing
@@ -1106,8 +1106,8 @@ function PricingSection() {
                 key={plan.id}
                 className={`group relative bg-white rounded-2xl overflow-hidden flex flex-col transition-all duration-700 ease-out ${
                   plan.featured
-                    ? 'border-2 border-primary shadow-[0_8px_32px_-4px_rgba(28,65,247,0.15)] md:-translate-y-4 hover:shadow-[0_16px_48px_-8px_rgba(28,65,247,0.22)] hover:-translate-y-5'
-                    : 'border border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_-8px_rgba(28,65,247,0.12)] hover:border-primary/30 hover:-translate-y-1.5'
+                    ? 'border-2 border-primary shadow-[0_8px_32px_-4px_rgba(3,79,70,0.15)] md:-translate-y-4 hover:shadow-[0_16px_48px_-8px_rgba(3,79,70,0.22)] hover:-translate-y-5'
+                    : 'border border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 hover:-translate-y-1.5'
                 } ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
                 style={{ transitionDelay: `${baseDelay}ms` }}
                 data-testid={`card-plan-${plan.id}`}
@@ -1129,7 +1129,7 @@ function PricingSection() {
                 )}
 
                 <div className={`p-7 lg:p-8 ${plan.featured ? 'pt-10' : ''}`}>
-                  <h3 className="text-xl font-bold text-foreground mb-1" data-testid={`text-plan-name-${plan.id}`}>
+                  <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground mb-1" data-testid={`text-plan-name-${plan.id}`}>
                     {plan.name}
                   </h3>
                   <p className="text-xs text-muted-foreground mb-5" data-testid={`text-plan-subtitle-${plan.id}`}>
@@ -1209,7 +1209,7 @@ function FAQSection() {
       <div className="relative max-w-3xl mx-auto px-6">
         <div className="text-center mb-14">
           <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-5 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-5 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-faq-heading"
           >
             Frequently Asked{" "}
@@ -1227,7 +1227,7 @@ function FAQSection() {
             return (
               <div
                 key={index}
-                className={`group relative bg-white rounded-2xl border overflow-hidden transition-all duration-500 ease-out ${isOpen ? 'border-primary/20 shadow-[0_8px_30px_-6px_rgba(28,65,247,0.1)]' : 'border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] hover:border-primary/15 hover:shadow-[0_6px_24px_-4px_rgba(28,65,247,0.08)]'} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
+                className={`group relative bg-white rounded-2xl border overflow-hidden transition-all duration-500 ease-out ${isOpen ? 'border-primary/20 shadow-[0_8px_30px_-6px_rgba(3,79,70,0.1)]' : 'border-gray-200 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.04)] hover:border-primary/15 hover:shadow-[0_6px_24px_-4px_rgba(3,79,70,0.08)]'} ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-5'}`}
                 style={{ transitionDelay: `${200 + index * 80}ms` }}
                 data-testid={`card-faq-${index}`}
               >
@@ -1274,8 +1274,8 @@ function CTASection() {
       <div className="absolute inset-0 bg-foreground" />
 
       <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(28,65,247,0.15) 0%, transparent 70%)' }} />
-        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 60% at 80% 100%, rgba(28,65,247,0.08) 0%, transparent 60%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 80% 50% at 50% 0%, rgba(3,79,70,0.15) 0%, transparent 70%)' }} />
+        <div className="absolute inset-0" style={{ background: 'radial-gradient(ellipse 60% 60% at 80% 100%, rgba(3,79,70,0.08) 0%, transparent 60%)' }} />
 
         <svg className="absolute inset-0 w-full h-full" style={{ opacity: 0.03 }}>
           <defs>
@@ -1287,18 +1287,18 @@ function CTASection() {
         </svg>
       </div>
 
-      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(28,65,247,0.3) 50%, transparent)' }} />
+      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(3,79,70,0.3) 50%, transparent)' }} />
 
       <div className="relative max-w-3xl mx-auto px-6 text-center">
         <h2
-          className={`text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+          className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-white tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           data-testid="text-cta-heading"
         >
           Stop letting taxes dictate your
           <br />
           <span className="relative">
             diversification decisions.
-            <span className="absolute -bottom-2 left-0 right-0 h-[3px] rounded-full" style={{ background: 'linear-gradient(90deg, rgba(28,65,247,0.8), rgba(28,65,247,0.2))' }} />
+            <span className="absolute -bottom-2 left-0 right-0 h-[3px] rounded-full" style={{ background: 'linear-gradient(90deg, rgba(3,79,70,0.8), rgba(3,79,70,0.2))' }} />
           </span>
         </h2>
 
@@ -1339,7 +1339,7 @@ function CTASection() {
 function NextdoorFooter() {
   return (
     <footer className="relative bg-foreground overflow-hidden" data-testid="section-footer">
-      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(28,65,247,0.2) 50%, transparent)' }} />
+      <div className="absolute inset-x-0 top-0 h-px" style={{ background: 'linear-gradient(90deg, transparent, rgba(3,79,70,0.2) 50%, transparent)' }} />
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">

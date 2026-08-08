@@ -2,59 +2,67 @@
 @tailwind components;
 @tailwind utilities;
 
-/* LIGHT MODE - Blue theme with white background */
+/* LESSER BRAND THEME — warm cream page, white cards, one deep-teal green.
+   HSL triples below are exact conversions of the brand hexes (verified by
+   round-tripping back to hex), NOT the approximations printed in the
+   theme-transfer guide. See docs/THEME.md for the two corrections. */
 :root {
   --button-outline: rgba(0,0,0, .10);
   --badge-outline: rgba(0,0,0, .05);
   --opaque-button-border-intensity: -8;
   --elevate-1: rgba(0,0,0, .03);
   --elevate-2: rgba(0,0,0, .08);
-  --background: 0 0% 100%;
-  --foreground: 222 47% 11%;
-  --border: 214 32% 91%;
-  --card: 0 0% 100%;
-  --card-foreground: 222 47% 11%;
-  --card-border: 214 32% 91%;
-  --sidebar: 250 40% 98%;
-  --sidebar-foreground: 222 47% 11%;
-  --sidebar-border: 214 32% 91%;
-  --sidebar-primary: 230 93% 54%;
+  --background: 48 50% 96%;             /* #faf8f0 cream page */
+  --foreground: 0 0% 10%;               /* #1a1a1a */
+  --border: 0 0% 88%;                   /* #e0e0e0 */
+  --card: 0 0% 100%;                    /* white cards on cream */
+  --card-foreground: 0 0% 10%;          /* #1a1a1a */
+  --card-border: 158 15% 89%;           /* #e0e8e5 green-tinted */
+  --sidebar: 0 0% 100%;
+  --sidebar-foreground: 0 0% 10%;
+  --sidebar-border: 0 0% 88%;
+  --sidebar-primary: 173 93% 16%;       /* #034f46 */
   --sidebar-primary-foreground: 0 0% 100%;
-  --sidebar-accent: 230 40% 96%;
-  --sidebar-accent-foreground: 222 47% 11%;
-  --sidebar-ring: 230 93% 54%;
+  --sidebar-accent: 171 30% 95%;        /* #f0f7f6 */
+  --sidebar-accent-foreground: 173 93% 16%;
+  --sidebar-ring: 173 93% 16%;
   --popover: 0 0% 100%;
-  --popover-foreground: 222 47% 11%;
-  --popover-border: 214 32% 91%;
-  --primary: 230 93% 54%;
+  --popover-foreground: 0 0% 10%;
+  --popover-border: 0 0% 88%;
+  --primary: 173 93% 16%;               /* #034f46 brand green */
   --primary-foreground: 0 0% 100%;
-  --secondary: 230 40% 96%;
-  --secondary-foreground: 222 47% 11%;
-  --muted: 230 20% 96%;
-  --muted-foreground: 215 16% 47%;
-  --accent: 230 30% 94%;
-  --accent-foreground: 222 47% 11%;
-  --destructive: 0 84% 60%;
+  --secondary: 171 30% 95%;             /* #f0f7f6 subtle tint */
+  --secondary-foreground: 173 93% 16%;
+  --muted: 0 0% 96%;                    /* #f5f5f5 neutral fill */
+  --muted-foreground: 220 9% 46%;       /* #6b7280 */
+  --accent: 171 39% 94%;                /* #e8f5f3 hero tint */
+  --accent-foreground: 173 93% 16%;
+  --destructive: 0 72% 51%;             /* #dc2626 */
   --destructive-foreground: 0 0% 100%;
-  --input: 214 32% 91%;
-  --ring: 230 93% 54%;
-  --chart-1: 230 93% 54%;
-  --chart-2: 210 83% 58%;
-  --chart-3: 230 58% 50%;
-  --chart-4: 220 37% 24%;
+  --success: 161 94% 30%;               /* #059669 — semantic success ONLY */
+  --success-foreground: 0 0% 100%;
+  --input: 0 0% 88%;
+  --ring: 173 93% 16%;
+  --chart-1: 173 93% 16%;               /* brand green ramp */
+  --chart-2: 172 87% 22%;
+  --chart-3: 161 94% 30%;
+  --chart-4: 171 39% 74%;
   --chart-5: 43 74% 66%;
-  --font-sans: 'Roboto', ui-sans-serif, system-ui, sans-serif;
-  --font-serif: 'Roboto', Georgia, serif;
+  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  /* NOTE: font-serif is deliberately NOT a serif — it is the bold display
+     class (Jakarta 800). Use .font-eb-garamond for a real serif. */
+  --font-serif: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-eb-garamond: 'EB Garamond', Georgia, serif;
   --font-mono: Menlo, monospace;
-  --radius: .5rem;
-  --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow-xs: 0 1px 3px 0 rgb(0 0 0 / 0.1);
-  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
-  --shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
-  --shadow-xl: 0 20px 25px -5px rgb(0 0 0 / 0.1), 0 8px 10px -6px rgb(0 0 0 / 0.1);
-  --shadow-2xl: 0 25px 50px -12px rgb(0 0 0 / 0.25);
+  --radius: .75rem;
+  --shadow-2xs: 0 1px 2px 0 rgb(2 6 23 / 0.04);
+  --shadow-xs: 0 1px 3px 0 rgb(2 6 23 / 0.06);
+  --shadow-sm: 0 1px 3px 0 rgb(2 6 23 / 0.04), 0 1px 2px -1px rgb(2 6 23 / 0.06);
+  --shadow: 0 1px 3px 0 rgb(2 6 23 / 0.06), 0 1px 2px -1px rgb(2 6 23 / 0.06);
+  --shadow-md: 0 4px 6px -1px rgb(2 6 23 / 0.07), 0 2px 4px -2px rgb(2 6 23 / 0.06);
+  --shadow-lg: 0 10px 30px -12px rgb(2 6 23 / 0.12);
+  --shadow-xl: 0 20px 25px -5px rgb(2 6 23 / 0.10), 0 8px 10px -6px rgb(2 6 23 / 0.06);
+  --shadow-2xl: 0 25px 50px -12px rgb(2 6 23 / 0.18);
   --tracking-normal: 0em;
   --spacing: 0.25rem;
 
@@ -102,29 +110,31 @@
   --sidebar: 222 47% 10%;
   --sidebar-foreground: 210 40% 98%;
   --sidebar-border: 217 33% 17%;
-  --sidebar-primary: 230 93% 54%;
+  --sidebar-primary: 172 87% 22%;
   --sidebar-primary-foreground: 0 0% 100%;
   --sidebar-accent: 217 33% 17%;
   --sidebar-accent-foreground: 210 40% 98%;
-  --sidebar-ring: 230 93% 54%;
+  --sidebar-ring: 172 87% 22%;
   --popover: 222 47% 8%;
   --popover-foreground: 210 40% 98%;
   --popover-border: 217 33% 17%;
-  --primary: 230 93% 54%;
+  --primary: 172 87% 22%;
   --primary-foreground: 0 0% 100%;
   --secondary: 217 33% 17%;
   --secondary-foreground: 210 40% 98%;
   --muted: 217 33% 17%;
   --muted-foreground: 215 20% 65%;
-  --accent: 230 30% 15%;
+  --accent: 173 40% 15%;
   --accent-foreground: 210 40% 98%;
   --destructive: 0 62% 30%;
   --destructive-foreground: 210 40% 98%;
+  --success: 161 94% 30%;
+  --success-foreground: 0 0% 100%;
   --input: 217 33% 17%;
-  --ring: 230 93% 54%;
-  --chart-1: 230 93% 60%;
-  --chart-2: 210 83% 68%;
-  --chart-3: 230 58% 55%;
+  --ring: 172 87% 22%;
+  --chart-1: 172 87% 30%;
+  --chart-2: 161 94% 36%;
+  --chart-3: 171 39% 60%;
   --chart-4: 220 37% 54%;
   --chart-5: 43 74% 66%;
   --shadow-2xs: 0 1px 2px 0 rgb(0 0 0 / 0.05);
@@ -172,6 +182,131 @@
 
   body {
     @apply font-sans antialiased bg-background text-foreground;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+
+  /* Every heading is 800 weight on -0.03em tracking. This tight-tracked
+     ultra-bold is the single most recognisable part of the brand. */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    color: hsl(var(--foreground));
+  }
+
+  /* font-serif is remapped to the bold display sans — NOT an actual serif. */
+  .font-serif {
+    font-family: var(--font-sans) !important;
+    font-weight: 800 !important;
+    letter-spacing: -0.03em;
+  }
+
+  /* The real serif accent. Class-based on purpose so it survives any
+     nonce-CSP that strips inline style={{ fontFamily }} attributes. */
+  .font-eb-garamond {
+    font-family: var(--font-eb-garamond) !important;
+  }
+}
+
+/* ── Brand surfaces ──────────────────────────────────────────── */
+@layer components {
+  .glass-card {
+    @apply border border-[#e0e0e0]/80 bg-white/90 shadow-sm backdrop-blur-sm;
+    border-radius: 20px;
+  }
+  .glass-card-accent {
+    @apply relative overflow-hidden;
+  }
+  .glass-card-accent::before {
+    content: "";
+    @apply absolute bottom-0 left-0 top-0 w-[3px];
+    background: linear-gradient(180deg, rgba(3, 79, 70, 0.3) 0%, transparent 100%);
+  }
+
+  /* The ::before gloss on the top half is what makes these read as
+     physical objects rather than flat rectangles. */
+  .btn-primary-green {
+    @apply relative overflow-hidden bg-[#034f46] font-semibold text-white;
+    border-radius: 12px;
+    border: 1.5px solid #023d35;
+    letter-spacing: -0.01em;
+  }
+  .btn-primary-green::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-1/2;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  }
+  .btn-primary-green:hover {
+    @apply bg-[#023d35];
+  }
+
+  .btn-primary-black {
+    @apply relative overflow-hidden bg-[#1a1a1a] font-semibold text-white;
+    border-radius: 12px;
+    border: 1.5px solid #111111;
+    letter-spacing: -0.01em;
+  }
+  .btn-primary-black::before {
+    content: "";
+    @apply pointer-events-none absolute inset-x-0 top-0 h-1/2;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.1) 0%, transparent 100%);
+  }
+  .btn-primary-black:hover {
+    @apply bg-[#333333];
+  }
+
+  .btn-secondary-green {
+    @apply rounded-full bg-[#034f46] font-semibold text-white;
+    border: 1.5px solid #023d35;
+  }
+  .btn-secondary-green:hover {
+    @apply bg-[#023d36];
+  }
+
+  .text-heading {
+    font-family: var(--font-sans);
+    font-weight: 800;
+    letter-spacing: -0.03em;
+    @apply text-[#1a1a1a];
+  }
+  .text-body {
+    font-family: var(--font-sans);
+    letter-spacing: -0.01em;
+    @apply text-[#374151];
+  }
+
+  /* Uppercase eyebrow above section titles. */
+  .eyebrow {
+    @apply text-[12px] font-bold uppercase tracking-[0.08em] text-[#4b5563];
+  }
+}
+
+/* ── Ambient page texture — reads as paper, not decoration ───── */
+@layer components {
+  .bg-grain {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.015;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
+  }
+  .bg-dot-grid {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.03;
+    background-image: radial-gradient(circle, #000 1px, transparent 1px);
+    background-size: 24px 24px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .bg-grain,
+  .bg-dot-grid {
+    display: none;
   }
 }
 
@@ -492,7 +627,7 @@
   position: relative;
   transform-style: preserve-3d;
   transition: transform 0.3s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.3s ease;
-  box-shadow: 0 4px 15px -3px rgba(28, 65, 247, 0.3), 0 8px 25px -5px rgba(28, 65, 247, 0.15);
+  box-shadow: 0 4px 15px -3px rgba(3, 79, 70, 0.3), 0 8px 25px -5px rgba(3, 79, 70, 0.15);
 }
 .hero-btn-3d:hover {
   transform: translateY(-3px) scale(1.03);
@@ -518,12 +653,12 @@
 /* Navbar glassmorphism */
 @supports (backdrop-filter: blur(24px)) {
   .nav-glass {
-    background: rgba(255, 255, 255, 0.78) !important;
+    background: rgba(255, 255, 255, 0.90) !important;
     backdrop-filter: blur(24px) saturate(180%);
     -webkit-backdrop-filter: blur(24px) saturate(180%);
   }
   .dark .nav-glass {
-    background: rgba(10, 10, 30, 0.82) !important;
+    background: rgba(1, 31, 26, 0.85) !important;
   }
 }
 
@@ -572,7 +707,7 @@
   animation: security-pulse-ring 3s ease-in-out infinite;
 }
 .security-shimmer {
-  background: linear-gradient(90deg, transparent 0%, rgba(28,65,247,0.08) 50%, transparent 100%);
+  background: linear-gradient(90deg, transparent 0%, rgba(3,79,70,0.08) 50%, transparent 100%);
   background-size: 200% 100%;
   animation: security-shimmer 3s linear infinite;
 }
@@ -626,7 +761,7 @@
   position: absolute;
   inset: -2px;
   border-radius: inherit;
-  background: linear-gradient(135deg, rgba(28,65,247,0.4) 0%, rgba(28,65,247,0) 50%, rgba(28,65,247,0.2) 100%);
+  background: linear-gradient(135deg, rgba(3,79,70,0.4) 0%, rgba(3,79,70,0) 50%, rgba(3,79,70,0.2) 100%);
   opacity: 0;
   transition: opacity 0.4s ease;
   z-index: -1;
@@ -676,11 +811,11 @@
   border-radius: inherit;
 }
 .hero-btn-3d:hover {
-  box-shadow: 0 8px 30px -4px rgba(28,65,247,0.4), 0 2px 8px rgba(28,65,247,0.2), inset 0 -2px 4px rgba(0,0,0,0.1) !important;
+  box-shadow: 0 8px 30px -4px rgba(3,79,70,0.4), 0 2px 8px rgba(3,79,70,0.2), inset 0 -2px 4px rgba(0,0,0,0.1) !important;
 }
 .hero-btn-3d:active {
   transform: translateY(1px) scale(0.98) !important;
-  box-shadow: 0 2px 8px rgba(28,65,247,0.3), inset 0 2px 4px rgba(0,0,0,0.15) !important;
+  box-shadow: 0 2px 8px rgba(3,79,70,0.3), inset 0 2px 4px rgba(0,0,0,0.15) !important;
 }
 
 /* CTA button special shimmer */
@@ -699,7 +834,7 @@
   left: 0;
   width: 50%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(28,65,247,0.08), transparent);
+  background: linear-gradient(90deg, transparent, rgba(3,79,70,0.08), transparent);
   animation: cta-shimmer 3s ease-in-out infinite;
   pointer-events: none;
 }
@@ -740,7 +875,7 @@
   left: 0;
   width: 60%;
   height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(28,65,247,0.06), transparent);
+  background: linear-gradient(90deg, transparent, rgba(3,79,70,0.06), transparent);
   animation: google-shimmer-border 4s ease-in-out infinite;
   will-change: transform;
 }
@@ -762,19 +897,19 @@
 .google-cards-visible .google-review-card:nth-child(6) { transition-delay: 600ms; }
 
 @keyframes google-map-glow {
-  0%, 100% { box-shadow: 0 0 20px -5px rgba(28,65,247,0.15), 0 0 60px -10px rgba(28,65,247,0.05); }
-  50% { box-shadow: 0 0 30px -5px rgba(28,65,247,0.25), 0 0 80px -10px rgba(28,65,247,0.1); }
+  0%, 100% { box-shadow: 0 0 20px -5px rgba(3,79,70,0.15), 0 0 60px -10px rgba(3,79,70,0.05); }
+  50% { box-shadow: 0 0 30px -5px rgba(3,79,70,0.25), 0 0 80px -10px rgba(3,79,70,0.1); }
 }
 
 .google-map-glow-border {
-  box-shadow: 0 0 20px -5px rgba(28,65,247,0.15), 0 4px 20px rgba(0,0,0,0.06);
+  box-shadow: 0 0 20px -5px rgba(3,79,70,0.15), 0 4px 20px rgba(0,0,0,0.06);
   animation: google-map-glow 4s ease-in-out infinite;
-  border: 1px solid rgba(28,65,247,0.12);
+  border: 1px solid rgba(3,79,70,0.12);
 }
 
 @keyframes google-rating-pulse {
-  0%, 100% { text-shadow: 0 0 20px rgba(28,65,247,0.0); }
-  50% { text-shadow: 0 0 30px rgba(28,65,247,0.15); }
+  0%, 100% { text-shadow: 0 0 20px rgba(3,79,70,0.0); }
+  50% { text-shadow: 0 0 30px rgba(3,79,70,0.15); }
 }
 
 .google-rating-glow {

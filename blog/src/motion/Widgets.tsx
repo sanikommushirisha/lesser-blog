@@ -126,10 +126,10 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
               track('play', { concept: 'renewal-viz', slug, placement, variant, meta: { auto: false } })
             }}
             className="flex h-full w-full flex-col items-center justify-center gap-3 text-white"
-            style={{ background: 'linear-gradient(160deg,#101a38,#1c2a58)' }}
+            style={{ background: 'linear-gradient(160deg,#011f1a,#023d35)' }}
             aria-label="Play your renewal timeline"
           >
-            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-xl text-[#16214a]">▶</span>
+            <span className="flex h-14 w-14 items-center justify-center rounded-full bg-white/95 text-xl text-[#034f46]">▶</span>
             <span className="text-sm opacity-80">your renewal, as a video</span>
           </button>
         )}
@@ -174,7 +174,7 @@ export function RenewalWidget({ slug, placement, variant }: { slug: string; plac
             target="_blank"
             rel="noopener noreferrer"
             onClick={() => track('share', { concept: 'renewal-viz', slug, placement, variant, meta: { channel: 'whatsapp' } })}
-            className="rounded-xl bg-[#0d8a41] px-5 py-2.5 text-sm font-semibold text-white no-underline"
+            className="rounded-xl bg-[#034f46] px-5 py-2.5 text-sm font-semibold text-white no-underline"
           >
             Share on WhatsApp
           </a>
@@ -210,7 +210,7 @@ function Field({ label, children }: { label: string; children: React.ReactNode }
 
 function Poster() {
   return (
-    <div className="flex h-full w-full items-center justify-center text-sm text-white" style={{ background: 'linear-gradient(160deg,#101a38,#1c2a58)' }}>
+    <div className="flex h-full w-full items-center justify-center text-sm text-white" style={{ background: 'linear-gradient(160deg,#011f1a,#023d35)' }}>
       loading…
     </div>
   )

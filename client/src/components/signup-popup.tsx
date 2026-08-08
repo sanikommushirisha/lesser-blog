@@ -155,7 +155,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
 
         <div className="h-1 bg-gray-100">
           <div
-            className="h-full bg-[#1C41F7] transition-all duration-500 ease-out"
+            className="h-full bg-[#034f46] transition-all duration-500 ease-out"
             style={{ width: `${(step / 3) * 100}%` }}
             data-testid="signup-progress-bar"
           />
@@ -163,14 +163,14 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
 
         <div className="px-8 py-8">
           <div className="flex items-center gap-2 mb-1">
-            <span className="text-xs font-medium text-gray-400 uppercase tracking-wider" data-testid="text-step-indicator">
+            <span className="text-xs font-medium text-gray-500 uppercase tracking-wider" data-testid="text-step-indicator">
               Step {step} of 3
             </span>
           </div>
 
           {step === 1 && (
             <div data-testid="signup-step-1">
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+              <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-gray-900 mb-1">
                 Let's get started
               </h2>
               <p className="text-gray-500 text-sm mb-6">
@@ -187,7 +187,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                       type="text"
                       value={firstName}
                       onChange={(e) => setFirstName(e.target.value)}
-                      className={`w-full px-4 py-3 rounded-lg border ${errors.firstName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                      className={`w-full px-4 py-3 rounded-lg border ${errors.firstName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                       placeholder="John"
                       data-testid="input-first-name"
                     />
@@ -203,7 +203,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                       type="text"
                       value={lastName}
                       onChange={(e) => setLastName(e.target.value)}
-                      className={`w-full px-4 py-3 rounded-lg border ${errors.lastName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                      className={`w-full px-4 py-3 rounded-lg border ${errors.lastName ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                       placeholder="Doe"
                       data-testid="input-last-name"
                     />
@@ -221,7 +221,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                     type="email"
                     value={email}
                     onChange={(e) => setEmail(e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border ${errors.email ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                    className={`w-full px-4 py-3 rounded-lg border ${errors.email ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                     placeholder="john@company.com"
                     data-testid="input-email"
                   />
@@ -238,7 +238,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                     type="tel"
                     value={phone}
                     onChange={(e) => setPhone(e.target.value)}
-                    className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#1C41F7] focus:ring-2 focus:ring-[#1C41F7]/10 outline-none transition-all text-sm`}
+                    className={`w-full px-4 py-3 rounded-lg border ${errors.phone ? "border-red-400" : "border-gray-200"} bg-gray-50 focus:bg-white focus:border-[#034f46] focus:ring-2 focus:ring-[#034f46]/10 outline-none transition-all text-sm`}
                     placeholder="(555) 123-4567"
                     data-testid="input-phone"
                   />
@@ -252,14 +252,14 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                 onClick={() => {
                   if (validateStep1()) setStep(2);
                 }}
-                className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1C41F7] text-white font-semibold rounded-xl hover:bg-[#1533c5] transition-colors text-sm"
+                className="mt-6 w-full flex items-center justify-center gap-2 px-6 py-3.5 bg-[#034f46] text-white font-semibold rounded-xl hover:bg-[#023d35] transition-colors text-sm"
                 data-testid="button-step1-continue"
               >
                 Continue
                 <ArrowRight className="w-4 h-4" />
               </button>
 
-              <p className="text-center text-xs text-gray-400 mt-4">
+              <p className="text-center text-xs text-gray-500 mt-4">
                 We'll never share your information with third parties.
               </p>
             </div>
@@ -267,7 +267,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
 
           {step === 2 && (
             <div data-testid="signup-step-2">
-              <h2 className="text-2xl font-bold text-gray-900 mb-1">
+              <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-gray-900 mb-1">
                 Your tax profile
               </h2>
               <p className="text-gray-500 text-sm mb-6">
@@ -286,7 +286,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                         onClick={() => setEmploymentType(opt)}
                         className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
                           employmentType === opt
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-employment-${opt.toLowerCase().replace(/[\s-]/g, "-")}`}
@@ -311,7 +311,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                         onClick={() => toggleEquity(opt.value)}
                         className={`px-3.5 py-2 rounded-lg border text-sm font-medium transition-all flex items-center gap-1.5 ${
                           equityTypes.includes(opt.value)
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-equity-${opt.value.toLowerCase().replace(/\s/g, "-")}`}
@@ -337,7 +337,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                         onClick={() => setIncomeRange(opt.value)}
                         className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
                           incomeRange === opt.value
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-income-${opt.value}`}
@@ -365,7 +365,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                         onClick={() => setHasCpa(opt.value)}
                         className={`px-3 py-2.5 rounded-lg border text-sm font-medium transition-all ${
                           hasCpa === opt.value
-                            ? "border-[#1C41F7] bg-[#1C41F7]/5 text-[#1C41F7]"
+                            ? "border-[#034f46] bg-[#034f46]/5 text-[#034f46]"
                             : "border-gray-200 text-gray-600 hover:border-gray-300"
                         }`}
                         data-testid={`button-cpa-${opt.value ? "yes" : "no"}`}
@@ -396,7 +396,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
                 <button
                   onClick={handleStep2Continue}
                   disabled={submitting}
-                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-[#1C41F7] text-white font-semibold rounded-xl hover:bg-[#1533c5] disabled:opacity-60 transition-colors text-sm"
+                  className="flex-1 flex items-center justify-center gap-2 px-6 py-3.5 bg-[#034f46] text-white font-semibold rounded-xl hover:bg-[#023d35] disabled:opacity-60 transition-colors text-sm"
                   data-testid="button-step2-continue"
                 >
                   {submitting ? "Saving..." : "Continue"}
@@ -409,10 +409,10 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
           {step === 3 && (
             <div data-testid="signup-step-3">
               <div className="text-center">
-                <div className="mx-auto w-14 h-14 rounded-full bg-green-50 flex items-center justify-center mb-4">
-                  <Check className="w-7 h-7 text-green-600" />
+                <div className="mx-auto w-14 h-14 rounded-full bg-[#ecfdf5] flex items-center justify-center mb-4">
+                  <Check className="w-7 h-7 text-[#059669]" />
                 </div>
-                <h2 className="text-2xl font-bold text-gray-900 mb-2">
+                <h2 className="text-2xl font-extrabold tracking-[-0.03em] text-gray-900 mb-2">
                   Thanks, {firstName}!
                 </h2>
                 <p className="text-gray-500 text-sm mb-6 max-w-sm mx-auto">
@@ -421,7 +421,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
 
                 <button
                   onClick={openCalendlyAndClose}
-                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#1C41F7] text-white font-semibold rounded-xl hover:bg-[#1533c5] transition-colors text-sm"
+                  className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-[#034f46] text-white font-semibold rounded-xl hover:bg-[#023d35] transition-colors text-sm"
                   data-testid="button-book-call"
                 >
                   <Calendar className="w-5 h-5" />
@@ -430,7 +430,7 @@ export default function SignupPopup({ open, onClose, sourcePage }: SignupPopupPr
 
                 <button
                   onClick={resetAndClose}
-                  className="mt-3 text-sm text-gray-400 hover:text-gray-600 transition-colors"
+                  className="mt-3 text-sm text-gray-500 hover:text-gray-600 transition-colors"
                   data-testid="button-skip-booking"
                 >
                   Skip for now

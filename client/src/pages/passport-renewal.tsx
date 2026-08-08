@@ -15,7 +15,7 @@ import {
   Phone,
 } from "lucide-react";
 import SharedNavbar from "@/components/shared-navbar";
-import lesserLogo from "@assets/lesser_blue_logo_1770346541058.png";
+import lesserLogo from "@assets/lesser_logo.png";
 
 const APP_URL = "https://lesser.tax/app/auth/sign-up";
 
@@ -107,7 +107,7 @@ function PassportFooter() {
     <footer className="relative bg-foreground overflow-hidden" data-testid="section-footer">
       <div
         className="absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(28,65,247,0.2) 50%, transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(3,79,70,0.2) 50%, transparent)" }}
       />
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -170,11 +170,11 @@ export default function PassportRenewalPage() {
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
             className="absolute -top-24 -right-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.08) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.08) 0%, transparent 70%)" }}
           />
           <div
             className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.05) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.05) 0%, transparent 70%)" }}
           />
         </div>
 
@@ -190,7 +190,7 @@ export default function PassportRenewalPage() {
               </div>
 
               <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-5 leading-[1.1]"
+                className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-5 leading-[1.1]"
                 data-testid="text-hero-title"
               >
                 Apply for Indian Passport Renewal
@@ -298,7 +298,7 @@ export default function PassportRenewalPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">Overview</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4" data-testid="text-overview-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground mb-4" data-testid="text-overview-title">
               Renew your passport on time
             </h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -331,7 +331,7 @@ export default function PassportRenewalPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">Service Summary</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="text-summary-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-summary-title">
               What to expect
             </h2>
           </div>
@@ -420,7 +420,7 @@ export default function PassportRenewalPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">Process</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="text-process-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-process-title">
               How it works
             </h2>
           </div>
@@ -448,7 +448,7 @@ export default function PassportRenewalPage() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">FAQ</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="text-faq-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-faq-title">
               Frequently asked questions
             </h2>
           </div>
@@ -479,15 +479,15 @@ export default function PassportRenewalPage() {
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
             className="absolute -top-24 -right-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.18) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.18) 0%, transparent 70%)" }}
           />
           <div
             className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.12) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.12) 0%, transparent 70%)" }}
           />
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" data-testid="text-cta-title">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-white mb-4" data-testid="text-cta-title">
             Ready to renew your Indian passport?
           </h2>
           <p className="text-white/70 mb-8 max-w-xl mx-auto">

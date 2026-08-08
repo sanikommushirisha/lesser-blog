@@ -6,11 +6,37 @@ export default {
   theme: {
     extend: {
       borderRadius: {
-        lg: ".5625rem", /* 9px */
-        md: ".375rem", /* 6px */
-        sm: ".1875rem", /* 3px */
+        lg: "var(--radius)", /* 12px */
+        md: "calc(var(--radius) - 2px)", /* 10px */
+        sm: "calc(var(--radius) - 4px)", /* 8px */
+        glass: "20px", /* large feature / glass cards */
+        card: "16px", /* standard cards */
+        input: "12px", /* inputs, selects, form buttons */
+        pill: "100px",
       },
       colors: {
+        /* Brand tokens. Two greens only: `lesser.green` for everything
+           interactive, `success` for status readouts. A third green
+           breaks the identity. */
+        lesser: {
+          cream: "hsl(var(--background) / <alpha-value>)",
+          green: "hsl(var(--primary) / <alpha-value>)",
+          greenHover: "#023d35",
+          greenDeep: "#011f1a",
+          greenMid: "#056b5e",
+          black: "hsl(var(--foreground) / <alpha-value>)",
+          textSecondary: "#374151",
+          muted: "hsl(var(--muted-foreground) / <alpha-value>)",
+          divider: "#e5e7eb",
+          border: "hsl(var(--border) / <alpha-value>)",
+          heroTint: "#e8f5f3",
+          subtleTint: "#f0f7f6",
+          chipTint: "#eef3f1",
+        },
+        success: {
+          DEFAULT: "hsl(var(--success) / <alpha-value>)",
+          foreground: "hsl(var(--success-foreground) / <alpha-value>)",
+        },
         // Flat / base colors (regular buttons)
         background: "hsl(var(--background) / <alpha-value>)",
         foreground: "hsl(var(--foreground) / <alpha-value>)",
@@ -86,6 +112,13 @@ export default {
         sans: ["var(--font-sans)"],
         serif: ["var(--font-serif)"],
         mono: ["var(--font-mono)"],
+      },
+      boxShadow: {
+        /* Neutral shadows use a cool near-black; hover shadows are tinted
+           with the brand green. */
+        card: "0 1px 3px 0 rgb(2 6 23 / 0.04), 0 1px 2px -1px rgb(2 6 23 / 0.06)",
+        "card-lg": "0 10px 30px -12px rgb(2 6 23 / 0.12)",
+        "card-hover": "0 12px 40px rgba(3, 79, 70, 0.10)",
       },
       keyframes: {
         "accordion-down": {

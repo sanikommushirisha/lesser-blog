@@ -67,7 +67,7 @@ export function WatchPage() {
         onPlay={() => track('play', { concept: 'watch-page', slug: video.slug })}
         onEnded={() => track('complete', { concept: 'watch-page', slug: video.slug })}
         className="w-full rounded-xl"
-        style={{ aspectRatio: '16/8.5', background: '#101a38' }}
+        style={{ aspectRatio: '16/8.5', background: '#011f1a' }}
       >
         <source src={asset(video.mp4)} type="video/mp4" />
       </video>
