@@ -6,8 +6,8 @@ import React from 'react'
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Sequence } from 'remotion'
 import { CONSULATES, FEES, type Plan } from './constants'
 
-const BG = 'linear-gradient(160deg,#101a38,#1c2a58)'
-const ACCENT = '#9db4ff'
+const BG = 'linear-gradient(160deg,#011f1a,#023d35)'
+const ACCENT = '#6ee7b7'
 const FPS = 30
 
 /** Scale unit: sizes are designed on a 1280-wide landscape canvas; portrait
@@ -41,7 +41,7 @@ function Tick({ size = 84, delay = 0 }: { size?: number; delay?: number }) {
         width: size,
         height: size,
         borderRadius: size * 0.28,
-        background: '#34c39a',
+        background: '#059669',
         color: '#fff',
         fontSize: size * 0.55,
         fontWeight: 800,
@@ -215,7 +215,7 @@ function TimelineBar({ plan }: { plan: Plan }) {
   return (
     <div style={{ width: width * 0.82, position: 'relative' }}>
       <div style={{ height: 14 * u, borderRadius: 8, background: 'rgba(255,255,255,.15)', position: 'relative' }}>
-        <div style={{ position: 'absolute', inset: 0, width: `${w}%`, background: `linear-gradient(90deg,#5f79ec,${ACCENT})`, borderRadius: 8 }} />
+        <div style={{ position: 'absolute', inset: 0, width: `${w}%`, background: `linear-gradient(90deg,#056b5e,${ACCENT})`, borderRadius: 8 }} />
         {mark('4%', 'today')}
         {mark(portrait ? '38%' : '34%', plan.applyByLabel ? `apply by ${plan.applyByLabel}` : 'apply')}
         {mark(portrait ? '78%' : '74%', 'passport back')}
@@ -283,7 +283,7 @@ export function TatkaalExplainer() {
               position: 'absolute',
               inset: 0,
               width: `${Math.min(100, p * 112)}%`,
-              background: `linear-gradient(90deg,#5f79ec,${ACCENT})`,
+              background: `linear-gradient(90deg,#056b5e,${ACCENT})`,
               borderRadius: 8,
             }}
           />

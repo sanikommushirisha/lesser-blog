@@ -97,13 +97,13 @@ export function RenewalWatchPage() {
             onPlay={() => track('play', { concept: 'renewal-share', slug: comboId, meta: { auto: true } })}
             onEnded={() => track('complete', { concept: 'renewal-share', slug: comboId })}
             className="w-full"
-            style={{ aspectRatio: '9/16', background: '#101a38' }}
+            style={{ aspectRatio: '9/16', background: '#011f1a' }}
           >
             <source src={video.mp4} type="video/mp4" />
           </video>
         ) : (
           // No pre-rendered MP4 for this combo yet — replay live in-browser.
-          <Suspense fallback={<div className="flex aspect-[9/16] items-center justify-center bg-[#101a38] text-sm text-white">loading…</div>}>
+          <Suspense fallback={<div className="flex aspect-[9/16] items-center justify-center bg-[#011f1a] text-sm text-white">loading…</div>}>
             <LazyRenewalPlayer plan={plan} onEnded={() => track('complete', { concept: 'renewal-share', slug: comboId })} />
           </Suspense>
         )}

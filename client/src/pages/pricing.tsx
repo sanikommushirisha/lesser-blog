@@ -76,7 +76,7 @@ function PricingCard({
       className={`relative flex flex-col p-6 gap-4 bg-white dark:bg-card rounded-3xl border ${
         featured
           ? "border-primary shadow-[6px_6px_4px_rgba(0,0,0,0.12)]"
-          : "border-[#D4D4D4] dark:border-border"
+          : "border-[#e0e0e0] dark:border-border"
       }`}
       data-testid={`card-plan-${id}`}
     >
@@ -114,7 +114,7 @@ function PricingCard({
         </div>
       </div>
 
-      <div className="w-full border-t border-dashed border-[#D4D4D4] dark:border-border" />
+      <div className="w-full border-t border-dashed border-[#e0e0e0] dark:border-border" />
 
       <div className="flex flex-col gap-4">
         <p
@@ -167,7 +167,7 @@ export default function PricingPage() {
             {coreFeatures.map((feature, index) => (
               <div key={feature.id} className="flex items-center gap-3">
                 {index > 0 && (
-                  <div className="hidden sm:block w-px h-7 border-l border-dashed border-[#D4D4D4] dark:border-border" />
+                  <div className="hidden sm:block w-px h-7 border-l border-dashed border-[#e0e0e0] dark:border-border" />
                 )}
                 <div
                   className="flex flex-col items-center gap-2"

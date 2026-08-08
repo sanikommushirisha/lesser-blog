@@ -1,7 +1,7 @@
 import { ArrowRight, ChevronDown, Menu } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 import { useState, useEffect, useRef } from "react";
-import lesserLogo from "@assets/lesser_blue_logo_1770346541058.png";
+import lesserLogo from "@assets/lesser_logo.png";
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
   const el = e.currentTarget;
@@ -103,7 +103,14 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
       >
         <div
           className={`absolute inset-x-0 bottom-0 h-px transition-opacity duration-500 ${scrolled ? "opacity-100" : "opacity-0"}`}
-          style={{ background: "linear-gradient(90deg, transparent 0%, rgba(28,65,247,0.08) 20%, rgba(28,65,247,0.12) 50%, rgba(28,65,247,0.08) 80%, transparent 100%)" }}
+          style={{ background: "linear-gradient(90deg, transparent 0%, rgba(3,79,70,0.08) 20%, rgba(3,79,70,0.12) 50%, rgba(3,79,70,0.08) 80%, transparent 100%)" }}
+        />
+
+        {/* Signature header treatment: a 3% green top-to-transparent wash
+            over the blurred white bar. */}
+        <div
+          className={`pointer-events-none absolute inset-0 bg-gradient-to-b from-[#034f46]/[0.03] to-transparent transition-opacity duration-500 ${scrolled ? "opacity-100" : "opacity-0"}`}
+          aria-hidden="true"
         />
 
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">

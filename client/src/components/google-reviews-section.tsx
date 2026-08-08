@@ -114,13 +114,15 @@ function ReviewCard({ review, index }: { review: typeof GOOGLE_REVIEWS[0]; index
     }
   }, []);
 
+  // Two-green rule: card variety comes from depth within the brand green,
+  // not from a rainbow of unrelated hues.
   const gradientColors = [
-    "from-blue-500 to-indigo-600",
-    "from-emerald-500 to-teal-600",
-    "from-violet-500 to-purple-600",
-    "from-amber-500 to-orange-600",
-    "from-rose-500 to-pink-600",
-    "from-cyan-500 to-blue-600",
+    "from-[#034f46] to-[#023d35]",
+    "from-[#056b5e] to-[#034f46]",
+    "from-[#023d35] to-[#011f1a]",
+    "from-[#034f46] to-[#056b5e]",
+    "from-[#011f1a] to-[#023d35]",
+    "from-[#056b5e] to-[#023d35]",
   ];
 
   return (
@@ -137,7 +139,7 @@ function ReviewCard({ review, index }: { review: typeof GOOGLE_REVIEWS[0]; index
     >
       <div
         ref={innerRef}
-        className="relative h-full bg-white/80 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/60 dark:border-white/10 p-6 transition-all duration-300 ease-out group-hover:shadow-[0_8px_40px_-8px_rgba(28,65,247,0.15)] group-hover:border-primary/20"
+        className="relative h-full bg-white/80 dark:bg-white/5 backdrop-blur-md rounded-2xl border border-white/60 dark:border-white/10 p-6 transition-all duration-300 ease-out group-hover:shadow-[0_8px_40px_-8px_rgba(3,79,70,0.15)] group-hover:border-primary/20"
         style={{
           transformStyle: "preserve-3d",
         }}
@@ -249,7 +251,7 @@ export default function GoogleReviewsSection() {
             Google Reviews
           </div>
 
-          <h2 className="text-3xl md:text-4xl lg:text-5xl font-bold text-foreground tracking-tight mb-6" data-testid="text-google-reviews-heading">
+          <h2 className="text-3xl md:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-6" data-testid="text-google-reviews-heading">
             Trusted by Clients on{" "}
             <span className="text-transparent bg-clip-text bg-gradient-to-r from-[#4285F4] via-[#34A853] to-[#FBBC05]">
               Google

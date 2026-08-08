@@ -20,7 +20,7 @@ import {
   RefreshCw,
 } from "lucide-react";
 import SharedNavbar from "@/components/shared-navbar";
-import lesserLogo from "@assets/lesser_blue_logo_1770346541058.png";
+import lesserLogo from "@assets/lesser_logo.png";
 
 const APP_URL = "https://app.lesser.tax/auth/sign-up";
 
@@ -120,7 +120,7 @@ function IndiaTaxFooter() {
     <footer className="relative bg-foreground overflow-hidden" data-testid="section-footer">
       <div
         className="absolute inset-x-0 top-0 h-px"
-        style={{ background: "linear-gradient(90deg, transparent, rgba(28,65,247,0.2) 50%, transparent)" }}
+        style={{ background: "linear-gradient(90deg, transparent, rgba(3,79,70,0.2) 50%, transparent)" }}
       />
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
@@ -168,11 +168,11 @@ export default function IndiaTaxFilingPage() {
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
             className="absolute -top-24 -right-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.08) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.08) 0%, transparent 70%)" }}
           />
           <div
             className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.05) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.05) 0%, transparent 70%)" }}
           />
         </div>
 
@@ -188,7 +188,7 @@ export default function IndiaTaxFilingPage() {
               </div>
 
               <h1
-                className="text-4xl md:text-5xl lg:text-6xl font-bold text-foreground tracking-tight mb-5 leading-[1.1]"
+                className="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-5 leading-[1.1]"
                 data-testid="text-hero-title"
               >
                 The easiest way to file
@@ -284,7 +284,7 @@ export default function IndiaTaxFilingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">What we cover</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground mb-4" data-testid="text-coverage-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground mb-4" data-testid="text-coverage-title">
               Every income type, every disclosure
             </h2>
             <p className="text-muted-foreground leading-relaxed">
@@ -317,7 +317,7 @@ export default function IndiaTaxFilingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">Process</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="text-process-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-process-title">
               How it works
             </h2>
           </div>
@@ -345,7 +345,7 @@ export default function IndiaTaxFilingPage() {
         <div className="max-w-6xl mx-auto px-6">
           <div className="max-w-2xl mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">Why file</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="text-why-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-why-title">
               Why NRIs file Indian taxes
             </h2>
           </div>
@@ -374,7 +374,7 @@ export default function IndiaTaxFilingPage() {
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white rounded-2xl border border-border p-8" data-testid="card-benefits">
               <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">Benefits</div>
-              <h3 className="text-2xl font-bold text-foreground mb-6">Filing with Lesser</h3>
+              <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-foreground mb-6">Filing with Lesser</h3>
               <ul className="space-y-3">
                 {BENEFITS.map((b) => (
                   <li key={b} className="flex items-start gap-3 text-sm text-foreground/80">
@@ -388,11 +388,11 @@ export default function IndiaTaxFilingPage() {
             <div className="bg-foreground rounded-2xl p-8 relative overflow-hidden" data-testid="card-security">
               <div
                 className="absolute -top-16 -right-16 w-64 h-64 rounded-full pointer-events-none"
-                style={{ background: "radial-gradient(circle, rgba(28,65,247,0.18) 0%, transparent 70%)" }}
+                style={{ background: "radial-gradient(circle, rgba(3,79,70,0.18) 0%, transparent 70%)" }}
               />
               <div className="relative">
                 <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">Security</div>
-                <h3 className="text-2xl font-bold text-white mb-6">Your data is safe</h3>
+                <h3 className="text-2xl font-extrabold tracking-[-0.03em] text-white mb-6">Your data is safe</h3>
                 <div className="space-y-5">
                   <div className="flex items-start gap-4">
                     <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center flex-shrink-0">
@@ -442,7 +442,7 @@ export default function IndiaTaxFilingPage() {
         <div className="max-w-3xl mx-auto px-6">
           <div className="mb-12">
             <div className="text-xs font-semibold tracking-wider text-primary uppercase mb-3">FAQ</div>
-            <h2 className="text-3xl md:text-4xl font-bold text-foreground" data-testid="text-faq-title">
+            <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-faq-title">
               Frequently asked questions
             </h2>
           </div>
@@ -473,15 +473,15 @@ export default function IndiaTaxFilingPage() {
         <div className="absolute inset-0 pointer-events-none" aria-hidden="true">
           <div
             className="absolute -top-24 -right-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.18) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.18) 0%, transparent 70%)" }}
           />
           <div
             className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full"
-            style={{ background: "radial-gradient(circle, rgba(28,65,247,0.12) 0%, transparent 70%)" }}
+            style={{ background: "radial-gradient(circle, rgba(3,79,70,0.12) 0%, transparent 70%)" }}
           />
         </div>
         <div className="relative max-w-3xl mx-auto px-6 text-center">
-          <h2 className="text-3xl md:text-4xl font-bold text-white mb-4" data-testid="text-cta-title">
+          <h2 className="text-3xl md:text-4xl font-extrabold tracking-[-0.03em] text-white mb-4" data-testid="text-cta-title">
             Ready to file your Indian taxes?
           </h2>
           <p className="text-white/70 mb-8 max-w-xl mx-auto">
