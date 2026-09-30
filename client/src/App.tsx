@@ -20,6 +20,10 @@ import PrivacyPage from "@/pages/privacy";
 import TermsPage from "@/pages/terms";
 import PassportRenewalPage from "@/pages/passport-renewal";
 import IndiaTaxFilingPage from "@/pages/india-tax-filing";
+import DashboardPage from "@/pages/dashboard";
+import DashboardInvestmentsPage from "@/pages/dashboard-investments";
+import DashboardTaxationPage from "@/pages/dashboard-taxation";
+import DashboardMarketplacePage from "@/pages/dashboard-marketplace";
 
 function Router() {
   return (
@@ -38,6 +42,10 @@ function Router() {
       <Route path="/business/realestate" component={RealEstatePage} />
       <Route path="/services/passport-renewal" component={PassportRenewalPage} />
       <Route path="/services/india-tax-filing" component={IndiaTaxFilingPage} />
+      <Route path="/dashboard" component={DashboardPage} />
+      <Route path="/dashboard/investments" component={DashboardInvestmentsPage} />
+      <Route path="/dashboard/taxation" component={DashboardTaxationPage} />
+      <Route path="/dashboard/marketplace" component={DashboardMarketplacePage} />
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/terms" component={TermsPage} />
       <Route component={NotFound} />
