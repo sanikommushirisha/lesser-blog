@@ -24,6 +24,9 @@ import DashboardPage from "@/pages/dashboard";
 import DashboardInvestmentsPage from "@/pages/dashboard-investments";
 import DashboardTaxationPage from "@/pages/dashboard-taxation";
 import DashboardMarketplacePage from "@/pages/dashboard-marketplace";
+import DashboardTaxExpertsPage from "@/pages/dashboard-tax-experts";
+import DashboardTaxExpertDetailPage from "@/pages/dashboard-tax-expert-detail";
+import DashboardTaxExpertBookingPage from "@/pages/dashboard-tax-expert-booking";
 
 function Router() {
   return (
@@ -46,6 +49,9 @@ function Router() {
       <Route path="/dashboard/investments" component={DashboardInvestmentsPage} />
       <Route path="/dashboard/taxation" component={DashboardTaxationPage} />
       <Route path="/dashboard/marketplace" component={DashboardMarketplacePage} />
+      <Route path="/dashboard/tax-experts" component={DashboardTaxExpertsPage} />
+      <Route path="/dashboard/tax-experts/:id/booking" component={DashboardTaxExpertBookingPage} />
+      <Route path="/dashboard/tax-experts/:id" component={DashboardTaxExpertDetailPage} />
       <Route path="/privacy" component={PrivacyPage} />
       <Route path="/terms" component={TermsPage} />
       <Route component={NotFound} />

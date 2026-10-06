@@ -11,6 +11,7 @@ import {
   Menu,
   Search,
   Store,
+  UserCheck,
   X,
   type LucideIcon,
 } from "lucide-react";
@@ -27,6 +28,7 @@ const NAV_ITEMS: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/dashboard/investments", label: "Investments", icon: CircleDollarSign },
   { href: "/dashboard/taxation", label: "Taxation", icon: FileText },
   { href: "/dashboard/marketplace", label: "Marketplace", icon: Store },
+  { href: "/dashboard/tax-experts", label: "Tax Experts", icon: UserCheck },
 ];
 
 export function Logo({ size = "md" }: { size?: "md" | "sm" }) {
@@ -94,7 +96,8 @@ function Sidebar({
 
       <nav className="flex-1 space-y-0.5 px-3">
         {NAV_ITEMS.map(({ href, label, icon: Icon }) => {
-          const isActive = location === href;
+          // Home only matches exactly; other tabs stay active on their sub-pages.
+          const isActive = location === href || (href !== "/dashboard" && location.startsWith(`${href}/`));
           return (
             <Link
               key={href}
@@ -104,7 +107,7 @@ function Sidebar({
               className={`relative flex w-full items-center gap-3 rounded-xl px-3 py-2.5 text-sm transition-colors ${
                 collapsed ? "justify-center" : ""
               } ${isActive ? "font-semibold text-primary" : "text-foreground/80 hover:bg-black/[0.04]"}`}
-              data-testid={`nav-${label.toLowerCase()}`}
+              data-testid={`nav-${label.toLowerCase().replace(/\s+/g, "-")}`}
             >
               {isActive && (
                 <motion.span
