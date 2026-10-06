@@ -2,6 +2,7 @@ import express, { type Request, Response, NextFunction } from "express";
 import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
+import { mountDevAppProxy } from "./dev-app-proxy";
 
 const app = express();
 const httpServer = createServer(app);
@@ -10,6 +11,11 @@ declare module "http" {
   interface IncomingMessage {
     rawBody: unknown;
   }
+}
+
+// Before the body parsers, so request bodies stream through untouched.
+if (process.env.NODE_ENV !== "production") {
+  mountDevAppProxy(app);
 }
 
 app.use(
@@ -94,8 +100,8 @@ app.use((req, res, next) => {
     port,
     host: "0.0.0.0",
   };
-  // reusePort is not supported on Windows and throws ENOTSUP.
-  if (process.platform !== "win32") {
+  // reusePort is Linux-only; Windows and macOS throw ENOTSUP.
+  if (process.platform === "linux") {
     listenOptions.reusePort = true;
   }
   httpServer.listen(listenOptions, () => {
