@@ -161,6 +161,13 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
                 </div>
               ))}
               <a
+                href="/marketplace"
+                className="flex items-center px-4 py-1.5 text-sm font-medium text-muted-foreground rounded-full transition-all duration-300 hover:text-foreground hover:bg-white dark:hover:bg-white/10 hover:shadow-sm"
+                data-testid="link-nav-marketplace"
+              >
+                Marketplace
+              </a>
+              <a
                 href="/blog"
                 className="flex items-center px-4 py-1.5 text-sm font-medium text-muted-foreground rounded-full transition-all duration-300 hover:text-foreground hover:bg-white dark:hover:bg-white/10 hover:shadow-sm"
                 data-testid="link-nav-blog"
@@ -248,6 +255,16 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
                   </div>
                 );
               })}
+
+              <a
+                href="/marketplace"
+                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-muted-foreground rounded-xl transition-all duration-300 hover:text-foreground hover:bg-primary/5"
+                data-testid="link-nav-marketplace-mobile"
+                onClick={() => setMobileOpen(false)}
+              >
+                <div className="w-1 h-1 rounded-full bg-primary/40" />
+                Marketplace
+              </a>
 
               <a
                 href="/blog"
