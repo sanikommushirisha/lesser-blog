@@ -11,6 +11,8 @@ interface PageMeta {
   ogDescription: string;
   ogImage: string;
   canonical: string;
+  /** Structured data, emitted as <script type="application/ld+json"> blocks in <head>. */
+  jsonLd?: object[];
 }
 
 export const PAGE_META: Record<string, PageMeta> = {
@@ -62,6 +64,61 @@ export const PAGE_META: Record<string, PageMeta> = {
     ogImage: `${BASE_URL}/og-riverisland.jpg`,
     canonical: `${BASE_URL}/offers/riverisland`,
   },
+  "/marketplace": {
+    title: "NRI Services: Indian Passport Renewal & India ITR | Lesser",
+    description: "Renew your Indian passport from the U.S. and file your India tax return (ITR) online with expert-guided tools. Business formation and GST help coming soon.",
+    ogTitle: "Lesser Marketplace: Expert Services for Global Indians",
+    ogDescription: "Indian passport renewal and India tax filing for NRIs in the U.S., guided step by step and reviewed by experts. More NRI services coming soon.",
+    ogImage: `${BASE_URL}/og-nri.jpg`,
+    canonical: `${BASE_URL}/marketplace`,
+    jsonLd: [
+      {
+        "@context": "https://schema.org",
+        "@type": "CollectionPage",
+        name: "Lesser Marketplace: Expert Services for Global Indians",
+        url: `${BASE_URL}/marketplace`,
+        description: "Indian passport renewal, India tax filing and other services for NRIs living in the United States.",
+        isPartOf: { "@type": "WebSite", name: "Lesser", url: `${BASE_URL}/` },
+        mainEntity: {
+          "@type": "ItemList",
+          itemListElement: [
+            {
+              "@type": "ListItem",
+              position: 1,
+              item: {
+                "@type": "Service",
+                name: "Indian Passport Renewal & Re-issue",
+                serviceType: "Indian passport renewal",
+                url: `${BASE_URL}/services/passport-renewal`,
+                areaServed: { "@type": "Country", name: "United States" },
+                provider: { "@type": "Organization", name: "Lesser", url: `${BASE_URL}/` },
+              },
+            },
+            {
+              "@type": "ListItem",
+              position: 2,
+              item: {
+                "@type": "Service",
+                name: "India Tax Filing for NRIs & Residents",
+                serviceType: "India income tax return filing",
+                url: `${BASE_URL}/services/india-tax-filing`,
+                areaServed: { "@type": "Country", name: "United States" },
+                provider: { "@type": "Organization", name: "Lesser", url: `${BASE_URL}/` },
+              },
+            },
+          ],
+        },
+      },
+      {
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        itemListElement: [
+          { "@type": "ListItem", position: 1, name: "Home", item: `${BASE_URL}/` },
+          { "@type": "ListItem", position: 2, name: "Marketplace", item: `${BASE_URL}/marketplace` },
+        ],
+      },
+    ],
+  },
   "/business": {
     title: "Business Tax Filing - Form 1120, 1065, 1120-S | Lesser",
     description: "File your business tax return for $100 flat fee. Form 1120, 1065, or 1120-S. CPA-reviewed, 48hr turnaround, review before you pay.",
@@ -95,6 +152,18 @@ export const PAGE_META: Record<string, PageMeta> = {
     canonical: `${BASE_URL}/business/realestate`,
   },
 };
+
+/**
+ * Meta for a request URL; unknown routes get the home page's. Takes
+ * req.originalUrl, not req.path: inside app.use("/{*path}") Express 5 strips
+ * the matched mount path, so req.path is always "/" there, which served the
+ * home page's title, description and canonical on every route.
+ */
+export function metaFor(originalUrl: string): PageMeta {
+  const pathname = new URL(originalUrl, BASE_URL).pathname;
+  const key = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
+  return PAGE_META[key] || PAGE_META["/"];
+}
 
 export function injectMeta(html: string, meta: PageMeta): string {
   let result = html;
@@ -136,6 +205,14 @@ export function injectMeta(html: string, meta: PageMeta): string {
     /<link rel="canonical" href="[^"]*"/,
     `<link rel="canonical" href="${meta.canonical}"`
   );
+
+  if (meta.jsonLd?.length) {
+    // "<" is escaped so a value can never close the script tag early.
+    const blocks = meta.jsonLd
+      .map((d) => `<script type="application/ld+json">${JSON.stringify(d).replace(/</g, "\\u003c")}</script>`)
+      .join("\n    ");
+    result = result.replace("</head>", `    ${blocks}\n  </head>`);
+  }
 
   return result;
 }
@@ -210,9 +287,7 @@ export function serveStatic(app: Express) {
     const indexPath = path.resolve(distPath, "index.html");
     let html = fs.readFileSync(indexPath, "utf-8");
 
-    const routePath = req.path;
-    const meta = PAGE_META[routePath] || PAGE_META["/"];
-    html = injectMeta(html, meta);
+    html = injectMeta(html, metaFor(req.originalUrl));
 
     res.setHeader("Content-Type", "text/html");
     res.send(html);

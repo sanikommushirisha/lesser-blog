@@ -13,12 +13,9 @@
 //   POST /api/public/tax-experts/:id/checkout          -> { checkoutUrl }  (Stripe Checkout)
 //   GET  /api/public/tax-experts/bookings/:sessionId   -> ConsultationBooking
 
-const API_BASE = "/app/api/public/tax-experts";
+import { LESSER_APP_URL } from "./portal";
 
-// App pages (login, sign-up) can't go through the dev proxy, whose HTML would
-// load the app's assets from the site's origin, so dev links to the app directly.
-const LESSER_APP_URL: string =
-  import.meta.env.VITE_LESSER_APP_URL || (import.meta.env.DEV ? "http://localhost:3000" : "/app");
+const API_BASE = "/app/api/public/tax-experts";
 
 export type TaxExpert = {
   id: string;
