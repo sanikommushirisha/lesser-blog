@@ -29,7 +29,7 @@ export function Toc({ items }: { items: Sections['toc'] }) {
   if (items.length < 2) return null
   return (
     <nav aria-label="On this page" className="text-[13px] xl:block">
-      <div className="xl:sticky xl:top-8">
+      <div>
         <p className="eyebrow mb-2 hidden !text-muted-foreground xl:block">On this page</p>
         <div className="flex flex-wrap gap-2 xl:block xl:space-y-3">
           {items.map((t) => (
@@ -86,7 +86,10 @@ export function Faq({ items, components }: { items: FaqItem[]; components: Porta
         {items.map((f, i) => (
           <details key={f.id} open={i === 0} className="editorial-faq group border-b border-border">
             <summary className="relative cursor-pointer list-none py-4 pr-8 font-sans text-[15.5px] font-semibold text-foreground">
-              {f.question}
+              {/* `!`: index.css styles every heading (800 weight, tight tracking) outside a layer. */}
+              <h3 className="m-0 inline font-sans text-[15.5px] font-semibold! leading-normal tracking-normal! text-foreground">
+                {f.question}
+              </h3>
               <span
                 aria-hidden
                 className="absolute right-1 top-1/2 -translate-y-1/2 text-xl font-normal text-primary transition-transform group-open:rotate-45"

@@ -1,6 +1,7 @@
 export function Nav() {
   return (
-    <header className="border-b border-border bg-background">
+    // Same frosted white as the marketing navbar's .nav-glass (white/90 + blur).
+    <header className="border-b border-black/5 bg-white/90 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_4px_12px_rgba(0,0,0,0.03)] backdrop-blur-xl backdrop-saturate-150">
       <nav className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-4 sm:px-6">
         <a href="/" className="flex items-center gap-2" aria-label="Lesser home">
           <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lesser" className="h-[52px]" />

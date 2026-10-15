@@ -6,7 +6,9 @@
    v3, so the guide's JS config does not apply here). HSL triples are exact
    conversions of the brand hexes. */
 :root {
-  --background: 48 50% 96%;        /* #faf8f0 cream page */
+  /* White page, matching the marketing home page ("/"), whose sections are
+     white over its cream body. Cards stay white and rely on --card-border. */
+  --background: 0 0% 100%;         /* #ffffff page */
   --foreground: 0 0% 10%;          /* #1a1a1a */
   --muted: 0 0% 96%;               /* #f5f5f5 */
   --muted-foreground: 220 9% 46%;  /* #6b7280 */
@@ -152,4 +154,16 @@ h6 {
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: hsl(var(--primary));
+}
+
+/* Floating video player footer (FeaturedVideo). */
+@keyframes fade-in {
+  from {
+    opacity: 0;
+    transform: translateY(4px);
+  }
+  to {
+    opacity: 1;
+    transform: none;
+  }
 }

@@ -1,4 +1,5 @@
 import { defineField, defineType, type Rule } from 'sanity'
+import { validateYouTubeUrl } from './youtube'
 
 export const post = defineType({
   name: 'post',
@@ -48,6 +49,39 @@ export const post = defineType({
         }),
     }),
     defineField({
+      name: 'featuredVideo',
+      title: 'Featured video (optional)',
+      type: 'url',
+      description:
+        'Paste a YouTube link to show the video at the top of the article, in place of the featured image. ' +
+        'The featured image is still used on the blog card and in link previews.',
+      validation: (rule) => rule.custom(validateYouTubeUrl),
+    }),
+    defineField({
+      name: 'videoThumbnail',
+      title: 'Video thumbnail',
+      type: 'image',
+      description:
+        'Cover for the video: shown on the blog card (with a play icon) and on the video before it plays. ' +
+        'Required when a featured video is set.',
+      options: { hotspot: true },
+      hidden: ({ document }) => !document?.featuredVideo,
+      fields: [
+        defineField({
+          name: 'alt',
+          title: 'Alternative text',
+          type: 'string',
+          description: 'Describe the image for screen readers and SEO.',
+          validation: (rule) => rule.required(),
+        }),
+      ],
+      validation: (rule) =>
+        rule.custom((img: { asset?: unknown } | undefined, context) => {
+          if (!context.document?.featuredVideo) return true
+          return img?.asset ? true : 'Upload a thumbnail for the video'
+        }),
+    }),
+    defineField({
       name: 'category',
       title: 'Category',
       type: 'reference',
@@ -90,6 +124,8 @@ export const post = defineType({
             { name: 'caption', title: 'Caption', type: 'string' },
           ],
         },
+        // Insert a YouTube video anywhere in the article, like an image.
+        { type: 'youtube' },
       ],
       validation: (rule) => rule.required(),
     }),
