@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from 'react'
+import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
@@ -6,6 +6,8 @@ import {
   fetchPost,
   fetchMorePosts,
   imageUrl,
+  authorAvatarUrl,
+  altText,
   readTime,
   formatDate,
   type Post,
@@ -17,6 +19,10 @@ import { useIntercomForPost } from '../lib/intercom'
 import { splitBody, blockText, slugify, type Block, type FaqItem } from '../lib/editorial'
 import { RenewalWidget, ScrollExplainer, AskWidget } from '../motion/Widgets'
 import { abVariant } from '../motion/events'
+import { YouTubePlayer } from '../components/YouTubePlayer'
+import { FeaturedVideo } from '../components/FeaturedVideo'
+import { RecentPosts } from '../components/RecentPosts'
+import { parseYouTubeUrl, youTubeThumbnails, youTubeWatchUrl } from '../lib/youtube'
 import { Toc, Takeaways, QuickAnswer, Faq, TrustFooter } from '../components/Editorial'
 
 type Node = Record<string, unknown>
@@ -61,6 +67,22 @@ function buildJsonLd(
   }
 
   const graph: Node[] = [article]
+
+  // The featured video, so Google can show this page as a video result. The
+  // upload date isn't known without the YouTube API; the post's publish date is
+  // the closest true statement about when it appeared here.
+  const video = parseYouTubeUrl(post.featuredVideo)
+  if (video) {
+    graph.push({
+      '@type': 'VideoObject',
+      name: post.title,
+      description: metaDescription,
+      thumbnailUrl: [imageUrl(post.videoThumbnail, 1280, 720), ...youTubeThumbnails(video.id).slice(1)].filter(Boolean),
+      uploadDate: post.publishedAt,
+      embedUrl: `https://www.youtube.com/embed/${video.id}`,
+      url: youTubeWatchUrl(video),
+    })
+  }
 
   if (post.howTo?.steps?.length) {
     const { name, totalTime, costMin, costMax, steps } = post.howTo
@@ -120,6 +142,42 @@ function VoiceQuote({ children }: { children?: React.ReactNode }) {
       <blockquote className="m-0 font-prose text-[19px] italic leading-[1.6] text-foreground [&_a]:text-primary">
         {children}
       </blockquote>
+    </figure>
+  )
+}
+
+/** The post being rendered, for alt-text fallbacks inside the body renderers. */
+const PostSlugContext = createContext('')
+
+function BodyImage({ value }: { value: { alt?: string; caption?: string } }) {
+  const slug = useContext(PostSlugContext)
+  const src = imageUrl(value as never, 1440)
+  if (!src) return null
+  return (
+    <figure className="my-8">
+      <img src={src} alt={altText(value.alt, slug)} loading="lazy" className="w-full rounded-xl" />
+      {value.caption && (
+        <figcaption className="mt-2 text-center text-sm text-muted-foreground">{value.caption}</figcaption>
+      )}
+    </figure>
+  )
+}
+
+function BodyYouTube({ value }: { value: { url?: string; caption?: string } }) {
+  const slug = useContext(PostSlugContext)
+  const video = parseYouTubeUrl(value.url)
+  if (!video) return null
+  return (
+    <figure className="my-8">
+      <YouTubePlayer
+        video={video}
+        title={value.caption || 'Video'}
+        posterAlt={altText(value.caption, slug)}
+        className="rounded-xl"
+      />
+      {value.caption && (
+        <figcaption className="mt-2 text-center text-sm text-muted-foreground">{value.caption}</figcaption>
+      )}
     </figure>
   )
 }
@@ -250,24 +308,14 @@ const components: PortableTextComponents = {
           {value.text}
         </aside>
       ) : null,
-    image: ({ value }) => {
-      const src = imageUrl(value, 1440)
-      if (!src) return null
-      return (
-        <figure className="my-8">
-          <img src={src} alt={value.alt ?? ''} loading="lazy" className="w-full rounded-xl" />
-          {value.caption && (
-            <figcaption className="mt-2 text-center text-sm text-muted-foreground">{value.caption}</figcaption>
-          )}
-        </figure>
-      )
-    },
+    youtube: ({ value }) => <BodyYouTube value={value} />,
+    image: ({ value }) => <BodyImage value={value} />,
   },
 }
 
 function Avatar({ post, size, className }: { post: Post; size: number; className: string }) {
-  const src = imageUrl(post.author?.avatar, size, size)
-  if (src) return <img src={src} alt="" className={className + ' object-cover'} />
+  const src = authorAvatarUrl(post.author, size)
+  if (src) return <img src={src} alt={post.author?.name ?? ''} className={className + ' object-cover'} />
   return (
     <span className={className + ' flex items-center justify-center bg-secondary text-sm font-medium text-primary'}>
       {post.author?.name?.charAt(0) ?? '?'}
@@ -307,6 +355,9 @@ export function BlogPost() {
   const seeded = useMemo(() => takeInitialData(`/${slug}`), [slug])
   const [post, setPost] = useState<Post | null | undefined>(seeded ? (seeded.post ?? null) : undefined)
   const [more, setMore] = useState<PostListItem[]>(seeded?.more ?? [])
+  // The featured video's mini player docks here (right column) while floating.
+  const videoDock = useRef<HTMLDivElement>(null)
+  const [videoDockHeight, setVideoDockHeight] = useState<number | null>(null)
 
   // The route keys this component by slug, so navigation remounts it with
   // fresh state and this effect only ever runs for the mounted slug.
@@ -362,7 +413,9 @@ export function BlogPost() {
   const metaTitle = post.seo?.metaTitle ?? post.title
   const metaDescription = post.seo?.metaDescription ?? post.excerpt
   const ogImage = imageUrl(post.seo?.ogImage, 1200, 630) ?? imageUrl(post.mainImage, 1200, 630)
-  const heroImage = imageUrl(post.mainImage, 1440, 810)
+  const heroImage = imageUrl(post.mainImage, 1600, 900)
+  const heroVideo = parseYouTubeUrl(post.featuredVideo)
+  const updated = Boolean(post._updatedAt) && formatDate(post._updatedAt) !== formatDate(post.publishedAt)
   const siteUrl = SITE_URL
   const canonical = `${siteUrl}/${post.slug}`
   const jsonLd = buildJsonLd(post, {
@@ -374,7 +427,7 @@ export function BlogPost() {
   })
 
   return (
-    <main className="mx-auto w-full max-w-[720px] px-4 pt-10 sm:px-6 xl:grid xl:max-w-[980px] xl:grid-cols-[180px_minmax(0,720px)] xl:gap-12">
+    <>
       <Helmet>
         <title>{`${metaTitle} — Lesser Blog`}</title>
         <meta name="description" content={metaDescription} />
@@ -388,35 +441,84 @@ export function BlogPost() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      <div className="hidden xl:block">
-        <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-          ← All articles
-        </Link>
-        {sections && (
-          <div className="mt-8">
-            <Toc items={sections.toc} />
+      {/* Title header: breadcrumb + date above the title, so the featured image
+          directly below is the first thing in the article itself. */}
+      <header>
+        <div className="mx-auto max-w-[1600px] px-4 pt-10 sm:px-6 sm:pt-12 lg:px-10">
+          <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-sm text-muted-foreground">
+            <nav aria-label="Breadcrumb">
+              <ol className="flex flex-wrap items-center gap-2">
+                <li>
+                  {/* Plain <a>: the marketing home is outside the blog's router. */}
+                  <a href="/" className="transition-colors hover:text-primary">Home</a>
+                </li>
+                <li aria-hidden="true">/</li>
+                <li>
+                  <Link to="/" className="transition-colors hover:text-primary">Blog</Link>
+                </li>
+                {post.category && (
+                  <>
+                    <li aria-hidden="true">/</li>
+                    <li className="text-foreground">{post.category.title}</li>
+                  </>
+                )}
+              </ol>
+            </nav>
+            <time dateTime={updated ? post._updatedAt : post.publishedAt}>
+              {updated ? `Updated ${formatDate(post._updatedAt)}` : `Published ${formatDate(post.publishedAt)}`}
+            </time>
           </div>
-        )}
-      </div>
-
-      <div>
-        <div className="xl:hidden">
-          <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
-            ← All articles
-          </Link>
-        </div>
-
-        <article className="mt-6 xl:mt-0">
-          {post.category && (
-            <span className="eyebrow">
-              {post.category.title}
-            </span>
-          )}
-          <h1 className="mt-3 font-display text-4xl font-bold leading-[1.14] tracking-[-0.01em] text-foreground sm:text-[40px]">
+          <h1 className="mt-4 font-display text-[32px] font-bold leading-[1.12] tracking-[-0.02em] text-foreground sm:text-[44px]">
             {post.title}
           </h1>
+        </div>
+      </header>
 
-          <div className="mt-5 flex items-center gap-3 border-b border-border pb-4 font-sans">
+      {/* Full-width layout: [On this page | article | Recent blogs] on wide
+          screens, [article | Recent blogs] on laptops, one column on phones.
+          The article column takes whatever width is left. */}
+      <main className="mx-auto w-full max-w-[1600px] px-4 pt-8 sm:px-6 sm:pt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10 lg:px-10 xl:grid-cols-[200px_minmax(0,1fr)_340px] xl:gap-12">
+        {/* Sticky: this column stretches to the article's height, so its content
+            can follow the reader down the page. Scrolls itself if the list of
+            sections is taller than the screen. */}
+        <div className="hidden xl:block">
+          <div className="sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto pb-4">
+            <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
+              ← All articles
+            </Link>
+            {sections && (
+              <div className="mt-8">
+                <Toc items={sections.toc} />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <div>
+        <PostSlugContext.Provider value={post.slug}>
+        <article>
+          {/* The featured image (or video) opens the article. */}
+          {heroVideo ? (
+            <FeaturedVideo
+              video={heroVideo}
+              title={post.title}
+              poster={imageUrl(post.videoThumbnail, 1600, 900)}
+              posterAlt={altText(post.videoThumbnail?.alt, post.slug)}
+              dockSlot={videoDock}
+              onFloatHeightChange={setVideoDockHeight}
+            />
+          ) : (
+            heroImage && (
+              <img
+                src={heroImage}
+                alt={altText(post.mainImage?.alt, post.slug)}
+                fetchPriority="high"
+                className="aspect-video w-full rounded-2xl object-cover shadow-card-lg"
+              />
+            )
+          )}
+
+          <div className="mt-6 flex items-center gap-3 border-b border-border pb-4 font-sans">
             <Avatar post={post} size={88} className="h-11 w-11 rounded-full" />
             <div className="min-w-0 flex-1">
               <p className="text-[14.5px] font-bold text-foreground">
@@ -425,25 +527,12 @@ export function BlogPost() {
               </p>
               <p className="text-[12.5px] text-muted-foreground">{readTime(post.wordCount)}</p>
             </div>
-            <span className="whitespace-nowrap text-[12.5px] text-muted-foreground">
-              {post._updatedAt && formatDate(post._updatedAt) !== formatDate(post.publishedAt)
-                ? `Updated ${formatDate(post._updatedAt)}`
-                : `Published ${formatDate(post.publishedAt)}`}
-            </span>
           </div>
 
           {sections?.quickAnswer && <QuickAnswer block={sections.quickAnswer} components={components} />}
           {sections && <Takeaways blocks={sections.takeaways} components={components} />}
 
           <div className="mb-8 xl:hidden">{sections && <Toc items={sections.toc} />}</div>
-
-          {heroImage && (
-            <img
-              src={heroImage}
-              alt={post.mainImage?.alt ?? ''}
-              className="mt-2 aspect-video w-full rounded-md object-cover"
-            />
-          )}
 
           {motion?.concept === 'renewal' && (!motion.ab || variant === 'a') && (
             <RenewalWidget slug={post.slug} placement="top" variant={motion.ab ? variant : undefined} />
@@ -480,27 +569,25 @@ export function BlogPost() {
             />
           )}
         </article>
+        </PostSlugContext.Provider>
 
-        {more.length > 0 && (
-          <section className="mt-16 font-sans">
-            <p className="eyebrow !text-muted-foreground">Keep reading</p>
-            <div className="mt-6 grid gap-x-12 gap-y-8 sm:grid-cols-2">
-              {more.map((p) => (
-                <Link
-                  key={p._id}
-                  to={`/${p.slug}`}
-                  className="group block"
-                >
-                  <p className="text-[15px] font-semibold leading-snug text-foreground transition-colors group-hover:text-primary">
-                    {p.title} <span className="inline-block text-primary opacity-0 transition-opacity group-hover:opacity-100">→</span>
-                  </p>
-                  <p className="mt-1 text-xs text-muted-foreground">{formatDate(p.publishedAt)}</p>
-                </Link>
-              ))}
-            </div>
-          </section>
-        )}
-      </div>
-    </main>
+        {/* Below the article where there's no right column. */}
+        <RecentPosts posts={more} className="mt-16 lg:hidden" />
+        </div>
+
+        <div className="hidden lg:block">
+          <div className="sticky top-8">
+            {/* Space for the floating video; grows with the same timing as its animation. */}
+            <div
+              ref={videoDock}
+              aria-hidden="true"
+              style={{ height: videoDockHeight ?? 0 }}
+              className="transition-[height] duration-[420ms] ease-[cubic-bezier(0.2,0.8,0.2,1)] motion-reduce:transition-none"
+            />
+            <RecentPosts posts={more} />
+          </div>
+        </div>
+      </main>
+    </>
   )
 }

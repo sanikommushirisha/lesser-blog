@@ -1,9 +1,13 @@
 import { Link } from 'react-router-dom'
-import { imageUrl, readTime, formatDate, type PostListItem } from '../lib/sanity'
+import { imageUrl, authorAvatarUrl, altText, readTime, formatDate, cardImage, type PostListItem } from '../lib/sanity'
+import { parseYouTubeUrl } from '../lib/youtube'
+import { VideoBadge } from './VideoBadge'
 
 export function PostCard({ post }: { post: PostListItem }) {
-  const cover = imageUrl(post.mainImage, 960, 640)
-  const avatar = imageUrl(post.author?.avatar, 56, 56)
+  const image = cardImage(post)
+  const cover = imageUrl(image, 960, 640)
+  const avatar = authorAvatarUrl(post.author, 56)
+  const hasVideo = Boolean(parseYouTubeUrl(post.featuredVideo))
 
   return (
     <li className="group">
@@ -12,13 +16,14 @@ export function PostCard({ post }: { post: PostListItem }) {
           {cover ? (
             <img
               src={cover}
-              alt={post.mainImage?.alt ?? ''}
+              alt={altText(image?.alt, post.slug)}
               loading="lazy"
               className="aspect-[3/2] w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
             />
           ) : (
             <div className="aspect-[3/2] w-full bg-secondary" aria-hidden="true" />
           )}
+          {hasVideo && <VideoBadge />}
           {post.category && (
             <span className="absolute left-3 top-3 rounded-full bg-background px-3.5 py-1.5 text-sm font-medium text-foreground shadow-sm">
               {post.category.title}
@@ -36,7 +41,7 @@ export function PostCard({ post }: { post: PostListItem }) {
         {post.author && (
           <div className="mt-3 flex items-center gap-2.5">
             {avatar ? (
-              <img src={avatar} alt="" className="h-7 w-7 rounded-full object-cover" />
+              <img src={avatar} alt={post.author.name ?? ''} className="h-7 w-7 rounded-full object-cover" />
             ) : (
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary text-xs font-medium text-primary">
                 {post.author.name?.charAt(0) ?? '?'}
