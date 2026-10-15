@@ -13,6 +13,40 @@
       gtag('config', 'AW-17968454942');
       gtag('event', 'conversion', {'send_to': 'AW-17968454942/j82uCJC-s4AcEJ66g_hC'});
     </script>
+    <!-- Marketing attribution: records which channel (UTM tags / referring site)
+         brought the visitor in the lsr_attr cookie; the app saves it on sign-up.
+         EXACT COPY of ATTRIBUTION_SCRIPT in lesser/lib/attribution.ts: keep in sync. -->
+    <script>
+(function(){try{
+var d=document,l=location,q=new URLSearchParams(l.search),N="lsr_attr";
+function cut(v,n){return v?String(v).trim().slice(0,n||100):undefined}
+function host(u){try{return u?new URL(u).hostname.toLowerCase().replace(/^www\./,""):""}catch(e){return ""}}
+var a={},tagged=false,K=["utm_source","utm_medium","utm_campaign","utm_content","utm_term"];
+for(var i=0;i<K.length;i++){var v=q.get(K[i]);if(v){a[K[i]]=cut(v.toLowerCase());tagged=true}}
+var g=q.get("gclid");if(g){a.gclid=cut(g,200);tagged=true;if(!a.utm_source){a.utm_source="google";a.utm_medium=a.utm_medium||"cpc"}}
+var h=host(d.referrer),self=l.hostname.toLowerCase().replace(/^www\./,"");
+if(h===self)h="";
+if(!tagged){
+if(d.cookie.indexOf(N+"=")>-1||!h)return;
+var s=h,m="referral";
+if(/(^|\.)google\./.test(h)){s="google";m="organic"}
+else if(/(^|\.)bing\.com$/.test(h)){s="bing";m="organic"}
+else if(/(^|\.)duckduckgo\.com$/.test(h)){s="duckduckgo";m="organic"}
+else if(/(^|\.)yahoo\./.test(h)){s="yahoo";m="organic"}
+else if(/(^|\.)(facebook\.com|fb\.com)$/.test(h)){s="facebook";m="social"}
+else if(/(^|\.)instagram\.com$/.test(h)){s="instagram";m="social"}
+else if(/^(t\.co|twitter\.com|x\.com|mobile\.twitter\.com)$/.test(h)){s="twitter";m="social"}
+else if(/(^|\.)(linkedin\.com|lnkd\.in)$/.test(h)){s="linkedin";m="social"}
+else if(/(^|\.)reddit\.com$/.test(h)){s="reddit";m="community"}
+else if(/(^|\.)trustpilot\.com$/.test(h)){s="trustpilot";m="review"}
+else if(/(^|\.)yelp\.com$/.test(h)){s="yelp";m="review"}
+a.utm_source=s;a.utm_medium=m}
+if(h)a.referrer=cut(h);
+a.landing_page=cut(l.pathname,200);
+a.ts=Date.now();
+d.cookie=N+"="+encodeURIComponent(JSON.stringify(a))+";path=/;max-age=7776000;samesite=lax"+(l.protocol==="https:"?";secure":"");
+}catch(e){}})();
+    </script>
     <!-- PostHog (US cloud, project 342396) — token is a public client key -->
     <script>
       !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}p||((p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",p.onerror=function(){p=null},(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r));var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
