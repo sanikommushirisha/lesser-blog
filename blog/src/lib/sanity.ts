@@ -2,18 +2,7 @@ import { createClient } from '@sanity/client'
 import imageUrlBuilder from '@sanity/image-url'
 import type { SanityImageSource } from '@sanity/image-url'
 import type { PortableTextBlock } from '@portabletext/react'
-import { DEMO_POST, DEMO_SLUG } from './demo-post'
 import { asset } from './base'
-
-/**
- * Local testing only: adds a demo video post (src/lib/demo-post.ts) and
- * tolerates Sanity being unreachable (e.g. localhost not in its CORS list), so
- * the demo is always testable. On under `npm run dev:blog`, and in local builds
- * (localhost:5000) when blog/.env.local sets VITE_DEMO_POSTS=true. That file is
- * gitignored, so deploy builds never include it; scripts/prerender.mjs also
- * refuses a deploy build that contains the demo.
- */
-const DEMO = import.meta.env.DEV || import.meta.env.VITE_DEMO_POSTS === 'true'
 
 const projectId = import.meta.env.VITE_SANITY_PROJECT_ID
 
@@ -25,21 +14,6 @@ export const client = createClient({
   apiVersion: '2026-06-01',
   useCdn: true,
 })
-
-/**
- * Dev-only fetch that never holds the demo back: a refused request (localhost
- * not in Sanity's CORS list) is retried by the client for several seconds, so
- * give up after 1.5s and show what we have.
- */
-const devClient = client.withConfig({ maxRetries: 0 })
-function devFetch<T>(query: string, params: Record<string, string> = {}): Promise<T[]> {
-  // The build-time prerender (Node) has no CORS problem: let it wait for real posts.
-  if (typeof window === 'undefined') return client.fetch<T[]>(query, params)
-  return Promise.race([
-    devClient.fetch<T[]>(query, params).catch(() => [] as T[]),
-    new Promise<T[]>((resolve) => setTimeout(() => resolve([]), 1500)),
-  ])
-}
 
 const builder = imageUrlBuilder(client)
 
@@ -145,13 +119,12 @@ const postCardFields = `
 `
 
 export async function fetchPosts(): Promise<PostListItem[]> {
-  const query = `*[_type == "post" && defined(slug.current) && publishedAt <= now()] | order(publishedAt desc) { ${postCardFields} }`
-  if (DEMO) return [DEMO_POST, ...(await devFetch<PostListItem>(query))]
-  return client.fetch(query)
+  return client.fetch(
+    `*[_type == "post" && defined(slug.current) && publishedAt <= now()] | order(publishedAt desc) { ${postCardFields} }`
+  )
 }
 
 export async function fetchPost(slug: string): Promise<Post | null> {
-  if (DEMO && slug === DEMO_SLUG) return DEMO_POST
   return client.fetch(
     `*[_type == "post" && slug.current == $slug][0] { ${postCardFields}, body, reviewedBy, faq, howTo, seo }`,
     { slug }
@@ -160,12 +133,10 @@ export async function fetchPost(slug: string): Promise<Post | null> {
 
 /** The 5 newest posts other than `excludeSlug`, for the article's "Recent blogs" card. */
 export async function fetchMorePosts(excludeSlug: string): Promise<PostListItem[]> {
-  const query = `*[_type == "post" && defined(slug.current) && slug.current != $excludeSlug && publishedAt <= now()] | order(publishedAt desc) [0...5] { ${postCardFields} }`
-  if (DEMO) {
-    const real = await devFetch<PostListItem>(query, { excludeSlug })
-    return [...(excludeSlug === DEMO_SLUG ? [] : [DEMO_POST]), ...real].slice(0, 5)
-  }
-  return client.fetch(query, { excludeSlug })
+  return client.fetch(
+    `*[_type == "post" && defined(slug.current) && slug.current != $excludeSlug && publishedAt <= now()] | order(publishedAt desc) [0...5] { ${postCardFields} }`,
+    { excludeSlug }
+  )
 }
 
 /**

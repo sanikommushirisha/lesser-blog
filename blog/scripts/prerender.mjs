@@ -52,14 +52,6 @@ if (!posts?.length) {
   process.exit(1)
 }
 
-// Local demo post (blog/.env.local VITE_DEMO_POSTS=true, see src/lib/demo-post.ts):
-// fine on localhost, never in a deploy build, never in the sitemap.
-const DEMO_SLUG = 'demo-video-post'
-if (posts.some((p) => p.slug === DEMO_SLUG) && (process.env.VERCEL || process.env.CI || process.env.SUBMIT_URLS)) {
-  console.error('prerender: the local demo post is enabled in a deploy build. Remove VITE_DEMO_POSTS from blog/.env.local.')
-  process.exit(1)
-}
-
 // Blog list at /
 fs.writeFileSync(path.join(dist, 'index.html'), buildPage('/', { route: '/', posts }))
 console.log(`prerendered / (${posts.length} posts on list)`)
@@ -105,7 +97,7 @@ console.log(`prerendered ${Object.keys(RENEWAL_VIDEOS).length} /r/ share pages (
 // sitemap.xml
 const urls = [
   { loc: url('/'), lastmod: posts[0]?._updatedAt || posts[0]?.publishedAt },
-  ...posts.filter((p) => p.slug !== DEMO_SLUG).map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p._updatedAt || p.publishedAt })),
+  ...posts.map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p._updatedAt || p.publishedAt })),
   ...VIDEOS.map((v) => ({ loc: `${SITE_URL}/videos/${v.slug}`, lastmod: v.uploadDate })),
 ]
 const sitemap = [
