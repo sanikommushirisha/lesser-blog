@@ -22,12 +22,14 @@ const EASING = 'cubic-bezier(0.2, 0.8, 0.2, 1)'
 /** Float once less than this fraction of the in-page spot is still on screen. */
 const VISIBLE_THRESHOLD = 0.3
 const CORNER_GAP = 16
+/** Phones: dock above the bottom-right launcher row (Intercom + event bell, 48px at 20px). */
+const CORNER_BOTTOM = 20 + 48 + 16
 
 /** Fixed position for the mini player: the dock slot's box, else the corner. */
 function floatStyleFor(slot: HTMLElement | null): CSSProperties {
   const r = slot?.getBoundingClientRect()
   if (r && r.width > 0) return { top: r.top, left: r.left, width: r.width }
-  return { right: CORNER_GAP, bottom: CORNER_GAP, width: Math.min(320, window.innerWidth * 0.62) }
+  return { right: CORNER_GAP, bottom: CORNER_BOTTOM, width: Math.min(320, window.innerWidth * 0.62) }
 }
 
 function prefersReducedMotion(): boolean {
