@@ -167,3 +167,206 @@ h6 {
     transform: none;
   }
 }
+
+/* ---- Event promo popup (components/EventPopup.tsx) ----
+   Design ported from the event-popup.html embed. Classes are prefixed so
+   nothing leaks into the article. Open: backdrop fades in while the card rises
+   and settles (springy ease). Close: a quicker fade + sink, 260ms (CLOSE_MS). */
+.lsr-evt {
+  position: fixed;
+  inset: 0;
+  z-index: 99999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background: rgba(22, 33, 62, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  font-family: var(--font-sans);
+  transition: opacity 260ms ease-in;
+}
+.lsr-evt[data-state='closed'] {
+  opacity: 0;
+}
+.lsr-evt[data-state='open'] {
+  opacity: 1;
+  transition: opacity 320ms ease-out;
+}
+.lsr-evt-box {
+  position: relative;
+  width: min(560px, 100%);
+  max-height: calc(100vh - 40px);
+  overflow: auto;
+  background: linear-gradient(135deg, #f8faf9, #eff5f3 55%, #e4f1ee);
+  color: #16213e;
+  border-radius: 18px;
+  box-shadow: 0 30px 80px rgba(22, 33, 62, 0.35);
+  outline: none;
+  transition:
+    transform 260ms ease-in,
+    opacity 260ms ease-in;
+}
+.lsr-evt[data-state='closed'] .lsr-evt-box {
+  transform: translateY(18px) scale(0.96);
+  opacity: 0;
+}
+.lsr-evt[data-state='open'] .lsr-evt-box {
+  transform: none;
+  opacity: 1;
+  transition:
+    transform 420ms cubic-bezier(0.2, 0.9, 0.3, 1.15),
+    opacity 300ms ease-out;
+}
+.lsr-evt-box::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background:
+    repeating-linear-gradient(90deg, transparent 0 59px, rgba(5, 107, 94, 0.06) 59px 60px),
+    repeating-linear-gradient(0deg, transparent 0 59px, rgba(5, 107, 94, 0.06) 59px 60px);
+}
+.lsr-evt-in {
+  position: relative;
+  padding: 28px 28px 24px;
+}
+.lsr-evt-kick {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font: 600 11px ui-monospace, SFMono-Regular, Menlo, monospace;
+  letter-spacing: 0.22em;
+  text-transform: uppercase;
+  color: #056b5e;
+  /* Keeps the line clear of the close button when it wraps on phones. */
+  padding-right: 40px;
+}
+.lsr-evt-kick::before {
+  content: '';
+  width: 26px;
+  height: 3px;
+  border-radius: 2px;
+  background: #056b5e;
+}
+.lsr-evt-title {
+  margin: 14px 0 0;
+  font-family: Georgia, 'Times New Roman', serif;
+  font-weight: 500;
+  font-size: 44px;
+  line-height: 1.02;
+  letter-spacing: -0.02em;
+  color: #16213e;
+}
+.lsr-evt-title em {
+  font-style: italic;
+  color: #056b5e;
+}
+.lsr-evt-copy {
+  margin: 12px 0 0;
+  max-width: 40ch;
+  font-size: 16px;
+  line-height: 1.45;
+  color: #525b6e;
+}
+.lsr-evt-spk {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 18px;
+  margin-top: 18px;
+}
+.lsr-evt-s {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-size: 13px;
+}
+.lsr-evt-s img {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 4px #056b5e;
+}
+.lsr-evt-s b {
+  display: block;
+  font-weight: 700;
+}
+.lsr-evt-s span {
+  color: #525b6e;
+}
+.lsr-evt-row {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  margin-top: 22px;
+}
+.lsr-evt-when {
+  font: 600 13px ui-monospace, SFMono-Regular, Menlo, monospace;
+  color: #16213e;
+}
+.lsr-evt-when small {
+  display: block;
+  margin-top: 3px;
+  font-weight: 500;
+  color: #525b6e;
+}
+.lsr-evt-cta {
+  display: inline-block;
+  padding: 13px 22px;
+  border-radius: 10px;
+  background: #056b5e;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-decoration: none;
+  white-space: nowrap;
+  transition: background-color 150ms ease;
+}
+.lsr-evt-cta:hover {
+  background: #034f46;
+}
+.lsr-evt-cta:focus-visible,
+.lsr-evt-x:focus-visible {
+  outline: 2px solid #056b5e;
+  outline-offset: 2px;
+}
+.lsr-evt-x {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  z-index: 1;
+  width: 36px;
+  height: 36px;
+  border: 0;
+  border-radius: 50%;
+  background: rgba(22, 33, 62, 0.06);
+  color: #16213e;
+  font-size: 20px;
+  line-height: 36px;
+  text-align: center;
+  cursor: pointer;
+  transition: background-color 150ms ease;
+}
+.lsr-evt-x:hover {
+  background: rgba(22, 33, 62, 0.12);
+}
+.lsr-evt-fine {
+  margin-top: 14px;
+  font-size: 11px;
+  color: #8a94a6;
+}
+@media (max-width: 480px) {
+  .lsr-evt-title {
+    font-size: 36px;
+  }
+  .lsr-evt-in {
+    padding: 22px 20px 20px;
+  }
+  .lsr-evt-cta {
+    width: 100%;
+    text-align: center;
+  }
+}
