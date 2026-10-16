@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
 import { asset } from '../lib/base'
+import { isEventUpcoming } from '../lib/event-promo'
 
 /**
  * Event promo popup on article pages (/blog/[slug]), ported from the
@@ -19,8 +20,6 @@ import { asset } from '../lib/base'
 const STORAGE_KEY = 'lsr_evt_popup'
 const SHOW_AFTER_MS = 3000
 const SNOOZE_MS = 24 * 60 * 60 * 1000
-/** Session start, 25 Oct 2026 10:00 AM PT. */
-const EVENT_ENDS_AT = Date.parse('2026-10-25T17:00:00Z')
 /** Must match the close transition in index.css (.lsr-evt). */
 const CLOSE_MS = 260
 
@@ -36,25 +35,34 @@ function snoozedRecently(): boolean {
   }
 }
 
-export function EventPopup() {
+export function EventPopup({ openSignal = 0 }: { openSignal?: number }) {
   const [phase, setPhase] = useState<Phase>('hidden')
   const dialog = useRef<HTMLDivElement>(null)
   const returnFocus = useRef<HTMLElement | null>(null)
 
   // Schedule the popup once per page view, unless snoozed or the event started.
   useEffect(() => {
-    if (Date.now() > EVENT_ENDS_AT || snoozedRecently()) return
-    const timer = window.setTimeout(() => {
-      returnFocus.current = document.activeElement as HTMLElement | null
-      setPhase('entering')
-    }, SHOW_AFTER_MS)
+    if (!isEventUpcoming() || snoozedRecently()) return
+    const timer = window.setTimeout(() => setPhase('entering'), SHOW_AFTER_MS)
     return () => window.clearTimeout(timer)
   }, [])
+
+  // Opened on request (the bell): immediately, regardless of delay or snooze.
+  // Adjusting state when a prop changes, during render (no effect needed).
+  const [handledSignal, setHandledSignal] = useState(openSignal)
+  if (openSignal !== handledSignal) {
+    setHandledSignal(openSignal)
+    if (phase !== 'open' && phase !== 'entering') setPhase('entering')
+  }
 
   // 'entering' renders the closed state first; the next frame switches to
   // 'open' so the CSS transition actually runs (a smooth fade + rise).
   useEffect(() => {
     if (phase !== 'entering') return
+    // Whatever had focus (the page, or the bell) gets it back on close.
+    if (!(document.activeElement as HTMLElement | null)?.closest?.('.lsr-evt')) {
+      returnFocus.current = document.activeElement as HTMLElement | null
+    }
     const frame = requestAnimationFrame(() => requestAnimationFrame(() => setPhase('open')))
     return () => cancelAnimationFrame(frame)
   }, [phase])

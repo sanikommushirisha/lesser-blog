@@ -8,19 +8,29 @@
 :root {
   /* White page, matching the marketing home page ("/"), whose sections are
      white over its cream body. Cards stay white and rely on --card-border. */
-  --background: 0 0% 100%;         /* #ffffff page */
-  --foreground: 0 0% 10%;          /* #1a1a1a */
-  --muted: 0 0% 96%;               /* #f5f5f5 */
-  --muted-foreground: 220 9% 46%;  /* #6b7280 */
-  --primary: 173 93% 16%;          /* #034f46 brand green */
+  --background: 0 0% 100%;
+  /* #ffffff page */
+  --foreground: 0 0% 10%;
+  /* #1a1a1a */
+  --muted: 0 0% 96%;
+  /* #f5f5f5 */
+  --muted-foreground: 220 9% 46%;
+  /* #6b7280 */
+  --primary: 173 93% 16%;
+  /* #034f46 brand green */
   --primary-foreground: 0 0% 100%;
-  --secondary: 171 30% 95%;        /* #f0f7f6 subtle tint */
+  --secondary: 171 30% 95%;
+  /* #f0f7f6 subtle tint */
   --secondary-foreground: 173 93% 16%;
-  --success: 161 94% 30%;          /* #059669 — status readouts only */
-  --border: 0 0% 88%;              /* #e0e0e0 */
-  --card: 0 0% 100%;               /* white cards on cream */
+  --success: 161 94% 30%;
+  /* #059669 — status readouts only */
+  --border: 0 0% 88%;
+  /* #e0e0e0 */
+  --card: 0 0% 100%;
+  /* white cards on cream */
   --card-foreground: 0 0% 10%;
-  --card-border: 158 15% 89%;      /* #e0e8e5 green-tinted */
+  --card-border: 158 15% 89%;
+  /* #e0e8e5 green-tinted */
   --ring: 173 93% 16%;
   --radius: 0.75rem;
 }
@@ -101,6 +111,7 @@ h6 {
 }
 
 @media (prefers-reduced-motion: reduce) {
+
   *,
   *::before,
   *::after {
@@ -121,18 +132,22 @@ h6 {
   color: hsl(var(--primary));
   opacity: 0.85;
 }
+
 .editorial-faq summary::-webkit-details-marker {
   display: none;
 }
+
 .editorial-takeaways ul {
   margin-bottom: 0;
   font-family: var(--font-sans);
   font-size: 15px;
 }
+
 .editorial-takeaways li::marker,
 .editorial-list li::marker {
   color: hsl(var(--muted-foreground) / 0.6);
 }
+
 .editorial-capsule p {
   margin-bottom: 0;
 }
@@ -143,10 +158,12 @@ h6 {
 .font-prose {
   font-family: var(--font-sans);
 }
+
 .font-display {
   font-weight: 800;
   letter-spacing: -0.03em;
 }
+
 .eyebrow {
   font-family: var(--font-sans);
   font-size: 12px;
@@ -162,6 +179,7 @@ h6 {
     opacity: 0;
     transform: translateY(4px);
   }
+
   to {
     opacity: 1;
     transform: none;
@@ -186,13 +204,16 @@ h6 {
   font-family: var(--font-sans);
   transition: opacity 260ms ease-in;
 }
+
 .lsr-evt[data-state='closed'] {
   opacity: 0;
 }
+
 .lsr-evt[data-state='open'] {
   opacity: 1;
   transition: opacity 320ms ease-out;
 }
+
 .lsr-evt-box {
   position: relative;
   width: min(560px, 100%);
@@ -207,10 +228,12 @@ h6 {
     transform 260ms ease-in,
     opacity 260ms ease-in;
 }
+
 .lsr-evt[data-state='closed'] .lsr-evt-box {
   transform: translateY(18px) scale(0.96);
   opacity: 0;
 }
+
 .lsr-evt[data-state='open'] .lsr-evt-box {
   transform: none;
   opacity: 1;
@@ -218,6 +241,7 @@ h6 {
     transform 420ms cubic-bezier(0.2, 0.9, 0.3, 1.15),
     opacity 300ms ease-out;
 }
+
 .lsr-evt-box::before {
   content: '';
   position: absolute;
@@ -227,10 +251,12 @@ h6 {
     repeating-linear-gradient(90deg, transparent 0 59px, rgba(5, 107, 94, 0.06) 59px 60px),
     repeating-linear-gradient(0deg, transparent 0 59px, rgba(5, 107, 94, 0.06) 59px 60px);
 }
+
 .lsr-evt-in {
   position: relative;
   padding: 28px 28px 24px;
 }
+
 .lsr-evt-kick {
   display: flex;
   align-items: center;
@@ -242,6 +268,7 @@ h6 {
   /* Keeps the line clear of the close button when it wraps on phones. */
   padding-right: 40px;
 }
+
 .lsr-evt-kick::before {
   content: '';
   width: 26px;
@@ -249,6 +276,7 @@ h6 {
   border-radius: 2px;
   background: #056b5e;
 }
+
 .lsr-evt-title {
   margin: 14px 0 0;
   font-family: Georgia, 'Times New Roman', serif;
@@ -258,10 +286,12 @@ h6 {
   letter-spacing: -0.02em;
   color: #16213e;
 }
+
 .lsr-evt-title em {
   font-style: italic;
   color: #056b5e;
 }
+
 .lsr-evt-copy {
   margin: 12px 0 0;
   max-width: 40ch;
@@ -269,18 +299,21 @@ h6 {
   line-height: 1.45;
   color: #525b6e;
 }
+
 .lsr-evt-spk {
   display: flex;
   flex-wrap: wrap;
   gap: 18px;
   margin-top: 18px;
 }
+
 .lsr-evt-s {
   display: flex;
   align-items: center;
   gap: 10px;
   font-size: 13px;
 }
+
 .lsr-evt-s img {
   width: 40px;
   height: 40px;
@@ -288,13 +321,16 @@ h6 {
   object-fit: cover;
   box-shadow: 0 0 0 2px #fff, 0 0 0 4px #056b5e;
 }
+
 .lsr-evt-s b {
   display: block;
   font-weight: 700;
 }
+
 .lsr-evt-s span {
   color: #525b6e;
 }
+
 .lsr-evt-row {
   display: flex;
   flex-wrap: wrap;
@@ -303,16 +339,19 @@ h6 {
   gap: 14px;
   margin-top: 22px;
 }
+
 .lsr-evt-when {
   font: 600 13px ui-monospace, SFMono-Regular, Menlo, monospace;
   color: #16213e;
 }
+
 .lsr-evt-when small {
   display: block;
   margin-top: 3px;
   font-weight: 500;
   color: #525b6e;
 }
+
 .lsr-evt-cta {
   display: inline-block;
   padding: 13px 22px;
@@ -325,14 +364,17 @@ h6 {
   white-space: nowrap;
   transition: background-color 150ms ease;
 }
+
 .lsr-evt-cta:hover {
   background: #034f46;
 }
+
 .lsr-evt-cta:focus-visible,
 .lsr-evt-x:focus-visible {
   outline: 2px solid #056b5e;
   outline-offset: 2px;
 }
+
 .lsr-evt-x {
   position: absolute;
   top: 12px;
@@ -350,23 +392,108 @@ h6 {
   cursor: pointer;
   transition: background-color 150ms ease;
 }
+
 .lsr-evt-x:hover {
   background: rgba(22, 33, 62, 0.12);
 }
+
 .lsr-evt-fine {
   margin-top: 14px;
   font-size: 11px;
   color: #8a94a6;
 }
+
 @media (max-width: 480px) {
   .lsr-evt-title {
     font-size: 36px;
   }
+
   .lsr-evt-in {
     padding: 22px 20px 20px;
   }
+
   .lsr-evt-cta {
     width: 100%;
     text-align: center;
+  }
+}
+
+/* Event bell next to the Intercom launcher (components/EventPromo.tsx).
+   Mirrors the launcher: 48px circle, 20px from the bottom, one launcher width
+   + 12px gap to its left (20 + 48 + 12 = 80px). Sits under the popup (99999)
+   and under Intercom's own layer, so an open Messenger covers it. */
+.lsr-evt-bell {
+  position: fixed;
+  right: 80px;
+  bottom: 20px;
+  z-index: 9998;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 48px;
+  border: 0;
+  border-radius: 50%;
+  /* Matches the Intercom launcher: EventPromo copies the launcher's actual
+     background into --lsr-launcher-bg once it renders. Black until then, or
+     if Intercom doesn't load. */
+  background: var(--lsr-launcher-bg, #000);
+  color: #fff;
+  cursor: pointer;
+  box-shadow:
+    0 1px 6px rgba(0, 0, 0, 0.06),
+    0 2px 32px rgba(0, 0, 0, 0.16);
+  animation: lsr-evt-bell-in 320ms cubic-bezier(0.2, 0.9, 0.3, 1.2) both;
+  transition: transform 160ms ease;
+}
+
+.lsr-evt-bell:hover {
+  transform: scale(1.06);
+}
+
+.lsr-evt-bell:active {
+  transform: scale(0.96);
+}
+
+.lsr-evt-bell:focus-visible {
+  outline: 2px solid #056b5e;
+  outline-offset: 3px;
+}
+
+.lsr-evt-bell-badge {
+  position: absolute;
+  top: -4px;
+  right: -4px;
+  min-width: 20px;
+  height: 20px;
+  padding: 0 5px;
+  border-radius: 10px;
+  background: #dc2626;
+  color: #fff;
+  font: 700 11px/20px var(--font-sans);
+  text-align: center;
+  box-shadow: 0 0 0 2px #fff;
+  animation: lsr-evt-badge-in 360ms 200ms cubic-bezier(0.2, 0.9, 0.3, 1.4) both;
+}
+
+@keyframes lsr-evt-bell-in {
+  from {
+    opacity: 0;
+    transform: translateY(8px) scale(0.9);
+  }
+
+  to {
+    opacity: 1;
+    transform: none;
+  }
+}
+
+@keyframes lsr-evt-badge-in {
+  from {
+    transform: scale(0);
+  }
+
+  to {
+    transform: scale(1);
   }
 }

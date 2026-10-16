@@ -22,7 +22,7 @@ import { abVariant } from '../motion/events'
 import { YouTubePlayer } from '../components/YouTubePlayer'
 import { FeaturedVideo } from '../components/FeaturedVideo'
 import { RecentPosts } from '../components/RecentPosts'
-import { EventPopup } from '../components/EventPopup'
+import { EventPromo } from '../components/EventPromo'
 import { parseYouTubeUrl, youTubeThumbnails, youTubeWatchUrl } from '../lib/youtube'
 import { Toc, Takeaways, QuickAnswer, Faq, TrustFooter } from '../components/Editorial'
 
@@ -442,8 +442,8 @@ export function BlogPost() {
         <script type="application/ld+json">{JSON.stringify(jsonLd)}</script>
       </Helmet>
 
-      {/* Event promo; only on article pages, client-only, self-scheduling. */}
-      <EventPopup />
+      {/* Event promo (popup + bell next to the chat launcher); article pages only, client-only. */}
+      <EventPromo />
 
       {/* Title header: breadcrumb + date above the title, so the featured image
           directly below is the first thing in the article itself. */}
