@@ -40,7 +40,7 @@ export function Toc({ items }: { items: Sections['toc'] }) {
                 'block rounded-full bg-secondary px-3 py-1 leading-snug no-underline transition-colors xl:rounded-none xl:bg-transparent xl:p-0 ' +
                 (active === t.id
                   ? 'font-medium text-primary'
-                  : 'text-muted-foreground hover:text-foreground')
+                  : 'text-foreground/75 hover:text-foreground xl:text-muted-foreground')
               }
             >
               {t.label}
@@ -158,7 +158,7 @@ export function TrustFooter({
                 key={i}
                 className="grid grid-cols-[1.75rem_minmax(0,1fr)] items-baseline gap-x-1 text-[13.5px] leading-relaxed sm:grid-cols-[1.75rem_minmax(0,1fr)_auto] sm:gap-x-4"
               >
-                <span className="tabular-nums text-muted-foreground/50">{String(i + 1).padStart(2, '0')}</span>
+                <span className="tabular-nums text-muted-foreground">{String(i + 1).padStart(2, '0')}</span>
                 <span className="text-muted-foreground">{c.text}</span>
                 {c.href ? (
                   <a

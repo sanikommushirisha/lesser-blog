@@ -282,6 +282,7 @@ export default function GoogleReviewsSection() {
               href={GOOGLE_PROFILE_LINK}
               target="_blank"
               rel="noopener noreferrer"
+              aria-label="View Lesser Tax reviews on Google"
               className="flex items-center gap-2 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
               data-testid="link-google-profile"
             >

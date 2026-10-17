@@ -55,9 +55,10 @@ export async function setupVite(server: Server, app: Express) {
         `src="/src/main.tsx?v=${nanoid()}"`,
       );
       // Same per-route meta production serves, so what crawlers get can be checked locally.
-      template = injectMeta(template, metaFor(url));
+      const { meta, status } = metaFor(url);
+      template = injectMeta(template, meta);
       const page = await vite.transformIndexHtml(url, template);
-      res.status(200).set({ "Content-Type": "text/html" }).end(page);
+      res.status(status).set({ "Content-Type": "text/html" }).end(page);
     } catch (e) {
       vite.ssrFixStacktrace(e as Error);
       next(e);

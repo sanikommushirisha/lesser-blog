@@ -15,10 +15,11 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Helmet } from "react-helmet";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import lesserLogo from "@assets/lesser_logo.png";
+import { FaqJsonLd } from "@/components/json-ld";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -672,11 +673,11 @@ function RePricingFooter() {
           <div className="flex items-center gap-5">
             <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
-            <a href="mailto:use@lesser.tax" className="hover:text-white/50 transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
+            <a href="mailto:use@lesser.tax" className="hover:text-white transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
           </div>
         </div>
       </div>
@@ -691,24 +692,13 @@ export default function RePricingPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>$100 Per Entity — RE Investor Tax Filing | Lesser</title>
-        <meta name="description" content="Own 5 rental LLCs? File all partnership returns for $100 each — not $1,500. Form 1065 + K-1s included, CPA-reviewed, 24-hour turnaround." />
-        <meta property="og:title" content="Lesser — $100 Per Entity for Real Estate Investors" />
-        <meta property="og:description" content="File your rental LLC partnership returns for $100 each. Form 1065 + K-1s included. CPA-reviewed, 24hr turnaround. Stop overpaying your CPA." />
-        <meta property="og:image" content="https://lesser.tax/og-landing.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Lesser — $100 Per Entity for Real Estate Investors" />
-        <meta name="twitter:description" content="File your rental LLC partnership returns for $100 each. Form 1065 + K-1s included. CPA-reviewed, 24hr turnaround. Stop overpaying your CPA." />
-        <meta name="twitter:image" content="https://lesser.tax/og-landing.jpg" />
-      </Helmet>
       <SharedNavbar variant="business" sourcePage="/business/realestate" />
       <HeroSection />
       <MultiEntitySection />
       <ComparisonSection />
       <FAQSection />
+      <FaqJsonLd items={faqs} />
+      <RelatedGuides heading="Tax guides for real estate investors" guides={GUIDES.realEstate} />
       <GoogleReviewsSection />
       <HowItWorksSection />
       <DeadlineSection />

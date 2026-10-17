@@ -204,6 +204,8 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
             <button
               className="md:hidden relative w-9 h-9 flex items-center justify-center rounded-full border border-border/50 bg-muted/30 transition-all duration-300 hover:bg-muted/60"
               onClick={() => setMobileOpen(!mobileOpen)}
+              aria-label={mobileOpen ? "Close menu" : "Open menu"}
+              aria-expanded={mobileOpen}
               data-testid="button-nav-hamburger"
             >
               <div className="flex flex-col items-center justify-center w-4 gap-[4px]">

@@ -29,8 +29,19 @@ const { render, fetchPosts, fetchPost, fetchMorePosts } = await import(entryServ
 
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
 
+// React 19 renders <title>, <meta> and <link> elements found anywhere in the
+// tree as "hoistables": renderToString emits them first, at the start of the
+// app's markup, and the browser moves them into <head> only once JavaScript
+// runs. Crawlers read the raw HTML, where a description or canonical inside
+// <body> is ignored. So the leading run of hoistables goes into <head> here.
+// (React does not hydrate hoistables in place, so moving them is safe.)
+const HOISTABLES = /^(?:<title>[^<]*<\/title>|<meta\b[^>]*\/?>|<link\b[^>]*\/?>)+/
+
 function buildPage(route, data) {
-  const { html, head } = render(route, data)
+  const rendered = render(route, data)
+  const hoisted = rendered.html.match(HOISTABLES)?.[0] ?? ''
+  const html = rendered.html.slice(hoisted.length)
+  const head = [rendered.head, hoisted.replace(/></g, '>\n    <')].filter(Boolean).join('\n    ')
   // JSON-encode initial data safely for an inline <script> (no </script> breakout)
   const json = JSON.stringify(data).replace(/</g, '\\u003c')
   return (

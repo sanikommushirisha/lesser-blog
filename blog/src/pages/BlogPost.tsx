@@ -25,6 +25,8 @@ import { RecentPosts } from '../components/RecentPosts'
 import { EventPromo } from '../components/EventPromo'
 import { parseYouTubeUrl, youTubeThumbnails, youTubeWatchUrl } from '../lib/youtube'
 import { Toc, Takeaways, QuickAnswer, Faq, TrustFooter } from '../components/Editorial'
+import { BRAND, ORGANIZATION, pageDescription, pageTitle } from '../lib/seo'
+import { ServiceCard, ServiceLink } from '../components/ServiceCta'
 
 type Node = Record<string, unknown>
 
@@ -47,23 +49,21 @@ function buildJsonLd(
     ...(ogImage ? { image: ogImage } : {}),
     datePublished: post.publishedAt,
     dateModified: post._updatedAt || post.publishedAt,
-    ...(post.author
+    // A post credited to the company itself names the organization, not a person.
+    ...(post.author?.name === BRAND
+      ? { author: ORGANIZATION }
+      : post.author
       ? {
           author: {
             '@type': 'Person',
             name: post.author.name,
             ...(post.author.role ? { jobTitle: post.author.role } : {}),
-            worksFor: { '@type': 'Organization', name: 'Lesser' },
-            url: 'https://lesser.tax/about',
+            worksFor: ORGANIZATION,
           },
         }
       : {}),
     ...(post.reviewedBy ? { reviewedBy: { '@type': 'Person', name: post.reviewedBy } } : {}),
-    publisher: {
-      '@type': 'Organization',
-      name: 'Lesser',
-      logo: { '@type': 'ImageObject', url: `${SITE_URL}/logo.png` },
-    },
+    publisher: ORGANIZATION,
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
   }
 
@@ -123,12 +123,13 @@ function buildJsonLd(
     })
   }
 
-  // Blog > Post only. The category has no archive page to link to, and Google
+  // Home > Blog > Post only. The category has no archive page to link to, and Google
   // requires an `item` URL on every breadcrumb entry except the last, so a
   // category tier without a URL is invalid ("Missing field item in itemListElement").
   const crumbs: Node[] = [
-    { '@type': 'ListItem', position: 1, name: 'Blog', item: `${siteUrl}/` },
-    { '@type': 'ListItem', position: 2, name: post.title, item: canonical },
+    { '@type': 'ListItem', position: 1, name: 'Home', item: 'https://lesser.tax/' },
+    { '@type': 'ListItem', position: 2, name: 'Blog', item: siteUrl },
+    { '@type': 'ListItem', position: 3, name: post.title, item: canonical },
   ]
   graph.push({ '@type': 'BreadcrumbList', itemListElement: crumbs })
 
@@ -412,7 +413,7 @@ export function BlogPost() {
   }
 
   const metaTitle = post.seo?.metaTitle ?? post.title
-  const metaDescription = post.seo?.metaDescription ?? post.excerpt
+  const metaDescription = pageDescription(post.seo?.metaDescription ?? post.excerpt)
   const ogImage = imageUrl(post.seo?.ogImage, 1200, 630) ?? imageUrl(post.mainImage, 1200, 630)
   const heroImage = imageUrl(post.mainImage, 1600, 900)
   const heroVideo = parseYouTubeUrl(post.featuredVideo)
@@ -430,11 +431,15 @@ export function BlogPost() {
   return (
     <>
       <Helmet>
-        <title>{`${metaTitle} — Lesser Blog`}</title>
+        <title>{pageTitle(metaTitle)}</title>
         <meta name="description" content={metaDescription} />
         <link rel="canonical" href={canonical} />
         <meta property="og:type" content="article" />
-        <meta property="og:title" content={metaTitle} />
+        <meta property="og:title" content={pageTitle(metaTitle)} />
+        <meta property="og:site_name" content={BRAND} />
+        <meta name="twitter:title" content={pageTitle(metaTitle)} />
+        <meta name="twitter:description" content={metaDescription} />
+        {ogImage && <meta name="twitter:image" content={ogImage} />}
         <meta property="og:description" content={metaDescription} />
         <meta property="og:url" content={canonical} />
         {ogImage && <meta property="og:image" content={ogImage} />}
@@ -535,6 +540,7 @@ export function BlogPost() {
 
           {sections?.quickAnswer && <QuickAnswer block={sections.quickAnswer} components={components} />}
           {sections && <Takeaways blocks={sections.takeaways} components={components} />}
+          <ServiceLink slug={post.slug} category={post.category?.title} />
 
           <div className="mb-8 xl:hidden">{sections && <Toc items={sections.toc} />}</div>
 
@@ -563,6 +569,8 @@ export function BlogPost() {
           </div>
 
           {motion?.concept === 'ask' && <AskWidget slug={post.slug} questions={motion.questions ?? ['fbar']} />}
+
+          <ServiceCard slug={post.slug} category={post.category?.title} />
 
           {sections && <Faq items={sections.faq} components={components} />}
           {(sections?.sources || post.author) && (

@@ -29,15 +29,16 @@ import { Button } from "@/components/ui/button";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Helmet } from "react-helmet";
 import lesserLogo from "@assets/lesser_logo.png";
-import teamDavidImg from "@assets/team_david_clean.png";
-import teamVishweshImg from "@assets/team_vishwesh_clean.png";
-import teamJithendraImg from "@assets/team_jithendra_clean.png";
-import teamRobertImg from "@assets/team_robert_clean.png";
+import teamDavidImg from "@assets/team_david_clean.webp";
+import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
+import teamJithendraImg from "@assets/team_jithendra_clean.webp";
+import teamRobertImg from "@assets/team_robert_clean.webp";
 import socBadge from "@assets/soc_2_1770525581521.png";
 import irsBadge from "@assets/irs_1770525648550.png";
 import encryptionBadge from "@assets/image_1771470632228.png";
+import { FaqJsonLd } from "@/components/json-ld";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
 
 
 function Custom3DCursor() {
@@ -589,7 +590,7 @@ function HeroSection() {
             className="hero-text-reveal text-4xl sm:text-5xl lg:text-[75px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-8"
             data-testid="text-hero-heading"
           >
-            Tax Filing and Planning for
+            Tax Filing and Planning for{" "}
             <br />
             <RotatingWords />
           </h1>
@@ -737,7 +738,7 @@ function SavingsShowcaseSection() {
             className="text-3xl sm:text-4xl lg:text-[60px] lg:leading-[1.08] font-extrabold tracking-[-0.03em] text-foreground tracking-tight transition-all duration-700 opacity-100 translate-y-0 mt-[20px] mb-[20px]"
             data-testid="text-savings-heading"
           >
-            Your tax situation isn't simple.
+            Your tax situation isn't simple.{" "}
             <br />
             <span className="text-primary">We decode what others miss.</span>
           </h2>
@@ -1295,6 +1296,10 @@ function TeamSection() {
                 <div className="relative overflow-hidden flex items-end justify-center px-4 mt-6" style={{ height: '150px' }}>
                   <img
                     src={member.image}
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={400}
                     alt={member.name}
                     className="w-32 h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
                     style={{ objectPosition: 'center 15%' }}
@@ -1741,7 +1746,7 @@ function CTASection() {
           className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-white tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           data-testid="text-cta-heading"
         >
-          Ready to stop overpaying
+          Ready to stop overpaying{" "}
           <br />
           <span className="relative">
             on taxes?
@@ -1805,7 +1810,7 @@ function Footer() {
                   rel="noopener noreferrer"
                   aria-label={social.label}
                   data-testid={social.testId}
-                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/35 transition-all duration-300 hover:bg-white/10 hover:text-white/70"
+                  className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/60 transition-all duration-300 hover:bg-white/10 hover:text-white/70"
                 >
                   {social.icon}
                 </a>
@@ -1815,11 +1820,11 @@ function Footer() {
 
           <div className="flex flex-col items-center sm:items-end gap-2">
             <div className="flex items-center gap-3 text-[11px]">
-              <a href="/privacy" className="text-white/40 hover:text-white/70 transition-colors" data-testid="link-footer-privacy">Privacy Policy</a>
-              <span className="text-white/20">|</span>
-              <a href="/terms" className="text-white/40 hover:text-white/70 transition-colors" data-testid="link-footer-terms">Terms of Use</a>
+              <a href="/privacy" className="text-white/60 hover:text-white/70 transition-colors" data-testid="link-footer-privacy">Privacy Policy</a>
+              <span className="text-white/60">|</span>
+              <a href="/terms" className="text-white/60 hover:text-white/70 transition-colors" data-testid="link-footer-terms">Terms of Use</a>
             </div>
-            <p className="text-[11px] text-white/30 leading-relaxed text-center sm:text-right max-w-md" data-testid="text-footer-disclaimer">
+            <p className="text-[11px] text-white/60 leading-relaxed text-center sm:text-right max-w-md" data-testid="text-footer-disclaimer">
               &copy; 2026 Lesser. All rights reserved. Tax planning &amp; preparation service. Not legal or financial advice.
             </p>
           </div>
@@ -1838,7 +1843,7 @@ function Footer() {
               rel="noopener noreferrer"
               aria-label={social.label}
               data-testid={social.testId}
-              className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/35 transition-all duration-300 hover:bg-white/10 hover:text-white/70"
+              className="w-8 h-8 rounded-full bg-white/5 flex items-center justify-center text-white/60 transition-all duration-300 hover:bg-white/10 hover:text-white/70"
             >
               {social.icon}
             </a>
@@ -1852,19 +1857,6 @@ function Footer() {
 export default function LandingPage() {
   return (
     <div className="min-h-screen bg-white dark:bg-background">
-      <Helmet>
-        <title>Lesser - Flat-Fee Tax Planning & Filing for Tech Professionals</title>
-        <meta name="description" content="Big Four-trained CPAs. AI-powered platform. Flat-fee pricing from $99/year. Year-round tax strategy for tech professionals with equity compensation — RSUs, ISOs, and stock options." />
-        <meta property="og:title" content="Lesser — Your CPA Team for Equity Comp & Complex Taxes" />
-        <meta property="og:description" content="Big Four-trained CPAs meet AI-powered tax planning. Flat-fee pricing from $99/year. Built for tech professionals with RSUs, ISOs, and stock options." />
-        <meta property="og:image" content="https://lesser.tax/og-landing.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Lesser — Your CPA Team for Equity Comp & Complex Taxes" />
-        <meta name="twitter:description" content="Big Four-trained CPAs meet AI-powered tax planning. Flat-fee pricing from $99/year. Built for tech professionals with RSUs, ISOs, and stock options." />
-        <meta name="twitter:image" content="https://lesser.tax/og-landing.jpg" />
-      </Helmet>
       <SharedNavbar variant="individual" sourcePage="/" />
       <HeroSection />
       <TrustedByBanner />
@@ -1877,6 +1869,8 @@ export default function LandingPage() {
       <PricingSection />
       <SecuritySection />
       <FAQSection />
+      <FaqJsonLd items={faqs} />
+      <RelatedGuides heading="Tax guides for tech professionals" guides={GUIDES.tech} />
       <CTASection />
       <Footer />
     </div>

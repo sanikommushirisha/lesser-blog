@@ -48,11 +48,11 @@
   --chart-3: 161 94% 30%;
   --chart-4: 171 39% 74%;
   --chart-5: 43 74% 66%;
-  --font-sans: 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-sans: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, sans-serif;
   /* NOTE: font-serif is deliberately NOT a serif — it is the bold display
      class (Jakarta 800). Use .font-eb-garamond for a real serif. */
-  --font-serif: 'Plus Jakarta Sans', system-ui, sans-serif;
-  --font-eb-garamond: 'EB Garamond', Georgia, serif;
+  --font-serif: 'Plus Jakarta Sans Variable', 'Plus Jakarta Sans', system-ui, sans-serif;
+  --font-eb-garamond: 'EB Garamond Variable', 'EB Garamond', Georgia, serif;
   --font-mono: Menlo, monospace;
   --radius: .75rem;
   --shadow-2xs: 0 1px 2px 0 rgb(2 6 23 / 0.04);
@@ -586,12 +586,14 @@
   50% { opacity: 0.3; transform: scale(1.15); }
 }
 @keyframes hero-text-reveal {
-  0% { opacity: 0; transform: translateY(40px) rotateX(15deg); }
+  /* 0.01, not 0: Chrome does not count fully transparent text as painted,
+     which pushed the Largest Contentful Paint back to hydration. */
+  0% { opacity: 0.01; transform: translateY(40px) rotateX(15deg); }
   60% { opacity: 1; }
   100% { opacity: 1; transform: translateY(0) rotateX(0deg); }
 }
 @keyframes hero-text-reveal-sub {
-  0% { opacity: 0; transform: translateY(30px); }
+  0% { opacity: 0.01; transform: translateY(30px); }
   100% { opacity: 1; transform: translateY(0); }
 }
 @keyframes hero-btn-appear {
@@ -925,5 +927,33 @@
   }
   .google-review-card {
     transition-duration: 0.01ms;
+  }
+}
+
+/* Hero entrances that run from the first paint, without waiting for
+   JavaScript: the hero is prerendered, so it should show as soon as the HTML
+   arrives (it is usually the page's Largest Contentful Paint). */
+@keyframes hero-fade-in {
+  from { opacity: 0.01; }
+  to { opacity: 1; }
+}
+@keyframes hero-fade-left {
+  from { opacity: 0.01; transform: translateX(40px); }
+  to { opacity: 1; transform: translateX(0); }
+}
+.hero-fade-up {
+  animation: hero-text-reveal-sub 0.7s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-fade-left {
+  animation: hero-fade-left 0.9s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+.hero-fade-in {
+  animation: hero-fade-in 0.9s ease-out both;
+}
+@media (prefers-reduced-motion: reduce) {
+  .hero-fade-up,
+  .hero-fade-left,
+  .hero-fade-in {
+    animation: none;
   }
 }

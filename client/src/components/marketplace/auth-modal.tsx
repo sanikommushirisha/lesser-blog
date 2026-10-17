@@ -302,7 +302,7 @@ export default function AuthModal({
         data-testid="modal-portal-auth"
       >
         <div className="flex flex-col items-center text-center">
-          <DialogTitle className="font-['EB_Garamond',serif] text-[26px] font-semibold tracking-tight text-[#1a1a1a]">
+          <DialogTitle className="font-['EB_Garamond_Variable','EB_Garamond',serif] text-[26px] font-semibold tracking-tight text-[#1a1a1a]">
             {heading}
           </DialogTitle>
           <DialogDescription className="mt-1 text-[13px] text-gray-500">{subheading}</DialogDescription>
