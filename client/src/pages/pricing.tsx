@@ -150,7 +150,7 @@ export default function PricingPage() {
             className="font-serif text-4xl sm:text-5xl md:text-[56px] font-semibold text-foreground tracking-tighter leading-none"
             data-testid="text-main-heading"
           >
-            Flat-Fee Pricing for
+            Flat-Fee Pricing for{" "}
             <br />
             Year-Round Strategy
           </h1>

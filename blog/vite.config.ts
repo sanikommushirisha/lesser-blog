@@ -13,15 +13,10 @@ export default defineConfig({
   // this app's CSS to Tailwind 3 and fail on `@layer components`.
   css: { postcss: {} },
   build: {
+    // The Studio chunk (Sanity + styled-components) is large, but only
+    // /blog/studio loads it: App.tsx imports StudioPage lazily. Do not group
+    // modules into a manual "studio" chunk: shared code (React, helpers) ends up
+    // inside it and every article then preloads all 6.5 MB of it.
     chunkSizeWarningLimit: 7000,
-    rollupOptions: {
-      output: {
-        manualChunks(id) {
-          if (id.includes('node_modules/sanity') || id.includes('node_modules/styled-components')) {
-            return 'studio'
-          }
-        },
-      },
-    },
   },
 })

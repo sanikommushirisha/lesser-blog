@@ -1,0 +1,23 @@
+# Lesser Tax
+
+> Lesser Tax (lesser.tax) is a U.S. tax firm: Big Four-trained CPAs plus an AI-powered platform. Flat-fee tax filing and year-round tax planning for tech professionals with equity compensation (RSUs, ISOs, ESPP), NRIs (Indians living in the U.S.) and small businesses.
+
+## Services
+
+- [Tax filing and planning for tech professionals](https://lesser.tax/): flat-fee CPA tax filing and year-round planning, from $99 a year.
+- [NRI tax filing (U.S. and India)](https://lesser.tax/nris): FBAR, FATCA, PFIC, Indian rental income, foreign tax credits and RNOR planning.
+- [India tax filing (ITR) for NRIs](https://lesser.tax/services/india-tax-filing): Indian income tax returns filed from the U.S. by vetted Chartered Accountants, from $69.
+- [Indian passport renewal in the USA](https://lesser.tax/services/passport-renewal): VFS form filling, document checklist, photo guidance and application review for a flat $140.
+- [Business tax filing](https://lesser.tax/business): Form 1120, 1065 or 1120-S for a flat $100, CPA-reviewed.
+- [Partnership tax filing](https://lesser.tax/business/partnerships): Form 1065 and K-1s at $100 per entity.
+- [Book a tax expert](https://lesser.tax/dashboard/tax-experts): one-on-one consultations with vetted CPAs and tax experts.
+- [NRI services marketplace](https://lesser.tax/marketplace): passport renewal, India tax filing and other services for Indians in the U.S.
+
+## Guides
+
+- [Lesser Tax blog](https://lesser.tax/blog): in-depth guides on NRI taxes, FBAR, DTAA, Indian passport renewal, and U.S. business taxes for founders. Full list: https://lesser.tax/blog/sitemap.xml
+
+## Contact
+
+- Email: use@lesser.tax
+- Sign up: https://lesser.tax/app/auth/sign-up

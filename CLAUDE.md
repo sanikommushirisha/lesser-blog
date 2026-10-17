@@ -12,25 +12,28 @@ Standing rule, not a one-off: whenever you create a page OR work on an existing 
 
 ### Checklist
 
-1. **Meta title**: unique per page, 50-60 characters, main search phrase first, ending `| Lesser`. Written for people searching (e.g. "Indian Passport Renewal in the US | Lesser"), not internal names.
+1. **Meta title**: unique per page, 50-60 characters, main search phrase first, ending `| Lesser Tax` (the brand is "Lesser Tax", never "Lesser" alone). Written for people searching (e.g. "Indian Passport Renewal in the USA for NRIs | Lesser Tax"), not internal names.
 2. **Meta description**: unique, 140-160 characters, says what the page offers and who it is for, includes the main phrase once, ends with a reason to click. No keyword stuffing.
 3. **Canonical**: absolute URL of the page itself, never the home page, plus matching `og:url`, `og:title`, `og:description`, `og:image` and `twitter:*`.
 4. **Headings**: exactly one `h1` that states the page topic; then `h2` for sections and `h3` inside them, never skipping a level. Never pick a heading tag for its size: style it with classes.
 5. **Internal links**: link related pages from the body copy with descriptive anchor text ("file your India tax return", not "click here"), using real `<a href>` so crawlers can follow them. Every new page should be linked from at least one existing page (navbar, footer or body) and link out to 2-5 related ones: `/nris`, `/services/passport-renewal`, `/services/india-tax-filing`, `/business`, `/marketplace`, `/dashboard/tax-experts`, `/blog` and relevant blog posts.
 6. **Structured data** where it fits: JSON-LD (`Service`, `FAQPage`, `BreadcrumbList`, `Article`). Only describe what is on the page; no invented ratings or reviews.
-7. **Indexing**: add the URL to `client/public/sitemap.xml`; images get meaningful `alt` text (`alt=""` only for decorative ones).
+7. **Indexing**: `sitemap.xml` is generated at build time from `shared/page-meta.ts` (every entry without `robots`), with `lastmod` from git; images get meaningful `alt` text (`alt=""` only for decorative ones), and large images are WebP at display size with `width`/`height`.
 
-### How meta works on this site (read before changing it)
+### How meta and rendering work on this site (read before changing it)
 
-The site is a client-rendered SPA, so crawlers' first HTML response is `client/index.html` with the route's meta swapped in by the server. A page's meta therefore lives in **two places, kept identical**:
+**One table, `shared/page-meta.ts`.** Every route's title, description, canonical, OG/Twitter tags, `robots` and route-level JSON-LD (Organization, WebSite, Service, BreadcrumbList) live in `PAGE_META`. Pages do not set meta themselves (no `react-helmet`, no per-page `usePageMeta`): `<RouteMeta />` in `App.tsx` updates `<head>` from the same table on in-app navigation. Page-level JSON-LD that mirrors visible content (FAQs) is rendered by the page with `<FaqJsonLd>` from `components/json-ld.tsx`.
 
-1. **`PAGE_META` in `server/static.ts`**: what crawlers and link previews get. `injectMeta` writes the title, description, canonical, OG/Twitter tags and any `jsonLd` blocks into the HTML. It runs in production (`serveStatic`) and in development (`server/vite.ts`), so check it locally with `curl -s localhost:5000/<route> | grep -E '<title>|canonical|description'`. **A route with no entry gets the home page's meta, including `canonical: https://lesser.tax/`**, which tells Google the page is a duplicate of the home page. Every public route needs an entry.
-2. **`usePageMeta()` from `client/src/lib/seo.ts`**, called in the page component: updates the same tags when the user arrives by in-app navigation. Prefer it to `react-helmet` for new pages. Helmet appends its own tags next to the server-injected ones, which leaves duplicate canonicals and descriptions (older pages still use Helmet; move them over when you work on them).
+**Marketing pages are prerendered.** `npm run build` also builds `client/src/entry-server.tsx` for SSR and `script/prerender.ts` renders every `PAGE_META` route to `dist/prerendered/<route>.html` with its meta, so crawlers that do not run JavaScript (Bing, GPTBot, PerplexityBot, ClaudeBot) get the full page. The browser hydrates it (`main.tsx`). Consequences:
 
-`metaFor()` must be given `req.originalUrl`, not `req.path`: inside `app.use("/{*path}")` Express 5 strips the mount path, so `req.path` is always `/` there. That bug served the home page's meta on every route until 2026-10-12.
+- A page's first render must be the same on the server and in the browser: no `window`, `localStorage`, `Date.now()` or random values during render; read them in `useEffect`.
+- Pages are lazy chunks (`client/src/routes.tsx`). Add a new route there AND in `PAGE_META`; the build fails if a route has no entry, if a title or description is out of range, if a canonical is wrong or if there is an em-dash.
+- Hero content should be visible without JavaScript. Use CSS entrance animations (`hero-fade-up`, `hero-text-reveal`, which start at opacity 0.01, not 0), not state set in an effect, or the Largest Contentful Paint waits for hydration.
+
+**Serving (`server/static.ts`).** Known routes get their prerendered file (from memory); `/nris/` 301s to `/nris`; unknown paths get the prerendered 404 page with a real **404 status** and `noindex`. It also sets gzip/brotli (`compression`), a 1-year immutable cache on hashed `/assets/*`, HSTS and security headers. Check locally after `npm run build`: `NODE_ENV=production PORT=5055 node dist/index.cjs`, then `curl -s localhost:5055/<route> | grep -E '<title>|canonical|<h1'`.
 
 The blog (`blog/`) prerenders real HTML per post and handles its own meta and sitemaps; follow the same checklist there.
 
-### Known gaps (as of 2026-10-12)
+### Blog specifics
 
-These sitemap pages have no `PAGE_META` entry, so crawlers see the home page's title and canonical: `/services/india-tax-filing`, `/services/passport-renewal`, `/offers/google`, `/offers/infosys`, `/privacy`, `/terms`. Fix one whenever you touch it, or all at once.
+Blog titles go through `pageTitle()` and descriptions through `pageDescription()` (`blog/src/lib/seo.ts`): "| Lesser Tax" when it fits in 60 characters, descriptions cut to 160, em-dashes removed. React 19 renders `<title>`/`<meta>`/`<link>` at the start of the app markup; `blog/scripts/prerender.mjs` moves them into `<head>` (a canonical or description in `<body>` is ignored by Google). Each article links to the matching service page through `ServiceLink`/`ServiceCard` (`blog/src/components/ServiceCta.tsx`), chosen from the slug. Never group modules into a manual "studio" chunk in `blog/vite.config.ts`: it made every article preload the 6.5 MB Sanity Studio bundle.

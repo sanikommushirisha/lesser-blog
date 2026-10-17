@@ -26,7 +26,7 @@ import fs from "fs";
 import path from "path";
 import { fileURLToPath } from "url";
 import { registerRoutes } from "../server/routes";
-import { PAGE_META, injectMeta } from "../server/static";
+import { injectMeta, metaFor, NOT_FOUND_FILE, prerenderFile } from "../server/static";
 
 const app = express();
 const httpServer = createServer(app);
@@ -60,6 +60,21 @@ function readPublic(...segments: string[]): string | null {
     }
   }
 
+  return null;
+}
+
+const PRERENDERED_ROOTS = [
+  path.join(process.cwd(), "dist", "prerendered"),
+  path.join(MODULE_DIR, "..", "dist", "prerendered"),
+];
+
+function readPrerendered(file: string): string | null {
+  for (const root of PRERENDERED_ROOTS) {
+    const candidate = path.join(root, file);
+    if (candidate.startsWith(root) && fs.existsSync(candidate)) {
+      return fs.readFileSync(candidate, "utf-8");
+    }
+  }
   return null;
 }
 
@@ -127,10 +142,15 @@ const ready = (async () => {
       return;
     }
 
-    const meta = PAGE_META[pathname] || PAGE_META["/"];
+    // Prerendered page (script/prerender.ts) when there is one; unknown paths
+    // get the 404 page with a real 404 status.
+    const { meta, status } = metaFor(pathname);
+    const prerendered =
+      status === 200 ? readPrerendered(prerenderFile(pathname.replace(/(.)\/+$/, "$1"))) : readPrerendered(NOT_FOUND_FILE);
 
+    res.status(status);
     res.setHeader("Content-Type", "text/html");
-    res.send(injectMeta(shell, meta));
+    res.send(prerendered ?? injectMeta(shell, meta));
   });
 })();
 

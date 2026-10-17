@@ -26,7 +26,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-[1100px] px-4 py-5 text-xs text-white/40 sm:px-6">
+        <p className="mx-auto max-w-[1100px] px-4 py-5 text-xs text-white/60 sm:px-6">
           © {new Date().getFullYear()} Lesser. All rights reserved.
         </p>
       </div>

@@ -16,15 +16,16 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
-import { Helmet } from "react-helmet";
 import lesserLogo from "@assets/lesser_logo.png";
-import teamDavidImg from "@assets/team_david_clean.png";
-import teamVishweshImg from "@assets/team_vishwesh_clean.png";
-import teamJithendraImg from "@assets/team_jithendra_clean.png";
-import teamRobertImg from "@assets/team_robert_clean.png";
-import nriHeroImg from "@assets/nri_hero_professional.png";
+import teamDavidImg from "@assets/team_david_clean.webp";
+import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
+import teamJithendraImg from "@assets/team_jithendra_clean.webp";
+import teamRobertImg from "@assets/team_robert_clean.webp";
+import nriHeroImg from "@assets/nri_hero_professional.webp";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
+import { FaqJsonLd } from "@/components/json-ld";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -382,7 +383,7 @@ const whoWeServe = [
 
 
 function HeroSection() {
-  const { ref, isVisible } = useInView(0.1);
+  const { ref } = useInView(0.1);
 
   return (
     <section ref={ref} className="relative min-h-[85vh] flex items-center overflow-hidden pt-20" data-testid="section-nri-hero">
@@ -395,34 +396,34 @@ function HeroSection() {
       <div className="relative max-w-7xl mx-auto px-6 w-full">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           <div>
-            <div className={`inline-flex items-center gap-2 bg-primary/5 border border-primary/10 rounded-full px-4 py-1.5 mb-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            <div className={`inline-flex items-center gap-2 bg-primary/5 border border-primary/10 rounded-full px-4 py-1.5 mb-6 hero-fade-up [animation-delay:0ms]`}>
               <Globe className="w-3.5 h-3.5 text-primary" />
               <span className="text-xs font-semibold text-primary uppercase tracking-[0.15em]">India–U.S. Tax Experts</span>
             </div>
 
             <h1
-              className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight leading-[1.1] mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight leading-[1.1] mb-6 hero-fade-up [animation-delay:100ms]`}
               data-testid="text-hero-heading"
             >
-              U.S. & India Tax Filing
+              U.S. & India Tax Filing{" "}
               <br />
               <span className="text-primary">for NRIs</span> Living in America
             </h1>
 
             <p
-              className={`text-lg lg:text-xl text-muted-foreground leading-relaxed mb-4 max-w-xl transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-lg lg:text-xl text-muted-foreground leading-relaxed mb-4 max-w-xl hero-fade-up [animation-delay:200ms]`}
               data-testid="text-hero-subtitle"
             >
               Holding Indian bank accounts? Own Indian mutual funds? Planning to move back to India someday?
             </p>
 
             <p
-              className={`text-base text-foreground font-medium mb-8 max-w-xl transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-base text-foreground font-medium mb-8 max-w-xl hero-fade-up [animation-delay:300ms]`}
             >
               We help NRIs file correctly in the U.S. — without missing FBAR, FATCA, or PFIC rules.
             </p>
 
-            <div className={`flex flex-wrap gap-4 mb-8 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            <div className={`flex flex-wrap gap-4 mb-8 hero-fade-up [animation-delay:400ms]`}>
               <Button
                 asChild
                 size="lg"
@@ -438,7 +439,7 @@ function HeroSection() {
               </Button>
             </div>
 
-            <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground transition-all duration-700 delay-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground hero-fade-up [animation-delay:500ms]`}>
               {["India–U.S. treaty aware", "FBAR & FATCA compliant", "PFIC expertise"].map((item, i) => (
                 <div key={i} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-primary/60" />
@@ -448,10 +449,13 @@ function HeroSection() {
             </div>
           </div>
 
-          <div className={`relative transition-all duration-1000 delay-300 ${isVisible ? 'opacity-100 translate-x-0' : 'opacity-0 translate-x-10'}`}>
+          <div className={`relative hero-fade-left [animation-delay:300ms]`}>
             <div className="relative rounded-2xl overflow-hidden shadow-2xl shadow-primary/10 border border-primary/10">
               <img
                 src={nriHeroImg}
+                width={1200}
+                height={655}
+                {...{ fetchpriority: "high" }}
                 alt="Indian professional in the United States"
                 className="w-full h-auto object-cover"
                 data-testid="img-hero"
@@ -757,6 +761,10 @@ function TeamSection() {
                 <div className="relative overflow-hidden flex items-end justify-center px-4 mt-6" style={{ height: '150px' }}>
                   <img
                     src={member.image}
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={400}
                     alt={member.name}
                     className="w-32 h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
                     style={{ objectPosition: 'center 15%' }}
@@ -1350,11 +1358,11 @@ function NriFooter() {
           <div className="flex items-center gap-5">
             <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
-            <a href="mailto:use@lesser.tax" className="hover:text-white/50 transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
+            <a href="mailto:use@lesser.tax" className="hover:text-white transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
           </div>
         </div>
       </div>
@@ -1369,19 +1377,6 @@ export default function NrisPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>NRI Tax Filing - U.S. & India Cross-Border Tax Services | Lesser</title>
-        <meta name="description" content="Expert U.S.-India tax filing for NRIs. FBAR, FATCA, PFIC, rental income, foreign tax credits, and RNOR planning. Flat-fee pricing from $99." />
-        <meta property="og:title" content="Lesser — U.S. & India Tax Experts for NRIs" />
-        <meta property="og:description" content="Comprehensive cross-border tax compliance. FBAR, FATCA, and PFIC expertise for Indian professionals in the U.S." />
-        <meta property="og:image" content="https://lesser.tax/og-nri.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Lesser — U.S. & India Tax Experts for NRIs" />
-        <meta name="twitter:description" content="Comprehensive cross-border tax compliance. FBAR, FATCA, and PFIC expertise for Indian professionals in the U.S." />
-        <meta name="twitter:image" content="https://lesser.tax/og-nri.jpg" />
-      </Helmet>
       <SharedNavbar variant="individual" sourcePage="/nris" />
       <HeroSection />
       <WhyNrisSection />
@@ -1392,6 +1387,8 @@ export default function NrisPage() {
       <HowItWorksSection />
       <PricingSection />
       <FAQSection />
+      <FaqJsonLd items={faqs} />
+      <RelatedGuides heading="NRI tax guides" guides={GUIDES.nri} />
       <CTASection />
       <NriFooter />
     </div>

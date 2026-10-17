@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
 import {
   ArrowRight,
   CheckCircle2,
@@ -21,6 +20,8 @@ import {
 } from "lucide-react";
 import SharedNavbar from "@/components/shared-navbar";
 import lesserLogo from "@assets/lesser_logo.png";
+import { FaqJsonLd } from "@/components/json-ld";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
 
 const APP_URL = "https://lesser.tax/app/auth/sign-up";
 
@@ -127,11 +128,11 @@ function IndiaTaxFooter() {
           <div className="flex items-center gap-5">
             <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
-            <a href="mailto:use@lesser.tax" className="hover:text-white/50 transition-colors" data-testid="link-footer-email">
+            <a href="mailto:use@lesser.tax" className="hover:text-white transition-colors" data-testid="link-footer-email">
               use@lesser.tax
             </a>
           </div>
@@ -148,18 +149,6 @@ export default function IndiaTaxFilingPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>India Tax Filing for NRIs in the U.S. — File Your ITR | Lesser</title>
-        <meta
-          name="description"
-          content="The easiest way for U.S.-based NRIs to file Indian taxes. Interest, dividends, rental income, capital gains, and DTAA benefits — handled by vetted Indian CAs. Starting at $69."
-        />
-        <meta property="og:title" content="India Tax Filing for NRIs in the U.S. | Lesser" />
-        <meta
-          property="og:description"
-          content="File your Indian ITR from anywhere in the U.S. Vetted CAs, full DTAA coordination, capital gains, rental income, and TDS refunds — starting at $69."
-        />
-      </Helmet>
 
       <SharedNavbar variant="individual" sourcePage="/services/india-tax-filing" />
 
@@ -447,6 +436,7 @@ export default function IndiaTaxFilingPage() {
             </h2>
           </div>
 
+          <FaqJsonLd items={FAQS.map((f) => ({ question: f.q, answer: f.a }))} />
           <div className="space-y-3">
             {FAQS.map((f, i) => (
               <details
@@ -467,6 +457,8 @@ export default function IndiaTaxFilingPage() {
           </div>
         </div>
       </section>
+
+      <RelatedGuides heading="India tax guides for NRIs" guides={GUIDES.indiaItr} />
 
       {/* Final CTA */}
       <section className="py-20 bg-foreground relative overflow-hidden" data-testid="section-final-cta">

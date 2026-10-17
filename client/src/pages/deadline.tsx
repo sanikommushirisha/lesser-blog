@@ -16,10 +16,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Helmet } from "react-helmet";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import lesserLogo from "@assets/lesser_logo.png";
+import { FaqJsonLd } from "@/components/json-ld";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -211,7 +211,7 @@ function HeroSection() {
             className="hero-text-reveal text-4xl sm:text-5xl lg:text-[58px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-6 leading-tight"
             data-testid="text-deadline-hero-heading"
           >
-            March 15 Is Coming.
+            March 15 Is Coming.{" "}
             <br />
             <span className="text-primary">File in 24 Hrs.</span>
           </h1>
@@ -645,11 +645,11 @@ function DeadlineFooter() {
           <div className="flex items-center gap-5">
             <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
-            <a href="mailto:use@lesser.tax" className="hover:text-white/50 transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
+            <a href="mailto:use@lesser.tax" className="hover:text-white transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
           </div>
         </div>
       </div>
@@ -664,25 +664,13 @@ export default function DeadlinePage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>March 15 Business Tax Deadline — File in 24 Hrs | Lesser</title>
-        <meta name="description" content="March 15 deadline approaching? File your business tax return in 24 hours. Form 1120, 1065, or 1120-S for $100 flat. CPA-reviewed, no waitlist, no rush fees." />
-        <meta property="og:title" content="March 15 Deadline — File Your Business Taxes in 24 Hrs | Lesser" />
-        <meta property="og:description" content="Deadline approaching and CPAs are booked? Upload your docs today, get your return tomorrow. $100 flat. CPA-reviewed. No waitlist." />
-        <meta property="og:image" content="https://lesser.tax/og-landing.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="March 15 Deadline — File Your Business Taxes in 24 Hrs | Lesser" />
-        <meta name="twitter:description" content="Deadline approaching and CPAs are booked? Upload your docs today, get your return tomorrow. $100 flat. CPA-reviewed. No waitlist." />
-        <meta name="twitter:image" content="https://lesser.tax/og-landing.jpg" />
-      </Helmet>
       <SharedNavbar variant="business" sourcePage="/business/deadline" />
       <HeroSection />
       <ExpertReviewSection />
       <BeatDeadlineSection />
       <SocialProofSection />
       <FAQSection />
+      <FaqJsonLd items={faqs} />
       <GoogleReviewsSection />
       <FinalCTASection />
       <DeadlineFooter />

@@ -7,7 +7,7 @@
   "trailingSlash": false,
   "functions": {
     "api/index.ts": {
-      "includeFiles": "dist/public/**/index.html"
+      "includeFiles": "dist/{public/**/index.html,prerendered/**/*.html}"
     }
   },
   "rewrites": [

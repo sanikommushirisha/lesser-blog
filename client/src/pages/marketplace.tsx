@@ -8,30 +8,16 @@ import {
   MARKETPLACE_SERVICES,
   type MarketplaceService,
 } from "@/lib/marketplace-services";
-import { usePageMeta } from "@/lib/seo";
 import { appUrl, fetchPortalUser, type PortalUser } from "@/lib/portal";
-import teamDavidImg from "@assets/team_david_clean.png";
-import teamVishweshImg from "@assets/team_vishwesh_clean.png";
-import teamJithendraImg from "@assets/team_jithendra_clean.png";
+import teamDavidImg from "@assets/team_david_clean.webp";
+import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
+import teamJithendraImg from "@assets/team_jithendra_clean.webp";
 
 // The app's marketplace, on the public site. Live tools ask a signed-out
 // visitor to sign in or sign up right here (AuthModal), then open the tool in
 // the app; a visitor who is already signed in goes straight there.
 
 const TEAM = [teamDavidImg, teamVishweshImg, teamJithendraImg];
-
-// Keep in step with PAGE_META["/marketplace"] in server/static.ts, which is what
-// crawlers get in the first HTML response; this covers in-app navigation.
-const META = {
-  title: "NRI Services: Indian Passport Renewal & India ITR | Lesser",
-  description:
-    "Renew your Indian passport from the U.S. and file your India tax return (ITR) online with expert-guided tools. Business formation and GST help coming soon.",
-  ogTitle: "Lesser Marketplace: Expert Services for Global Indians",
-  ogDescription:
-    "Indian passport renewal and India tax filing for NRIs in the U.S., guided step by step and reviewed by experts. More NRI services coming soon.",
-  canonical: "https://lesser.tax/marketplace",
-  ogImage: "https://lesser.tax/og-nri.jpg",
-};
 
 const RELATED_LINKS: { href: string; title: string; desc: string }[] = [
   {
@@ -130,9 +116,9 @@ function MarketplaceHeader({
         <div className="flex flex-col gap-7 md:flex-row md:items-start md:justify-between">
           <div className="max-w-xl">
             <h1 className="text-[30px] font-bold leading-[1.08] tracking-[-1px] text-[#0f0f0f] sm:text-[40px]">
-              Expert Services for
+              Expert Services for{" "}
               <br />
-              <span className="font-['EB_Garamond',serif] italic text-primary">
+              <span className="font-['EB_Garamond_Variable','EB_Garamond',serif] italic text-primary">
                 Global Indians
               </span>
             </h1>
@@ -263,7 +249,6 @@ export default function MarketplacePage() {
   const [otpEmail, setOtpEmail] = useState<string | null>(null);
   // Who is signed in to the app, looked up once; a click waits for it if needed.
   const userRef = useRef<Promise<PortalUser | null> | null>(null);
-  usePageMeta(META);
 
   useEffect(() => {
     window.scrollTo(0, 0);

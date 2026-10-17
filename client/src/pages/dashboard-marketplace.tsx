@@ -25,10 +25,10 @@ import {
 import DashboardLayout, { EASE } from "@/components/dashboard-layout";
 import { fadeUp, Reveal, SectionHeading, StaggerGroup } from "@/components/dashboard-motion";
 import { GradientBanner, PageHero, SegmentedControl } from "@/components/dashboard-sections";
-import teamDavidImg from "@assets/team_david_clean.png";
-import teamVishweshImg from "@assets/team_vishwesh_clean.png";
-import teamJithendraImg from "@assets/team_jithendra_clean.png";
-import teamRobertImg from "@assets/team_robert_clean.png";
+import teamDavidImg from "@assets/team_david_clean.webp";
+import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
+import teamJithendraImg from "@assets/team_jithendra_clean.webp";
+import teamRobertImg from "@assets/team_robert_clean.webp";
 
 const SIGN_IN_URL = "https://lesser.tax/app/auth/sign-in";
 const CONSULT_URL = "https://calendly.com/lesser-tax/consultationcall-with-lesserteam";

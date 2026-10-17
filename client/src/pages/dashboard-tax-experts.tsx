@@ -121,6 +121,64 @@ export default function DashboardTaxExpertsPage() {
           )}
         </div>
       </section>
+      <ConsultationGuide />
     </DashboardLayout>
+  );
+}
+
+// Static copy under the expert list. The list itself loads in the browser, so
+// this is what search engines read about the page; it also points visitors who
+// need a full filing rather than advice to the right service.
+const TOPICS: { title: string; body: string; href: string; link: string }[] = [
+  {
+    title: "U.S. taxes as an NRI or visa holder",
+    body: "Residency status, reporting Indian income, FBAR and FATCA, and foreign tax credits on your U.S. return.",
+    href: "/nris",
+    link: "NRI tax filing",
+  },
+  {
+    title: "Indian income and your India tax return",
+    body: "NRO interest, rental income and capital gains in India, TDS refunds and claiming India-U.S. treaty (DTAA) relief.",
+    href: "/services/india-tax-filing",
+    link: "India tax filing (ITR)",
+  },
+  {
+    title: "Equity compensation",
+    body: "When your RSUs, ISOs or ESPP shares are taxed, and how to plan sales, exercises and estimated payments.",
+    href: "/",
+    link: "Tax planning for tech professionals",
+  },
+  {
+    title: "Your business or rental LLC",
+    body: "Choosing an entity, S corp elections, Form 1065 and 1120-S returns, and foreign-owned LLC filings.",
+    href: "/business",
+    link: "Business tax filing",
+  },
+];
+
+function ConsultationGuide() {
+  return (
+    <section className="px-6 pb-24" aria-labelledby="consultation-guide-heading">
+      <div className="mx-auto max-w-6xl">
+        <h2 id="consultation-guide-heading" className="text-2xl font-extrabold tracking-tight text-foreground md:text-3xl">
+          What you can ask a tax expert
+        </h2>
+        <p className="mt-3 max-w-3xl text-muted-foreground">
+          A consultation is a one-on-one video or phone call with a CPA or tax expert. Bring your questions and documents, and get
+          answers for your own situation. If you need a return filed, we can do that too.
+        </p>
+        <div className="mt-8 grid gap-5 md:grid-cols-2">
+          {TOPICS.map((t) => (
+            <div key={t.title} className="rounded-3xl bg-white p-6 ring-1 ring-black/[0.07]">
+              <h3 className="text-lg font-bold tracking-tight text-foreground">{t.title}</h3>
+              <p className="mt-2 text-sm text-muted-foreground">{t.body}</p>
+              <a href={t.href} className="mt-4 inline-flex text-sm font-semibold text-primary hover:underline">
+                {t.link}
+              </a>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
   );
 }

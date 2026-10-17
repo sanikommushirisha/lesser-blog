@@ -1,5 +1,4 @@
 import { useEffect } from "react";
-import { Helmet } from "react-helmet";
 import {
   ArrowRight,
   CheckCircle2,
@@ -16,6 +15,8 @@ import {
 } from "lucide-react";
 import SharedNavbar from "@/components/shared-navbar";
 import lesserLogo from "@assets/lesser_logo.png";
+import { FaqJsonLd } from "@/components/json-ld";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
 
 const APP_URL = "https://lesser.tax/app/auth/sign-up";
 
@@ -119,13 +120,13 @@ function PassportFooter() {
               data-testid="img-footer-logo"
             />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
             <a
               href="mailto:use@lesser.tax"
-              className="hover:text-white/50 transition-colors"
+              className="hover:text-white transition-colors"
               data-testid="link-footer-email"
             >
               use@lesser.tax
@@ -144,21 +145,6 @@ export default function PassportRenewalPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>Apply for Indian Passport Renewal | Lost Passport | Update Passport Details — Lesser</title>
-        <meta
-          name="description"
-          content="Hassle-free Indian passport renewal for NRIs in the United States. Renewals, lost passports, and name/address updates — flat $140."
-        />
-        <meta
-          property="og:title"
-          content="Apply for Indian Passport Renewal | Lost Passport | Update Passport Details — Lesser"
-        />
-        <meta
-          property="og:description"
-          content="Renew your Indian passport from anywhere. Embassy & VFS form filling, document checklist, photo guidance, and full application review."
-        />
-      </Helmet>
 
       <SharedNavbar variant="individual" sourcePage="/services/passport-renewal" />
 
@@ -453,6 +439,7 @@ export default function PassportRenewalPage() {
             </h2>
           </div>
 
+          <FaqJsonLd items={FAQS.map((f) => ({ question: f.q, answer: f.a }))} />
           <div className="space-y-3">
             {FAQS.map((f, i) => (
               <details
@@ -473,6 +460,8 @@ export default function PassportRenewalPage() {
           </div>
         </div>
       </section>
+
+      <RelatedGuides heading="Indian passport renewal guides" guides={GUIDES.passport} />
 
       {/* Final CTA */}
       <section className="py-20 bg-foreground relative overflow-hidden" data-testid="section-final-cta">

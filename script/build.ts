@@ -3,6 +3,7 @@ import { build as viteBuild } from "vite";
 import { rm, readFile, cp, access } from "fs/promises";
 import { execFileSync } from "child_process";
 import path from "path";
+import { prerender } from "./prerender";
 
 // server deps to bundle to reduce openat(2) syscalls
 // which helps cold start times
@@ -86,6 +87,19 @@ async function buildAll() {
   console.log("building client...");
   await viteBuild();
 
+  // Server-side bundle of the marketing app, used only by the prerender step.
+  console.log("building marketing prerender bundle...");
+  await viteBuild({
+    logLevel: "warn",
+    build: {
+      ssr: path.resolve("client", "src", "entry-server.tsx"),
+      outDir: path.resolve("dist", "server-render"),
+      emptyOutDir: true,
+    },
+  });
+  console.log("prerendering marketing pages...");
+  await prerender();
+
   console.log("building server...");
   const pkg = JSON.parse(await readFile("package.json", "utf-8"));
   const allDeps = [
@@ -108,6 +122,14 @@ async function buildAll() {
     logLevel: "info",
   });
 
+  if (process.argv.includes("--skip-blog")) {
+    // Local checks of the marketing build: reuse blog/dist from the last blog build.
+    console.log("skipping blog build (--skip-blog), copying blog/dist");
+    if (await exists(path.join(BLOG_DIR, "dist", "index.html"))) {
+      await cp(path.join(BLOG_DIR, "dist"), path.resolve("dist", "public", "blog"), { recursive: true });
+    }
+    return;
+  }
   await buildBlog();
 }
 

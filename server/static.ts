@@ -1,220 +1,103 @@
-import express, { type Express, type Request, type Response } from "express";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
+import compression from "compression";
 import fs from "fs";
 import path from "path";
+import { NOT_FOUND_META, normalizePath, routeMeta, type PageMeta } from "../shared/page-meta";
 
-const BASE_URL = "https://lesser.tax";
+export { PAGE_META } from "../shared/page-meta";
+export type { PageMeta } from "../shared/page-meta";
 
-interface PageMeta {
-  title: string;
-  description: string;
-  ogTitle: string;
-  ogDescription: string;
-  ogImage: string;
-  canonical: string;
-  /** Structured data, emitted as <script type="application/ld+json"> blocks in <head>. */
-  jsonLd?: object[];
+/** Meta for a request URL, or the 404 page's when the site has no such page. */
+export function metaFor(originalUrl: string): { meta: PageMeta; status: 200 | 404 } {
+  const meta = routeMeta(originalUrl);
+  return meta ? { meta, status: 200 } : { meta: NOT_FOUND_META, status: 404 };
 }
 
-export const PAGE_META: Record<string, PageMeta> = {
-  "/": {
-    title: "Lesser - Flat-Fee Tax Planning & Filing for Tech Professionals",
-    description: "Big Four-trained CPAs. AI-powered platform. Flat-fee pricing from $99/year. Year-round tax strategy for tech professionals with equity compensation — RSUs, ISOs, and stock options.",
-    ogTitle: "Lesser — Your CPA Team for Equity Comp & Complex Taxes",
-    ogDescription: "Big Four-trained CPAs meet AI-powered tax planning. Flat-fee pricing from $99/year. Built for tech professionals with RSUs, ISOs, and stock options.",
-    ogImage: `${BASE_URL}/og-landing.jpg`,
-    canonical: `${BASE_URL}/`,
-  },
-  "/offers/nextdoor": {
-    title: "Nextdoor Employee Tax Planning & Filing | Lesser",
-    description: "Specialized tax planning for Nextdoor employees. Optimize your RSUs, ISOs, and ESPP with Big Four-trained CPAs. Flat-fee pricing and year-round support.",
-    ogTitle: "Lesser — Tax Planning for Nextdoor Employees",
-    ogDescription: "Maximize your Nextdoor equity value. Expert CPA tax planning for RSUs, ISOs, and ESPP. Flat-fee, tech-forward service.",
-    ogImage: `${BASE_URL}/og-nextdoor.png`,
-    canonical: `${BASE_URL}/offers/nextdoor`,
-  },
-  "/nris": {
-    title: "NRI Tax Filing - U.S. & India Cross-Border Tax Services | Lesser",
-    description: "Expert U.S.-India tax filing for NRIs. FBAR, FATCA, PFIC, rental income, foreign tax credits, and RNOR planning. Flat-fee pricing from $99.",
-    ogTitle: "Lesser — U.S. & India Tax Experts for NRIs",
-    ogDescription: "Comprehensive cross-border tax compliance. FBAR, FATCA, and PFIC expertise for Indian professionals in the U.S.",
-    ogImage: `${BASE_URL}/og-nri.jpg`,
-    canonical: `${BASE_URL}/nris`,
-  },
-  "/offers/broadcom": {
-    title: "Broadcom Employee Tax Planning & Filing | Lesser",
-    description: "Specialized tax planning for Broadcom employees. Optimize your RSUs, ISOs, and ESPP with Big Four-trained CPAs. Flat-fee pricing and year-round support.",
-    ogTitle: "Lesser — Tax Planning for Broadcom Employees",
-    ogDescription: "Maximize your Broadcom equity value. Expert CPA tax planning for RSUs, ISOs, and ESPP. Flat-fee, tech-forward service.",
-    ogImage: `${BASE_URL}/og-broadcom.png`,
-    canonical: `${BASE_URL}/offers/broadcom`,
-  },
-  "/offers/coupa": {
-    title: "Coupa Employee Tax Planning & Filing | Lesser",
-    description: "Specialized tax planning for Coupa employees. Optimize your RSUs, ISOs, and ESPP with Big Four-trained CPAs. Flat-fee pricing and year-round support.",
-    ogTitle: "Lesser — Tax Planning for Coupa Employees",
-    ogDescription: "Maximize your Coupa equity value. Expert CPA tax planning for RSUs, ISOs, and ESPP. Flat-fee, tech-forward service.",
-    ogImage: `${BASE_URL}/og-coupa.png`,
-    canonical: `${BASE_URL}/offers/coupa`,
-  },
-  "/offers/riverisland": {
-    title: "River Islands NRI Tax Filing - Cross-Border U.S.-India Tax Services | Lesser",
-    description: "Expert U.S.-India tax filing for NRI families in River Islands, Lathrop CA. FBAR, FATCA, PFIC, rental income, and RNOR planning. Flat-fee pricing.",
-    ogTitle: "Lesser — NRI Tax Specialists for River Islands Families",
-    ogDescription: "Localized U.S.-India tax expertise for the River Islands community in Lathrop, CA. FBAR, FATCA, and PFIC compliance by experts.",
-    ogImage: `${BASE_URL}/og-riverisland.jpg`,
-    canonical: `${BASE_URL}/offers/riverisland`,
-  },
-  "/marketplace": {
-    title: "NRI Services: Indian Passport Renewal & India ITR | Lesser",
-    description: "Renew your Indian passport from the U.S. and file your India tax return (ITR) online with expert-guided tools. Business formation and GST help coming soon.",
-    ogTitle: "Lesser Marketplace: Expert Services for Global Indians",
-    ogDescription: "Indian passport renewal and India tax filing for NRIs in the U.S., guided step by step and reviewed by experts. More NRI services coming soon.",
-    ogImage: `${BASE_URL}/og-nri.jpg`,
-    canonical: `${BASE_URL}/marketplace`,
-    jsonLd: [
-      {
-        "@context": "https://schema.org",
-        "@type": "CollectionPage",
-        name: "Lesser Marketplace: Expert Services for Global Indians",
-        url: `${BASE_URL}/marketplace`,
-        description: "Indian passport renewal, India tax filing and other services for NRIs living in the United States.",
-        isPartOf: { "@type": "WebSite", name: "Lesser", url: `${BASE_URL}/` },
-        mainEntity: {
-          "@type": "ItemList",
-          itemListElement: [
-            {
-              "@type": "ListItem",
-              position: 1,
-              item: {
-                "@type": "Service",
-                name: "Indian Passport Renewal & Re-issue",
-                serviceType: "Indian passport renewal",
-                url: `${BASE_URL}/services/passport-renewal`,
-                areaServed: { "@type": "Country", name: "United States" },
-                provider: { "@type": "Organization", name: "Lesser", url: `${BASE_URL}/` },
-              },
-            },
-            {
-              "@type": "ListItem",
-              position: 2,
-              item: {
-                "@type": "Service",
-                name: "India Tax Filing for NRIs & Residents",
-                serviceType: "India income tax return filing",
-                url: `${BASE_URL}/services/india-tax-filing`,
-                areaServed: { "@type": "Country", name: "United States" },
-                provider: { "@type": "Organization", name: "Lesser", url: `${BASE_URL}/` },
-              },
-            },
-          ],
-        },
-      },
-      {
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        itemListElement: [
-          { "@type": "ListItem", position: 1, name: "Home", item: `${BASE_URL}/` },
-          { "@type": "ListItem", position: 2, name: "Marketplace", item: `${BASE_URL}/marketplace` },
-        ],
-      },
-    ],
-  },
-  "/business": {
-    title: "Business Tax Filing - Form 1120, 1065, 1120-S | Lesser",
-    description: "File your business tax return for $100 flat fee. Form 1120, 1065, or 1120-S. CPA-reviewed, 48hr turnaround, review before you pay.",
-    ogTitle: "Lesser — Business Tax Filing for $100",
-    ogDescription: "File your business tax return — Form 1120, 1065, or 1120-S. CPA-reviewed, 48hr turnaround. Upload docs and let our team handle the rest.",
-    ogImage: `${BASE_URL}/og-landing.jpg`,
-    canonical: `${BASE_URL}/business`,
-  },
-  "/business/partnerships": {
-    title: "Partnership Tax Filing - Form 1065 + K-1s for $100/Entity | Lesser",
-    description: "File your partnership return for $100 per entity. Form 1065 + K-1s, CPA-reviewed, 24hr turnaround. Trusted by 10,000+ real estate investors.",
-    ogTitle: "Lesser — Partnership Tax Filing for $100/Entity",
-    ogDescription: "Form 1065 + K-1s filed for $100 per entity. CPA-reviewed, 24hr turnaround. Built for real estate investors with multiple LLCs.",
-    ogImage: `${BASE_URL}/og-landing.jpg`,
-    canonical: `${BASE_URL}/business/partnerships`,
-  },
-  "/business/deadline": {
-    title: "March 15 Business Tax Deadline — File in 24 Hrs | Lesser",
-    description: "March 15 deadline approaching? File your business tax return in 24 hours for $100. Form 1120, 1065, or 1120-S. CPA-reviewed, no waitlist, no rush fees.",
-    ogTitle: "Lesser — March 15 Deadline. File in 24 Hrs for $100",
-    ogDescription: "Business tax deadline is March 15. Upload today, filed tomorrow. $100 flat fee for Form 1120, 1065, or 1120-S. CPA-reviewed, no waitlist.",
-    ogImage: `${BASE_URL}/og-landing.jpg`,
-    canonical: `${BASE_URL}/business/deadline`,
-  },
-  "/business/realestate": {
-    title: "$100 Per Entity — RE Investor Tax Filing | Lesser",
-    description: "$100 per entity for Form 1065 + K-1s. 5 LLCs = $500, not $7,500. CPA-reviewed, 24hr turnaround. Built for real estate investors with multiple rental LLCs.",
-    ogTitle: "Lesser — $100 Per Entity. Not $1,500.",
-    ogDescription: "Own 5 rental LLCs? That's $500 total — not $7,500. Form 1065 + K-1s, CPA-reviewed, 24hr turnaround. Built for multi-entity RE investors.",
-    ogImage: `${BASE_URL}/og-landing.jpg`,
-    canonical: `${BASE_URL}/business/realestate`,
-  },
-};
+const escapeAttr = (v: string) =>
+  v.replace(/&/g, "&amp;").replace(/"/g, "&quot;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
+const escapeText = (v: string) => v.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
 
 /**
- * Meta for a request URL; unknown routes get the home page's. Takes
- * req.originalUrl, not req.path: inside app.use("/{*path}") Express 5 strips
- * the matched mount path, so req.path is always "/" there, which served the
- * home page's title, description and canonical on every route.
+ * Writes a route's meta into the HTML shell (client/index.html or its build):
+ * title, description, robots, canonical, OG/Twitter tags and JSON-LD. Used by
+ * the build-time prerender, the production server and the dev server, so all
+ * three send the same head.
  */
-export function metaFor(originalUrl: string): PageMeta {
-  const pathname = new URL(originalUrl, BASE_URL).pathname;
-  const key = pathname.length > 1 ? pathname.replace(/\/+$/, "") : pathname;
-  return PAGE_META[key] || PAGE_META["/"];
-}
-
 export function injectMeta(html: string, meta: PageMeta): string {
-  let result = html;
+  const set = (pattern: RegExp, tag: string) => {
+    html = html.replace(pattern, tag);
+  };
+  const attr = (selector: string, value: string) =>
+    set(new RegExp(`<meta ${selector} content="[^"]*"`), `<meta ${selector} content="${escapeAttr(value)}"`);
 
-  result = result.replace(/<title>[^<]*<\/title>/, `<title>${meta.title}</title>`);
-  result = result.replace(
-    /<meta name="description" content="[^"]*"/,
-    `<meta name="description" content="${meta.description}"`
-  );
-  result = result.replace(
-    /<meta property="og:title" content="[^"]*"/,
-    `<meta property="og:title" content="${meta.ogTitle}"`
-  );
-  result = result.replace(
-    /<meta property="og:description" content="[^"]*"/,
-    `<meta property="og:description" content="${meta.ogDescription}"`
-  );
-  result = result.replace(
-    /<meta property="og:image" content="[^"]*"/,
-    `<meta property="og:image" content="${meta.ogImage}"`
-  );
-  result = result.replace(
-    /<meta property="og:url" content="[^"]*"/,
-    `<meta property="og:url" content="${meta.canonical}"`
-  );
-  result = result.replace(
-    /<meta name="twitter:title" content="[^"]*"/,
-    `<meta name="twitter:title" content="${meta.ogTitle}"`
-  );
-  result = result.replace(
-    /<meta name="twitter:description" content="[^"]*"/,
-    `<meta name="twitter:description" content="${meta.ogDescription}"`
-  );
-  result = result.replace(
-    /<meta name="twitter:image" content="[^"]*"/,
-    `<meta name="twitter:image" content="${meta.ogImage}"`
-  );
-  result = result.replace(
-    /<link rel="canonical" href="[^"]*"/,
-    `<link rel="canonical" href="${meta.canonical}"`
-  );
+  set(/<title>[^<]*<\/title>/, `<title>${escapeText(meta.title)}</title>`);
+  attr('name="description"', meta.description);
+  attr('name="robots"', meta.robots ?? "index,follow,max-image-preview:large");
+  attr('property="og:title"', meta.ogTitle);
+  attr('property="og:description"', meta.ogDescription);
+  attr('property="og:image"', meta.ogImage);
+  attr('name="twitter:title"', meta.ogTitle);
+  attr('name="twitter:description"', meta.ogDescription);
+  attr('name="twitter:image"', meta.ogImage);
+
+  if (meta.canonical) {
+    attr('property="og:url"', meta.canonical);
+    set(/<link rel="canonical" href="[^"]*"/, `<link rel="canonical" href="${escapeAttr(meta.canonical)}"`);
+  } else {
+    // The 404 page has no URL of its own.
+    set(/\s*<meta property="og:url" content="[^"]*" \/>/, "");
+    set(/\s*<link rel="canonical" href="[^"]*" \/>/, "");
+  }
 
   if (meta.jsonLd?.length) {
     // "<" is escaped so a value can never close the script tag early.
     const blocks = meta.jsonLd
       .map((d) => `<script type="application/ld+json">${JSON.stringify(d).replace(/</g, "\\u003c")}</script>`)
       .join("\n    ");
-    result = result.replace("</head>", `    ${blocks}\n  </head>`);
+    html = html.replace("</head>", `    ${blocks}\n  </head>`);
   }
 
-  return result;
+  return html;
+}
+
+/** Where the build writes a route's prerendered page, relative to dist/prerendered. */
+export function prerenderFile(route: string): string {
+  return route === "/" ? "index.html" : `${route.slice(1)}.html`;
+}
+export const NOT_FOUND_FILE = "404.html";
+
+/**
+ * Response headers that apply to every response: basic hardening plus HSTS
+ * (the site is HTTPS-only; nginx redirects http).
+ */
+export function securityHeaders(_req: Request, res: Response, next: NextFunction) {
+  res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
+  res.setHeader("X-Content-Type-Options", "nosniff");
+  res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
+  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
+  next();
+}
+
+/**
+ * Static file options: Vite's content-hashed bundles (assets/) never change
+ * under the same name, so browsers may keep them for a year; other public
+ * files (images, sitemaps) are revalidated daily; HTML is always revalidated.
+ */
+function staticOptions(): Parameters<typeof express.static>[1] {
+  return {
+    index: false,
+    redirect: false,
+    setHeaders(res, filePath) {
+      if (/[\\/]assets[\\/]/.test(filePath)) {
+        res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
+      } else if (filePath.endsWith(".html")) {
+        res.setHeader("Cache-Control", "no-cache");
+      } else {
+        res.setHeader("Cache-Control", "public, max-age=86400");
+      }
+    },
+  };
 }
 
 /**
@@ -225,8 +108,9 @@ export function injectMeta(html: string, meta: PageMeta): string {
  * That build prerenders real HTML per route — dist/index.html for the list,
  * dist/<slug>/index.html per post, dist/videos/<slug>/ and dist/r/<combo>/ —
  * which is the whole point of the blog's SEO setup. So a request has to resolve
- * to its own prerendered file where one exists; falling back to the SPA shell
- * for everything would serve crawlers an empty div and throw that work away.
+ * to its own prerendered file where one exists. A path with no file is not a
+ * post (posts are prerendered at build time), so it gets the SPA shell with a
+ * 404 status and noindex, except Studio, which is client-only.
  */
 export function serveBlog(app: Express, blogPath: string) {
   const shellPath = path.resolve(blogPath, "index.html");
@@ -246,7 +130,7 @@ export function serveBlog(app: Express, blogPath: string) {
 
   // index:false + redirect:false so directory requests fall through to the
   // handler below, which picks the prerendered file and avoids a 301 hop.
-  app.use("/blog", express.static(blogPath, { index: false, redirect: false }));
+  app.use("/blog", express.static(blogPath, staticOptions()));
 
   app.use("/blog", (req: Request, res: Response) => {
     // A miss on a real asset path stays a 404 - returning HTML there would hand
@@ -257,15 +141,83 @@ export function serveBlog(app: Express, blogPath: string) {
     }
 
     const prerendered = path.resolve(blogPath, "." + req.path, "index.html");
-    const file =
-      prerendered.startsWith(blogPath) && fs.existsSync(prerendered)
-        ? prerendered
-        : shellPath;
+    const found = prerendered.startsWith(blogPath) && fs.existsSync(prerendered);
+    const isStudio = req.path === "/studio" || req.path.startsWith("/studio/");
 
     res.setHeader("Content-Type", "text/html");
     res.setHeader("Cache-Control", "no-cache");
-    res.send(fs.readFileSync(file, "utf-8"));
+    if (found) {
+      res.send(fs.readFileSync(prerendered, "utf-8"));
+      return;
+    }
+    let html = fs.readFileSync(shellPath, "utf-8");
+    if (!isStudio) {
+      res.status(404);
+      html = blogNotFound(html);
+    }
+    res.send(html);
   });
+}
+
+/** The blog shell as a 404: noindex, and no canonical pointing at /blog. */
+function blogNotFound(html: string): string {
+  return html
+    .replace(/<title>[^<]*<\/title>/, "<title>Page Not Found | Lesser Tax</title>")
+    .replace(/\s*<link rel="canonical"[^>]*>/, "")
+    .replace(/\s*<script type="application\/ld\+json">[\s\S]*?<\/script>/g, "")
+    .replace("</head>", '  <meta name="robots" content="noindex" />\n  </head>');
+}
+
+/**
+ * Marketing pages. The build prerenders every route in PAGE_META to
+ * dist/prerendered/ (script/prerender.ts): full page markup plus that route's
+ * meta, so crawlers that do not run JavaScript still see the content. They are
+ * read once at startup and served from memory.
+ *
+ * Unknown paths get the prerendered 404 page with a real 404 status, so Google
+ * does not index them as copies of the home page. Dynamic routes without a
+ * prerendered page (tax-expert profiles) get the shell with their meta.
+ */
+export function marketingPages(distPath: string, prerenderedPath: string) {
+  const cache = new Map<string, string>();
+  const read = (file: string) => {
+    let html = cache.get(file);
+    if (html === undefined) {
+      const full = path.resolve(prerenderedPath, file);
+      html = full.startsWith(prerenderedPath) && fs.existsSync(full) ? fs.readFileSync(full, "utf-8") : "";
+      cache.set(file, html);
+    }
+    return html || null;
+  };
+  const shell = fs.readFileSync(path.resolve(distPath, "index.html"), "utf-8");
+
+  return (req: Request, res: Response) => {
+    const pathname = new URL(req.originalUrl, "http://x").pathname;
+
+    // A miss on a file path (a removed bundle, a typo'd image) is a plain 404,
+    // never an HTML page under a .js or .png URL.
+    if (path.extname(pathname)) {
+      res.status(404).type("text/plain").send("Not found");
+      return;
+    }
+
+    // One URL per page: /nris/ -> /nris.
+    const route = normalizePath(pathname);
+    if (route !== pathname && routeMeta(route)) {
+      const q = req.originalUrl.indexOf("?");
+      res.redirect(301, route + (q >= 0 ? req.originalUrl.slice(q) : ""));
+      return;
+    }
+
+    const { meta, status } = metaFor(route);
+    const html =
+      (status === 200 ? read(prerenderFile(route)) : read(NOT_FOUND_FILE)) ?? injectMeta(shell, meta);
+
+    res.status(status);
+    res.setHeader("Content-Type", "text/html; charset=utf-8");
+    res.setHeader("Cache-Control", "no-cache");
+    res.send(html);
+  };
 }
 
 export function serveStatic(app: Express) {
@@ -276,20 +228,18 @@ export function serveStatic(app: Express) {
     );
   }
 
+  // gzip for HTML, JS, CSS, JSON, SVG and XML; nginx in front passes it through.
+  app.use(compression());
+  app.use(securityHeaders);
+
   // Mounted before express.static and the marketing catch-all below, so
   // /blog/:slug and /blog/studio/* resolve to the blog rather than the
   // marketing shell.
   serveBlog(app, path.resolve(distPath, "blog"));
 
-  app.use(express.static(distPath));
+  // The build's index.html is the empty shell: never serve it as a page.
+  app.get("/index.html", (_req: Request, res: Response) => res.redirect(301, "/"));
+  app.use(express.static(distPath, staticOptions()));
 
-  app.use("/{*path}", (req: Request, res: Response) => {
-    const indexPath = path.resolve(distPath, "index.html");
-    let html = fs.readFileSync(indexPath, "utf-8");
-
-    html = injectMeta(html, metaFor(req.originalUrl));
-
-    res.setHeader("Content-Type", "text/html");
-    res.send(html);
-  });
+  app.use("/{*path}", marketingPages(distPath, path.resolve(__dirname, "prerendered")));
 }

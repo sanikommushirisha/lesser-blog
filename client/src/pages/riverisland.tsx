@@ -17,18 +17,19 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef } from "react";
-import { Helmet } from "react-helmet";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import lesserLogo from "@assets/lesser_logo.png";
-import teamDavidImg from "@assets/team_david_clean.png";
-import teamVishweshImg from "@assets/team_vishwesh_clean.png";
-import teamJithendraImg from "@assets/team_jithendra_clean.png";
-import teamRobertImg from "@assets/team_robert_clean.png";
+import teamDavidImg from "@assets/team_david_clean.webp";
+import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
+import teamJithendraImg from "@assets/team_jithendra_clean.webp";
+import teamRobertImg from "@assets/team_robert_clean.webp";
 import testimonialVinayImg from "@assets/testimonial_vinay.png";
 import testimonialSrinivasImg from "@assets/testimonial_srinivas.png";
 import testimonialGauravImg from "@assets/testimonial_gaurav.png";
-import riverIslandHeroImg from "@assets/image_1771963802815.png";
+import riverIslandHeroImg from "@assets/image_1771963802815.webp";
+import { FaqJsonLd } from "@/components/json-ld";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -371,7 +372,7 @@ const urgencyItems = [
 function HeroSection() {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
   const heroRef = useRef<HTMLDivElement | null>(null);
-  const { ref, isVisible } = useInView(0.1);
+  const { ref } = useInView(0.1);
 
   const handleMouseMove = (e: React.MouseEvent) => {
     if (!heroRef.current) return;
@@ -415,16 +416,16 @@ function HeroSection() {
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
 
           <div className="order-2 lg:order-1">
-            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/15 bg-primary/5 mb-6 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className={`inline-flex items-center gap-2 px-4 py-1.5 rounded-full border border-primary/15 bg-primary/5 mb-6 hero-fade-up [animation-delay:0ms]`}>
               <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
               <span className="text-xs font-semibold text-primary uppercase tracking-[0.15em]">River Islands Tax Specialists</span>
             </div>
 
             <h1
-              className={`text-3xl sm:text-4xl lg:text-[48px] xl:text-[56px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight leading-[1.65] mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
+              className={`text-3xl sm:text-4xl lg:text-[48px] xl:text-[56px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight leading-[1.65] mb-6 hero-fade-up [animation-delay:100ms]`}
               data-testid="text-hero-heading"
             >
-              Your U.S.–India taxes,
+              Your U.S.–India taxes,{" "}
               <br />
               <span className="text-primary relative inline-block mt-3">
                 handled correctly
@@ -432,12 +433,12 @@ function HeroSection() {
               </span>
             </h1>
 
-            <p className={`text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`} data-testid="text-hero-sub">
+            <p className={`text-lg text-muted-foreground max-w-xl mb-8 leading-relaxed hero-fade-up [animation-delay:200ms]`} data-testid="text-hero-sub">
               Living in River Islands with Indian bank accounts, mutual funds, or rental income?
               Most CPAs miss these. <span className="font-semibold text-foreground">We don't.</span>
             </p>
 
-            <div className={`flex flex-wrap gap-4 mb-8 transition-all duration-700 delay-250 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
+            <div className={`flex flex-wrap gap-4 mb-8 hero-fade-up [animation-delay:250ms]`}>
               {[
                 { label: "FBAR", icon: Building2 },
                 { label: "FATCA", icon: FileText },
@@ -456,7 +457,7 @@ function HeroSection() {
               })}
             </div>
 
-            <div className={`flex flex-col sm:flex-row items-start gap-4 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
+            <div className={`flex flex-col sm:flex-row items-start gap-4 hero-fade-up [animation-delay:300ms]`}>
               <Button
                 asChild
                 size="lg"
@@ -472,7 +473,7 @@ function HeroSection() {
               </Button>
             </div>
 
-            <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 mt-5 transition-all duration-700 delay-400 ${isVisible ? 'opacity-100' : 'opacity-0'}`}>
+            <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 mt-5 hero-fade-up [animation-delay:400ms]`}>
               {["CPA & IRS EA reviewed", "No obligation", "Flat-fee pricing"].map((item, i) => (
                 <div key={i} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-primary/50" />
@@ -484,13 +485,16 @@ function HeroSection() {
 
           <div className="order-1 lg:order-2">
             <div
-              className={`relative transition-all duration-1000 delay-200 ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-[0.96]'}`}
-              style={{ transform: `perspective(1000px) rotateY(${mousePos.x * -2}deg) rotateX(${mousePos.y * 1.5}deg) ${isVisible ? '' : 'translateY(32px) scale(0.96)'}`, transition: 'transform 0.4s ease-out, opacity 1s ease-out' }}
+              className={`relative hero-fade-in [animation-delay:200ms]`}
+              style={{ transform: `perspective(1000px) rotateY(${mousePos.x * -2}deg) rotateX(${mousePos.y * 1.5}deg)`, transition: 'transform 0.4s ease-out' }}
             >
               <div className="relative rounded-2xl overflow-hidden shadow-[0_20px_60px_-12px_rgba(0,0,0,0.15)] border border-gray-200/60">
                 <img
                   src={riverIslandHeroImg}
-                  alt="River Islands community in Lathrop — lakefront homes and marina"
+                  width={1200}
+                  height={655}
+                  {...{ fetchpriority: "high" }}
+                  alt="River Islands community in Lathrop, CA: lakefront homes and marina"
                   className="w-full h-auto object-cover aspect-[16/10]"
                   data-testid="img-hero-community"
                 />
@@ -691,6 +695,10 @@ function TeamSection() {
                 <div className="relative overflow-hidden flex items-end justify-center px-4 mt-6" style={{ height: '150px' }}>
                   <img
                     src={member.image}
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={400}
                     alt={member.name}
                     className="w-32 h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
                     style={{ objectPosition: 'center 15%' }}
@@ -1121,11 +1129,11 @@ function RiFooter() {
           <div className="flex items-center gap-5">
             <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
-            <a href="mailto:use@lesser.tax" className="hover:text-white/50 transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
+            <a href="mailto:use@lesser.tax" className="hover:text-white transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
           </div>
         </div>
       </div>
@@ -1140,19 +1148,6 @@ export default function RiverIslandPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>River Islands NRI Tax Filing - Cross-Border U.S.-India Tax Services | Lesser</title>
-        <meta name="description" content="Expert U.S.-India tax filing for NRI families in River Islands, Lathrop CA. FBAR, FATCA, PFIC, rental income, and RNOR planning. Flat-fee pricing." />
-        <meta property="og:title" content="Lesser — NRI Tax Specialists for River Islands Families" />
-        <meta property="og:description" content="Localized U.S.-India tax expertise for the River Islands community in Lathrop, CA. FBAR, FATCA, and PFIC compliance by experts." />
-        <meta property="og:image" content="https://lesser.tax/og-riverisland.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Lesser — NRI Tax Specialists for River Islands Families" />
-        <meta name="twitter:description" content="Localized U.S.-India tax expertise for the River Islands community in Lathrop, CA. FBAR, FATCA, and PFIC compliance by experts." />
-        <meta name="twitter:image" content="https://lesser.tax/og-riverisland.jpg" />
-      </Helmet>
       <SharedNavbar variant="individual" sourcePage="/offers/riverisland" />
       <HeroSection />
       <RiskCheckSection />
@@ -1162,6 +1157,8 @@ export default function RiverIslandPage() {
       <PricingSection />
       <UrgencySection />
       <FAQSection />
+      <FaqJsonLd items={faqs} />
+      <RelatedGuides heading="NRI tax guides" guides={GUIDES.nri} />
       <CTASection />
       <RiFooter />
     </div>

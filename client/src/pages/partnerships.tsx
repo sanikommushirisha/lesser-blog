@@ -12,10 +12,10 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Helmet } from "react-helmet";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import lesserLogo from "@assets/lesser_logo.png";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -165,7 +165,7 @@ function HeroSection() {
             className="hero-text-reveal text-4xl sm:text-5xl lg:text-[58px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-6 leading-tight"
             data-testid="text-partnerships-hero-heading"
           >
-            10,000+ Returns Filed.
+            10,000+ Returns Filed.{" "}
             <br />
             <span className="text-primary">Yours Next?</span>
           </h1>
@@ -530,11 +530,11 @@ function PartnershipFooter() {
           <div className="flex items-center gap-5">
             <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
-            <a href="mailto:use@lesser.tax" className="hover:text-white/50 transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
+            <a href="mailto:use@lesser.tax" className="hover:text-white transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
           </div>
         </div>
       </div>
@@ -549,25 +549,13 @@ export default function PartnershipsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>Partnership Tax Filing - Form 1065 + K-1s | Lesser</title>
-        <meta name="description" content="File your partnership tax return for $100 per entity. Form 1065 + K-1s included. CPA-reviewed, 24hr turnaround. Trusted by 10,000+ real estate investors." />
-        <meta property="og:title" content="Lesser — Partnership Tax Filing for $100/Entity" />
-        <meta property="og:description" content="Form 1065 + K-1s, CPA-reviewed, $100 per entity. 10,000+ partnership returns filed. Join thousands of real estate investors." />
-        <meta property="og:image" content="https://lesser.tax/og-landing.jpg" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Lesser — Partnership Tax Filing for $100/Entity" />
-        <meta name="twitter:description" content="Form 1065 + K-1s, CPA-reviewed, $100 per entity. 10,000+ partnership returns filed. Join thousands of real estate investors." />
-        <meta name="twitter:image" content="https://lesser.tax/og-landing.jpg" />
-      </Helmet>
       <SharedNavbar variant="business" sourcePage="/business/partnerships" />
       <HeroSection />
       <GoogleReviewsSection />
       <ExpertReviewSection />
       <WhySwitchedSection />
       <SocialProofSection />
+      <RelatedGuides heading="Tax guides for real estate investors" guides={GUIDES.realEstate} />
       <FinalCTASection />
       <PartnershipFooter />
     </div>

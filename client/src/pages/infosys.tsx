@@ -15,15 +15,15 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState, useEffect, useRef, useCallback } from "react";
-import { Helmet } from "react-helmet";
 import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import { SiInfosys } from "react-icons/si";
 import lesserLogo from "@assets/lesser_logo.png";
-import teamDavidImg from "@assets/team_david_clean.png";
-import teamVishweshImg from "@assets/team_vishwesh_clean.png";
-import teamJithendraImg from "@assets/team_jithendra_clean.png";
-import teamRobertImg from "@assets/team_robert_clean.png";
+import teamDavidImg from "@assets/team_david_clean.webp";
+import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
+import teamJithendraImg from "@assets/team_jithendra_clean.webp";
+import teamRobertImg from "@assets/team_robert_clean.webp";
+import { FaqJsonLd } from "@/components/json-ld";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -474,7 +474,7 @@ function HeroSection() {
             className="hero-text-reveal text-4xl sm:text-5xl lg:text-[75px] font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-8"
             data-testid="text-infosys-hero-heading"
           >
-            Tax Filing & Strategic Planning for
+            Tax Filing & Strategic Planning for{" "}
             <br />
             <span className="text-primary relative">
               Infosys Employees
@@ -734,6 +734,10 @@ function TeamSection() {
                 <div className="relative overflow-hidden flex items-end justify-center px-4 mt-6" style={{ height: '150px' }}>
                   <img
                     src={member.image}
+                    loading="lazy"
+                    decoding="async"
+                    width={400}
+                    height={400}
                     alt={member.name}
                     className="w-32 h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
                     style={{ objectPosition: 'center 15%' }}
@@ -1192,7 +1196,7 @@ function CTASection() {
           className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-white tracking-tight mb-6 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           data-testid="text-cta-heading"
         >
-          Stop letting taxes dictate your
+          Stop letting taxes dictate your{" "}
           <br />
           <span className="relative">
             diversification decisions.
@@ -1243,11 +1247,11 @@ function InfosysFooter() {
           <div className="flex items-center gap-5">
             <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
-          <div className="flex items-center gap-4 text-xs text-white/30">
-            <a href="/privacy" className="hover:text-white/50 transition-colors">Privacy</a>
-            <a href="/terms" className="hover:text-white/50 transition-colors">Terms</a>
+          <div className="flex items-center gap-4 text-xs text-white/60">
+            <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
+            <a href="/terms" className="hover:text-white transition-colors">Terms</a>
             <span>&copy; {new Date().getFullYear()} Lesser Tax Inc.</span>
-            <a href="mailto:use@lesser.tax" className="hover:text-white/50 transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
+            <a href="mailto:use@lesser.tax" className="hover:text-white transition-colors" data-testid="link-footer-email">use@lesser.tax</a>
           </div>
         </div>
       </div>
@@ -1262,19 +1266,6 @@ export default function InfosysPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Helmet>
-        <title>Infosys Employee Tax Planning & Filing | Lesser</title>
-        <meta name="description" content="Specialized tax planning for Infosys employees. Optimize your RSUs, ESOPs, and equity compensation with Big Four-trained CPAs. Flat-fee pricing and year-round support." />
-        <meta property="og:title" content="Lesser — Tax Planning for Infosys Employees" />
-        <meta property="og:description" content="Maximize your Infosys equity value. Expert CPA tax planning for RSUs, ESOPs, and cross-border income. Flat-fee, tech-forward service." />
-        <meta property="og:image" content="https://lesser.tax/og-image.png" />
-        <meta property="og:image:width" content="1200" />
-        <meta property="og:image:height" content="1200" />
-        <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content="Lesser — Tax Planning for Infosys Employees" />
-        <meta name="twitter:description" content="Maximize your Infosys equity value. Expert CPA tax planning for RSUs, ESOPs, and cross-border income. Flat-fee, tech-forward service." />
-        <meta name="twitter:image" content="https://lesser.tax/og-image.png" />
-      </Helmet>
       <SharedNavbar variant="individual" sourcePage="/offers/infosys" />
       <HeroSection />
       <CompensationSection />
@@ -1284,6 +1275,7 @@ export default function InfosysPage() {
       <HowItWorksSection />
       <PricingSection />
       <FAQSection />
+      <FaqJsonLd items={faqs} />
       <CTASection />
       <InfosysFooter />
     </div>

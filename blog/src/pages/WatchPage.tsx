@@ -6,6 +6,7 @@ import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { track } from '../motion/events'
 import { SITE_URL, asset } from '../lib/base'
+import { ORGANIZATION, pageDescription, pageTitle } from '../lib/seo'
 import { VIDEOS } from './watchVideos'
 
 export function WatchPage() {
@@ -32,13 +33,13 @@ export function WatchPage() {
     uploadDate: video.uploadDate,
     duration: video.duration,
     contentUrl: siteUrl + video.mp4,
-    publisher: { '@type': 'Organization', name: 'Lesser', logo: { '@type': 'ImageObject', url: `${siteUrl}/logo.png` } },
+    publisher: ORGANIZATION,
   }
   return (
     <main className="mx-auto w-full max-w-[860px] px-4 pt-10 font-sans sm:px-6">
       <Helmet>
-        <title>{`${video.title} — Lesser Blog`}</title>
-        <meta name="description" content={video.description} />
+        <title>{pageTitle(video.title)}</title>
+        <meta name="description" content={pageDescription(video.description)} />
         <link rel="canonical" href={canonical} />
         {/* Open Graph / Twitter — so shared links render a rich card (poster + video) */}
         <meta property="og:type" content="video.other" />
