@@ -162,10 +162,15 @@ export function readTime(wordCount: number): string {
   return `${Math.max(1, Math.ceil(wordCount / 200))} min read`
 }
 
+// Always UTC: pages are prerendered on a UTC server and hydrated in the
+// reader's timezone, and a post published late in the day would otherwise
+// show a different date in each. That text mismatch made React throw away the
+// prerendered page (error #418), refetch the post and shift the layout.
 export function formatDate(iso: string): string {
   return new Date(iso).toLocaleDateString('en-US', {
     month: 'short',
     day: 'numeric',
     year: 'numeric',
+    timeZone: 'UTC',
   })
 }
