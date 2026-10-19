@@ -20,6 +20,9 @@ import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import lesserLogo from "@assets/lesser_logo.png";
 import { FaqJsonLd } from "@/components/json-ld";
+import RelatedGuides, { GUIDES } from "@/components/related-guides";
+import QuickAnswer from "@/components/quick-answer";
+import { QUICK_ANSWERS } from "@/components/quick-answers";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -220,7 +223,7 @@ function HeroSection() {
             className="hero-text-reveal-sub text-lg lg:text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto"
             data-testid="text-deadline-hero-subheading"
           >
-            Deadline approaching and CPAs are booked? Upload your docs today, get your return tomorrow. Form 1120, 1065, or 1120-S — <span className="font-semibold text-foreground">$100 flat</span>. CPA-reviewed. No waitlist.
+            Deadline approaching and CPAs are booked? Upload your docs today, get your return tomorrow. Form 1120, 1065, or 1120-S, <span className="font-semibold text-foreground">$100 flat</span>. CPA-reviewed. No waitlist.
           </p>
 
           <div className="hero-btn-appear flex flex-wrap justify-center items-center gap-4 mb-10">
@@ -643,7 +646,7 @@ function DeadlineFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
@@ -666,11 +669,13 @@ export default function DeadlinePage() {
     <div className="min-h-screen bg-white">
       <SharedNavbar variant="business" sourcePage="/business/deadline" />
       <HeroSection />
+      <QuickAnswer {...QUICK_ANSWERS.deadline} />
       <ExpertReviewSection />
       <BeatDeadlineSection />
       <SocialProofSection />
       <FAQSection />
       <FaqJsonLd items={faqs} />
+      <RelatedGuides heading="Business tax guides for founders" guides={GUIDES.business} />
       <GoogleReviewsSection />
       <FinalCTASection />
       <DeadlineFooter />

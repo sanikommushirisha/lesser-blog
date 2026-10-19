@@ -229,12 +229,12 @@ const equityStrategies = [
   {
     icon: Repeat,
     title: "Diversify Without a Giant Tax Bill",
-    description: "Use Exchange Funds to reduce single-stock concentration while deferring capital gains taxes. Rebalance intelligently — without triggering a massive tax event.",
+    description: "Use Exchange Funds to reduce single-stock concentration while deferring capital gains taxes. Rebalance intelligently, without triggering a massive tax event.",
   },
   {
     icon: Lock,
-    title: "Sell During Blackout Periods — Legally",
-    description: "Set up 10b5-1 trading plans to automate stock sales — even during restricted windows. Execute diversification on your schedule, not the company's.",
+    title: "Sell During Blackout Periods, Legally",
+    description: "Set up 10b5-1 trading plans to automate stock sales, even during restricted windows. Execute diversification on your schedule, not the company's.",
   },
   {
     icon: TrendingUp,
@@ -249,12 +249,12 @@ const equityStrategies = [
   {
     icon: Globe,
     title: "Multi-State Filing",
-    description: "Moved mid-year? Working remotely? We allocate income accurately across states — avoiding costly overpayments or compliance risks.",
+    description: "Moved mid-year? Working remotely? We allocate income accurately across states, avoiding costly overpayments or compliance risks.",
   },
   {
     icon: Shield,
     title: "Foreign Reporting & Cross-Border Compliance",
-    description: "From FBAR to FATCA to foreign investments — we ensure proper disclosures and minimize risk. Stay compliant across jurisdictions.",
+    description: "From FBAR to FATCA to foreign investments, we ensure proper disclosures and minimize risk. Stay compliant across jurisdictions.",
   },
 ];
 
@@ -278,7 +278,7 @@ const teamMembers = [
   {
     id: "jithendra",
     name: "Jithendra",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "6+ years experience",
     specialty: "Cross-border tax, FBAR & FATCA",
     image: teamJithendraImg,
@@ -286,7 +286,7 @@ const teamMembers = [
   {
     id: "robert",
     name: "Robert",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "12+ years experience",
     specialty: "Tax resolution, wills & trusts",
     image: teamRobertImg,
@@ -323,7 +323,7 @@ const howItWorksSteps = [
   },
   {
     title: "Receive a personalized tax plan",
-    desc: "We analyze your RSUs, ESPP, capital gains, and multi-state exposure — then deliver a plan tailored to your situation.",
+    desc: "We analyze your RSUs, ESPP, capital gains, and multi-state exposure, then deliver a plan tailored to your situation.",
   },
   {
     title: "Expert execution and year-round support",
@@ -393,11 +393,11 @@ const faqs = [
   },
   {
     question: "Can you coordinate with my financial advisor?",
-    answer: "Yes — we frequently collaborate to align tax and investment strategy. We can work directly with your advisor to ensure your tax plan and financial plan work together."
+    answer: "Yes, we frequently collaborate to align tax and investment strategy. We can work directly with your advisor to ensure your tax plan and financial plan work together."
   },
   {
     question: "What makes you different from a traditional CPA?",
-    answer: "We specialize in proactive equity compensation planning — not just year-end filing. We combine Big Four expertise with modern technology to deliver year-round tax strategy, not just a once-a-year return."
+    answer: "We specialize in proactive equity compensation planning, not just year-end filing. We combine Big Four expertise with modern technology to deliver year-round tax strategy, not just a once-a-year return."
   },
 ];
 
@@ -488,7 +488,9 @@ function HeroSection() {
             <img
               src="/nextdoor-logo.png"
               alt="Nextdoor"
-              className="h-5 sm:h-6"
+              width={386}
+              height={55}
+              className="w-auto h-5 sm:h-6"
               data-testid="img-nextdoor-logo"
             />
           </div>
@@ -509,7 +511,7 @@ function HeroSection() {
             className="hero-text-reveal-sub text-lg lg:text-xl text-muted-foreground mb-10 leading-relaxed max-w-2xl mx-auto"
             data-testid="text-nextdoor-hero-subheading"
           >
-            Reduce taxes on your salary, RSUs, and capital gains — with proactive planning and expert execution.
+            Reduce taxes on your salary, RSUs, and capital gains, with proactive planning and expert execution.
           </p>
 
           <div className="hero-checks-reveal inline-flex flex-col sm:flex-row gap-3 sm:gap-6 mb-12">
@@ -912,7 +914,7 @@ function HowItWorksSection() {
             <span className="text-primary italic">Proactive.</span>
           </h2>
           <p className={`text-lg text-muted-foreground max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-            From document upload to year-round advisory — we handle every step.
+            From document upload to year-round advisory, we handle every step.
           </p>
         </div>
 
@@ -1347,7 +1349,7 @@ function NextdoorFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>

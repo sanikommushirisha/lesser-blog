@@ -39,6 +39,8 @@ import irsBadge from "@assets/irs_1770525648550.png";
 import encryptionBadge from "@assets/image_1771470632228.png";
 import { FaqJsonLd } from "@/components/json-ld";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
+import QuickAnswer from "@/components/quick-answer";
+import { QUICK_ANSWERS } from "@/components/quick-answers";
 
 
 function Custom3DCursor() {
@@ -303,7 +305,7 @@ const teamMembers = [
   {
     id: "jithendra",
     name: "Jithendra",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "6+ years experience",
     specialty: "Cross-border tax, FBAR & FATCA",
     image: teamJithendraImg,
@@ -311,7 +313,7 @@ const teamMembers = [
   {
     id: "robert",
     name: "Robert",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "12+ years experience",
     specialty: "Tax resolution, wills & trusts",
     image: teamRobertImg,
@@ -403,7 +405,7 @@ const faqs = [
   },
   {
     question: "Is my financial data secure?",
-    answer: "Yes. We use bank-level encryption, are SOC 2 compliant, and are an IRS Authorized e-File Provider. Your data is never sold or shared."
+    answer: "Yes. We use bank-level encryption, are SOC 2 compliant, and are an Authorized IRS e-file Provider. Your data is never sold or shared."
   },
   {
     question: "My income is not complex. Can you help me reduce my taxes?",
@@ -424,7 +426,7 @@ function AnnouncementBanner() {
     <div className="bg-foreground text-background text-center py-2.5 px-4 text-sm" data-testid="banner-announcement">
       <span className="text-background/80">Limited availability:</span>{" "}
       <span className="font-medium">Now accepting new clients for 2026 tax season</span>
-      <span className="text-background/80"> — Spots filling fast</span>
+      <span className="text-background/80">. Spots filling fast</span>
       <a
         href="https://lesser.tax/app/auth/sign-up"
         target="_blank"
@@ -949,7 +951,7 @@ function ComparisonSection() {
 }
 
 const taxSavingsItems = [
-  { icon: CreditCard, title: "Contribute to Backdoor Roth IRA", desc: "Your income exceeds the limit. Contribute up to $7,000 via backdoor Roth.", amount: "+$2,134" },
+  { icon: CreditCard, title: "Contribute to Backdoor Roth IRA", desc: "Your income exceeds the limit. Contribute up to $7,500 (2026 limit) via backdoor Roth.", amount: "+$2,134" },
   { icon: Building, title: "Real Estate Depreciation", desc: "Deduct depreciation expenses on rental property over 27.5 years.", amount: "+$4,200" },
   { icon: Home, title: "Home Office Deduction", desc: "Deduct portion of mortgage, utilities, and maintenance for home office.", amount: "+$2,400" },
 ];
@@ -1036,7 +1038,7 @@ function HowItWorksSection() {
                 <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-step-2-title">Maximize your tax savings</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6" data-testid="text-step-2-desc">
-                We scan your financials and uncover every deduction and credit you're entitled to — strategies most filers miss.
+                We scan your financials and uncover every deduction and credit you're entitled to, strategies most filers miss.
               </p>
 
               <div className="relative space-y-3">
@@ -1080,7 +1082,7 @@ function HowItWorksSection() {
                 <h3 className="text-xl font-extrabold tracking-[-0.03em] text-foreground" data-testid="text-step-3-title">Expert review & file</h3>
               </div>
               <p className="text-sm text-muted-foreground leading-relaxed mb-6" data-testid="text-step-3-desc">
-                A dedicated CPA reviews every detail, answers your questions, and files with the IRS — guaranteed accurate.
+                A dedicated CPA reviews every detail, answers your questions, and files with the IRS, guaranteed accurate.
               </p>
 
               <div className="space-y-4">
@@ -1438,7 +1440,7 @@ function PricingSection() {
             className={`text-lg text-muted-foreground max-w-2xl mx-auto mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-pricing-subheading"
           >
-            Annual tax preparation and filing, year-round planning, and equity advisory — all included in your personalized plan. No hourly billing. No surprise charges.
+            Annual tax preparation and filing, year-round planning, and equity advisory, all included in your personalized plan. No hourly billing. No surprise charges.
           </p>
         </div>
 
@@ -1554,7 +1556,7 @@ function SecuritySection() {
 
   const securityItems = [
     { icon: ShieldCheck, title: "SOC 2 Compliant", subtitle: "Enterprise-grade infrastructure audited to SOC 2 standards", testId: "trust-soc-2", floatClass: "security-icon-float", orbitClass: "security-orbit-particle" },
-    { icon: FileCheck, title: "IRS Authorized", subtitle: "Certified e-File provider with direct IRS submission", testId: "trust-irs", floatClass: "security-icon-float-delayed", orbitClass: "security-orbit-particle-reverse" },
+    { icon: FileCheck, title: "IRS e-file Provider", subtitle: "Authorized IRS e-file Provider, returns submitted directly to the IRS", testId: "trust-irs", floatClass: "security-icon-float-delayed", orbitClass: "security-orbit-particle-reverse" },
     { icon: Lock, title: "Bank-Level Encryption", subtitle: "256-bit AES encryption protects all data in transit and at rest", testId: "trust-encryption", floatClass: "security-icon-float-slow", orbitClass: "security-orbit-particle" },
   ];
 
@@ -1574,7 +1576,7 @@ function SecuritySection() {
             className={`text-lg text-muted-foreground max-w-3xl mx-auto transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-security-subheading"
           >
-            We protect your data with the same enterprise-grade security standards you expect from modern software. Bank-level encryption and secure infrastructure throughout — so you never have to wonder if your information is safe.
+            We protect your data with the same enterprise-grade security standards you expect from modern software. Bank-level encryption and secure infrastructure throughout, so you never have to wonder if your information is safe.
           </p>
         </div>
 
@@ -1795,7 +1797,7 @@ function Footer() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
             <div className="hidden sm:block w-px h-5 bg-white/10" />
             <div className="hidden sm:flex items-center gap-3">
               {[
@@ -1859,6 +1861,7 @@ export default function LandingPage() {
     <div className="min-h-screen bg-white dark:bg-background">
       <SharedNavbar variant="individual" sourcePage="/" />
       <HeroSection />
+      <QuickAnswer {...QUICK_ANSWERS.home} />
       <TrustedByBanner />
       <ModernCpaSection />
       <TeamSection />

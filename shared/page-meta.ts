@@ -44,6 +44,29 @@ const organization = {
   email: "use@lesser.tax",
   areaServed: { "@type": "Country", name: "United States" },
   priceRange: "$$",
+  contactPoint: {
+    "@type": "ContactPoint",
+    contactType: "customer support",
+    email: "use@lesser.tax",
+    areaServed: "US",
+    availableLanguage: "English",
+  },
+  knowsAbout: [
+    "U.S. individual income tax filing",
+    "Tax planning for tech professionals",
+    "RSU, ISO, NSO and ESPP taxation",
+    "H-1B and green card holder taxes",
+    "NRI taxation",
+    "FBAR (FinCEN Form 114)",
+    "FATCA Form 8938",
+    "PFIC and Form 8621",
+    "India-U.S. tax treaty (DTAA)",
+    "Indian income tax return (ITR) filing",
+    "Partnership returns (Form 1065)",
+    "S corporation returns (Form 1120-S)",
+    "Rental property and real estate LLC taxes",
+    "Indian passport renewal in the USA",
+  ],
   sameAs: [
     "https://www.linkedin.com/company/lesser-tax/",
     "https://x.com/lesser_tax",
@@ -120,8 +143,14 @@ function page(
   };
 }
 
+// The Nextdoor, Broadcom, Coupa and Google offer pages are the same page with
+// the company name swapped. Indexed, they read as doorway pages (Google spam
+// policies) and compete with "/" for the same queries, so they stay reachable
+// for employees we send them to but out of search results. To index one again,
+// give it content specific to that employer first (see the lesser-seo skill).
 function companyOffer(path: string, company: string, ogImage: string): PageMeta {
   return page(path, {
+    robots: "noindex,follow",
     title: `${company} Employee Tax Planning and Filing | ${BRAND}`,
     description: `Tax planning and filing for ${company} employees: RSUs, ISOs and ESPP handled by Big Four-trained CPAs. Flat-fee pricing and year-round support from ${BRAND}.`,
     ogTitle: `Tax Planning for ${company} Employees | ${BRAND}`,

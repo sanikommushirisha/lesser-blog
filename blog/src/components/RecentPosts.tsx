@@ -31,6 +31,8 @@ export function RecentPosts({ posts, className = '' }: { posts: PostListItem[]; 
                     <img
                       src={thumb}
                       alt={altText(image?.alt, p.slug)}
+                      width={224}
+                      height={140}
                       loading="lazy"
                       className="aspect-[8/5] w-full rounded-lg object-cover transition-opacity group-hover:opacity-90"
                     />

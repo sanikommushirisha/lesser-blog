@@ -22,6 +22,8 @@ import SharedNavbar from "@/components/shared-navbar";
 import lesserLogo from "@assets/lesser_logo.png";
 import { FaqJsonLd } from "@/components/json-ld";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
+import QuickAnswer from "@/components/quick-answer";
+import { QUICK_ANSWERS } from "@/components/quick-answers";
 
 const APP_URL = "https://lesser.tax/app/auth/sign-up";
 
@@ -67,13 +69,13 @@ const STEPS = [
   {
     n: "4",
     title: "Review & relax",
-    desc: "Your CA prepares your ITR — you simply review and approve from anywhere in the U.S.",
+    desc: "Your CA prepares your ITR and you simply review and approve from anywhere in the U.S.",
   },
 ];
 
 const REASONS = [
   { icon: Shield, title: "Stay Compliant", desc: "Avoid notices and penalties under the Indian Income Tax Act." },
-  { icon: RefreshCw, title: "Claim Refunds", desc: "Recover excess TDS deducted on Indian income — often a meaningful sum." },
+  { icon: RefreshCw, title: "Claim Refunds", desc: "Recover excess TDS deducted on Indian income, often a meaningful sum." },
   { icon: Award, title: "Future-Proof", desc: "Maintain a clean tax history for visas, loans, and overseas remittances." },
   { icon: Landmark, title: "Income in India", desc: "Required if your Indian income exceeds the basic exemption limit." },
   { icon: Globe, title: "DTAA Benefits", desc: "Use the U.S.–India tax treaty to avoid double taxation on the same income." },
@@ -81,7 +83,7 @@ const REASONS = [
 ];
 
 const BENEFITS = [
-  "100% online — file from anywhere in the U.S.",
+  "100% online: file from anywhere in the U.S.",
   "Expert-reviewed filings by Indian CAs",
   "Stay compliant with Indian tax laws and avoid penalties",
   "Save on taxes with the right deductions and DTAA benefits",
@@ -92,11 +94,11 @@ const BENEFITS = [
 const FAQS = [
   {
     q: "Who needs to file an Indian tax return as an NRI?",
-    a: "If your total Indian income exceeds the basic exemption limit, or you have capital gains from Indian assets, you are required to file an ITR in India — even as an NRI living in the U.S.",
+    a: "If your total Indian income exceeds the basic exemption limit, or you have capital gains from Indian assets, you are required to file an ITR in India, even as an NRI living in the U.S.",
   },
   {
     q: "What is the price?",
-    a: "Filings start at $69. Final pricing depends on your income types — interest/dividends, rental, capital gains, business, and foreign asset disclosures.",
+    a: "Filings start at $69. Final pricing depends on your income types: interest/dividends, rental, capital gains, business, and foreign asset disclosures.",
   },
   {
     q: "Which financial year do you file for?",
@@ -126,7 +128,7 @@ function IndiaTaxFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
@@ -187,7 +189,7 @@ export default function IndiaTaxFilingPage() {
               <p className="text-lg text-muted-foreground leading-relaxed mb-8 max-w-xl" data-testid="text-hero-subtitle">
                 File your Indian Income Tax Return from anywhere in the U.S. Vetted Indian CAs
                 handle interest, dividends, rental income, capital gains, foreign asset disclosure,
-                and DTAA coordination — start to finish.
+                and DTAA coordination, start to finish.
               </p>
 
               <div className="flex flex-col sm:flex-row gap-3 mb-8">
@@ -268,6 +270,8 @@ export default function IndiaTaxFilingPage() {
         </div>
       </section>
 
+      <QuickAnswer {...QUICK_ANSWERS.indiaItr} />
+
       {/* Coverage */}
       <section className="py-20 bg-muted/30" data-testid="section-coverage">
         <div className="max-w-6xl mx-auto px-6">
@@ -278,7 +282,7 @@ export default function IndiaTaxFilingPage() {
             </h2>
             <p className="text-muted-foreground leading-relaxed">
               Whatever the source of your Indian income, our CAs file the right ITR with the
-              right schedules — including foreign asset disclosure and foreign tax credit
+              right schedules, including foreign asset disclosure and foreign tax credit
               coordination.
             </p>
           </div>
@@ -390,7 +394,7 @@ export default function IndiaTaxFilingPage() {
                     <div>
                       <div className="text-base font-semibold text-white mb-1">SSL encryption</div>
                       <div className="text-sm text-white/60 leading-relaxed">
-                        Documents are transmitted over SSL-certified pathways and stored
+                        Documents are transmitted over encrypted (TLS) connections and stored
                         securely.
                       </div>
                     </div>

@@ -200,7 +200,7 @@ const coreAreas = [
     icon: Building2,
     num: "01",
     title: "FBAR (Foreign Bank Reporting)",
-    description: "If your Indian accounts exceeded $10,000 at any point — FBAR may be required. Most people don't know this.",
+    description: "If your Indian accounts exceeded $10,000 at any point, FBAR may be required. Most people don't know this.",
     highlight: "We handle it properly.",
   },
   {
@@ -249,7 +249,7 @@ const teamMembers = [
   {
     id: "jithendra",
     name: "Jithendra",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "6+ years experience",
     specialty: "Cross-border tax, FBAR & FATCA",
     image: teamJithendraImg,
@@ -257,7 +257,7 @@ const teamMembers = [
   {
     id: "robert",
     name: "Robert",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "12+ years experience",
     specialty: "Tax resolution, wills & trusts",
     image: teamRobertImg,
@@ -345,7 +345,7 @@ const faqs = [
     answer: "Yes. Our CPAs and IRS Enrolled Agents are experienced in FBAR, FATCA, PFIC (Form 8621), Indian rental income, Foreign Tax Credits, and RNOR planning. We've handled hundreds of cross-border filings."
   },
   {
-    question: "I have NRE/NRO accounts — do I need to file anything?",
+    question: "I have NRE/NRO accounts, do I need to file anything?",
     answer: "Likely yes. If the aggregate value of all your foreign accounts exceeds $10,000 at any point during the year, you must file an FBAR (FinCEN 114). FATCA filing (Form 8938) may also apply based on your asset thresholds. Penalties for non-filing can be severe."
   },
   {
@@ -474,7 +474,7 @@ function HeroSection() {
             </div>
 
             <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 mt-5 hero-fade-up [animation-delay:400ms]`}>
-              {["CPA & IRS EA reviewed", "No obligation", "Flat-fee pricing"].map((item, i) => (
+              {["Reviewed by a CPA or Enrolled Agent", "No obligation", "Flat-fee pricing"].map((item, i) => (
                 <div key={i} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-primary/50" />
                   <span className="text-xs text-muted-foreground/60 font-medium">{item}</span>
@@ -596,7 +596,7 @@ function RiskCheckSection() {
         <div className={`text-center mt-10 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <p className="text-base text-muted-foreground font-medium bg-amber-50/80 border border-amber-200/60 rounded-xl px-6 py-3 inline-flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <span>If you're unsure — it's better to <span className="font-bold text-foreground">review early</span>.</span>
+            <span>If you're unsure, it's better to <span className="font-bold text-foreground">review early</span>.</span>
           </p>
         </div>
       </div>
@@ -838,7 +838,7 @@ function PricingSection() {
             className={`text-lg text-muted-foreground max-w-2xl mx-auto mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-pricing-subheading"
           >
-            Annual tax preparation and filing, year-round planning, and equity advisory — all included in your personalized plan. No hourly billing. No surprise charges.
+            Annual tax preparation and filing, year-round planning, and equity advisory, all included in your personalized plan. No hourly billing. No surprise charges.
           </p>
         </div>
 
@@ -1127,7 +1127,7 @@ function RiFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>

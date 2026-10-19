@@ -78,7 +78,7 @@ function Hero() {
             variants={fadeUp}
             className="mx-auto mt-6 max-w-2xl text-lg leading-relaxed text-muted-foreground md:text-xl"
           >
-            From U.S. and India returns to business filings and NRI services — manage everything in one
+            From U.S. and India returns to business filings and NRI services, manage everything in one
             place, with <span className="whitespace-nowrap font-semibold text-foreground">Big Four-trained CPAs</span> and{" "}
             <span className="whitespace-nowrap font-semibold text-foreground">flat-fee pricing</span>.
           </motion.p>
@@ -145,7 +145,7 @@ const STRATEGIES: { icon: LucideIcon; title: string; desc: string; badge: string
   {
     icon: Building,
     title: "Real Estate Depreciation",
-    desc: "Deduct depreciation on rental property over 27.5 years — in the U.S. or India.",
+    desc: "Deduct depreciation on rental property over 27.5 years, in the U.S. or India.",
     badge: "Tax efficient",
     amount: "+$4,200",
   },
@@ -165,7 +165,7 @@ function Savings() {
         <SectionHeading
           eyebrow="Tax strategy"
           title="Keep more of what you earn."
-          subtitle="Every return comes with a planning review. We find the strategies that fit your income — RSUs, rentals and all — with zero guesswork."
+          subtitle="Every return comes with a planning review. We find the strategies that fit your income (RSUs, rentals and all) with zero guesswork."
         />
 
         <StaggerGroup className="mt-14 grid gap-5 md:grid-cols-3">
@@ -229,7 +229,7 @@ const TAX_GROUPS: { flag?: string; icon?: LucideIcon; title: string; desc: strin
       {
         badge: "Big Four-trained CPAs",
         title: "Tax Filing",
-        desc: "RSUs, ISOs, ESPP and stock options — filed right, with an expert review before submission.",
+        desc: "RSUs, ISOs, ESPP and stock options: filed right, with an expert review before submission.",
         stat: "From $99/year",
         href: "/",
       },
@@ -271,7 +271,7 @@ const TAX_GROUPS: { flag?: string; icon?: LucideIcon; title: string; desc: strin
       {
         badge: "48hr turnaround",
         title: "Business Tax Filing",
-        desc: "Form 1120, 1065 or 1120-S — CPA-reviewed, with no rush fee.",
+        desc: "Form 1120, 1065 or 1120-S, CPA-reviewed, with no rush fee.",
         stat: "$100 flat",
         href: "/business",
       },
@@ -293,7 +293,7 @@ function Taxation() {
         <SectionHeading
           eyebrow="Taxation"
           title="Taxes, made simple."
-          subtitle="Complete tax solutions for tech professionals and global Indians with cross-border obligations — compliant, and built to maximize your savings."
+          subtitle="Complete tax solutions for tech professionals and global Indians with cross-border obligations: compliant and built to maximize your savings."
         />
 
         <StaggerGroup className="mt-14 grid gap-5 lg:grid-cols-3">
@@ -362,9 +362,9 @@ const MARKETPLACE: {
     title: "Business",
     desc: "Filings for partnerships, LLCs and deadlines",
     items: [
-      { name: "Partnerships — Form 1065 + K-1s", href: "/business/partnerships" },
-      { name: "Real Estate LLCs — $100/entity", href: "/business/realestate" },
-      { name: "March 15 Deadline — file in 24 hours", href: "/business/deadline" },
+      { name: "Partnerships: Form 1065 + K-1s", href: "/business/partnerships" },
+      { name: "Real Estate LLCs: $100/entity", href: "/business/realestate" },
+      { name: "March 15 Deadline: file in 24 hours", href: "/business/deadline" },
     ],
     cta: { label: "Explore Business", href: "/business" },
   },
@@ -373,7 +373,7 @@ const MARKETPLACE: {
     title: "Documentation",
     desc: "India services for NRIs in the United States",
     items: [
-      { name: "Indian Passport Renewal — $140 flat", href: "/services/passport-renewal" },
+      { name: "Indian Passport Renewal: $140 flat", href: "/services/passport-renewal" },
       { name: "India Tax Filing (ITR)", href: "/services/india-tax-filing" },
       { name: "NRI Tax Filing", href: "/nris" },
     ],
@@ -400,7 +400,7 @@ function Marketplace() {
         <SectionHeading
           eyebrow="Marketplace"
           title="Every service, one place."
-          subtitle="Expert services for tech professionals and global Indians — 100% digital."
+          subtitle="Expert services for tech professionals and global Indians, 100% digital."
         />
 
         <StaggerGroup className="mt-14 grid gap-5 md:grid-cols-3">
@@ -458,7 +458,7 @@ const TEAM_FEATURES: { icon: LucideIcon; title: string; desc: string }[] = [
   {
     icon: MessageCircle,
     title: "Real answers from real experts",
-    desc: "Ask anything — our CPAs answer your questions and walk you through every decision.",
+    desc: "Ask anything: our CPAs answer your questions and walk you through every decision.",
   },
   {
     icon: ShieldCheck,
@@ -482,10 +482,10 @@ const CHAT: { from: "team" | "user"; text: ReactNode }[] = [
     from: "team",
     text: (
       <>
-        Good news — we handle both on one return:
+        Good news: we handle both on one return:
         <ul className="mt-2 list-disc space-y-1 pl-4">
           <li>
-            <b>RSU cost basis</b> — so vested shares aren't taxed twice
+            <b>RSU cost basis</b>, so vested shares aren't taxed twice
           </li>
           <li>
             <b>Foreign tax credits</b> for tax already paid in India
@@ -515,7 +515,7 @@ function ExpertTeam() {
               A tax team that actually talks to you.
             </h2>
             <p className="mt-4 text-lg leading-relaxed text-muted-foreground">
-              Get clear, reliable answers about your taxes — from equity compensation to cross-border income —
+              Get clear, reliable answers about your taxes, from equity compensation to cross-border income,
               whenever you need them.
             </p>
           </Reveal>

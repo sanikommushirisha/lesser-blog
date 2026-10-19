@@ -135,6 +135,8 @@ function MarketplaceHeader({
                   key={src}
                   src={src}
                   alt=""
+                  width={52}
+                  height={52}
                   className="h-[52px] w-[52px] rounded-full border-[3px] border-white bg-gray-100 object-cover"
                 />
               ))}

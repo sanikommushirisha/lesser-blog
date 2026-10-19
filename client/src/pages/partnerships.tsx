@@ -16,6 +16,8 @@ import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import lesserLogo from "@assets/lesser_logo.png";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
+import QuickAnswer from "@/components/quick-answer";
+import { QUICK_ANSWERS } from "@/components/quick-answers";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -528,7 +530,7 @@ function PartnershipFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
@@ -551,6 +553,7 @@ export default function PartnershipsPage() {
     <div className="min-h-screen bg-white">
       <SharedNavbar variant="business" sourcePage="/business/partnerships" />
       <HeroSection />
+      <QuickAnswer {...QUICK_ANSWERS.partnerships} />
       <GoogleReviewsSection />
       <ExpertReviewSection />
       <WhySwitchedSection />

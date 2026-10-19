@@ -26,6 +26,8 @@ import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import { FaqJsonLd } from "@/components/json-ld";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
+import QuickAnswer from "@/components/quick-answer";
+import { QUICK_ANSWERS } from "@/components/quick-answers";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -184,7 +186,7 @@ const keyAreas = [
     id: "fbar",
     icon: Building2,
     title: "Indian Bank Accounts (NRE / NRO)",
-    description: "If your total foreign account balance exceeds $10,000 at any point, you must file FBAR (FinCEN Form 114). Penalties for non-filing can be severe — even if no tax is owed.",
+    description: "If your total foreign account balance exceeds $10,000 at any point, you must file FBAR (FinCEN Form 114). Penalties for non-filing can be severe, even if no tax is owed.",
     highlight: "We ensure full compliance.",
   },
   {
@@ -192,14 +194,14 @@ const keyAreas = [
     icon: FileText,
     title: "FATCA (Form 8938)",
     description: "Indian bank accounts, brokerage accounts, foreign pension accounts, and ownership in Indian entities must be disclosed under FATCA.",
-    highlight: "We determine whether you must file — and prepare it accurately.",
+    highlight: "We determine whether you must file, and prepare it accurately.",
   },
   {
     id: "pfic",
     icon: BarChart3,
     title: "PFIC Filings (Indian Mutual Funds)",
     description: "Most Indian mutual funds are classified as PFICs under U.S. tax law. Without proper Form 8621 filing, gains can be taxed at punitive rates with interest penalties.",
-    highlight: "We handle PFIC calculations properly — including elections and annual reporting.",
+    highlight: "We handle PFIC calculations properly, including elections and annual reporting.",
   },
   {
     id: "rental",
@@ -220,7 +222,7 @@ const keyAreas = [
     icon: Plane,
     title: "RNOR Planning (Returning to India)",
     description: "Planning to move back? RNOR status impacts tax on foreign income, timing of stock sales, repatriation of U.S. assets, and investment account structures.",
-    highlight: "We help you plan your exit strategically — before relocating.",
+    highlight: "We help you plan your exit strategically, before relocating.",
   },
 ];
 
@@ -244,7 +246,7 @@ const teamMembers = [
   {
     id: "jithendra",
     name: "Jithendra",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "6+ years experience",
     specialty: "Cross-border tax, FBAR & FATCA",
     image: teamJithendraImg,
@@ -252,7 +254,7 @@ const teamMembers = [
   {
     id: "robert",
     name: "Robert",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "12+ years experience",
     specialty: "Tax resolution, wills & trusts",
     image: teamRobertImg,
@@ -351,7 +353,7 @@ const plans = [
 const faqs = [
   {
     question: "Do you specialize in NRI tax filing?",
-    answer: "Yes. We focus on cross-border tax compliance for Indian immigrants in the U.S. Our team understands both U.S. and Indian tax frameworks — from FBAR and FATCA to PFIC and RNOR planning."
+    answer: "Yes. We focus on cross-border tax compliance for Indian immigrants in the U.S. Our team understands both U.S. and Indian tax frameworks, from FBAR and FATCA to PFIC and RNOR planning."
   },
   {
     question: "What happens if I haven't filed FBAR in past years?",
@@ -363,11 +365,11 @@ const faqs = [
   },
   {
     question: "Can you help me plan my return to India?",
-    answer: "Absolutely. We help with RNOR (Resident but Not Ordinarily Resident) planning, timing stock sales, structuring investment accounts, and repatriating U.S. assets — all before you relocate."
+    answer: "Absolutely. We help with RNOR (Resident but Not Ordinarily Resident) planning, timing stock sales, structuring investment accounts, and repatriating U.S. assets, all before you relocate."
   },
   {
     question: "Do you work with all visa types?",
-    answer: "Yes — we work with F1, H1B, L1, O1 visa holders, Green Card holders, and dual-filers. Your visa type affects your residency status and filing requirements, and we account for all of this."
+    answer: "Yes, we work with F1, H1B, L1, O1 visa holders, Green Card holders, and dual-filers. Your visa type affects your residency status and filing requirements, and we account for all of this."
   },
 ];
 
@@ -420,7 +422,7 @@ function HeroSection() {
             <p
               className={`text-base text-foreground font-medium mb-8 max-w-xl hero-fade-up [animation-delay:300ms]`}
             >
-              We help NRIs file correctly in the U.S. — without missing FBAR, FATCA, or PFIC rules.
+              We help NRIs file correctly in the U.S., without missing FBAR, FATCA, or PFIC rules.
             </p>
 
             <div className={`flex flex-wrap gap-4 mb-8 hero-fade-up [animation-delay:400ms]`}>
@@ -588,7 +590,7 @@ function KeyAreasSection() {
             <span className="text-primary">tax coverage.</span>
           </h2>
           <p className={`text-lg text-muted-foreground max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-            From FBAR to RNOR — we handle the most complex NRI tax situations with precision.
+            From FBAR to RNOR, we handle the most complex NRI tax situations with precision.
           </p>
         </div>
 
@@ -915,7 +917,7 @@ function HowItWorksSection() {
             <span className="text-primary">No surprises.</span>
           </h2>
           <p className={`text-lg text-muted-foreground max-w-2xl mx-auto transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
-            From document upload to year-round compliance — we handle every step.
+            From document upload to year-round compliance, we handle every step.
           </p>
         </div>
 
@@ -1093,7 +1095,7 @@ function PricingSection() {
             className={`text-lg text-muted-foreground max-w-2xl mx-auto mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-pricing-subheading"
           >
-            Annual tax preparation and filing, year-round planning, and equity advisory — all included in your personalized plan. No hourly billing. No surprise charges.
+            Annual tax preparation and filing, year-round planning, and equity advisory, all included in your personalized plan. No hourly billing. No surprise charges.
           </p>
         </div>
 
@@ -1319,7 +1321,7 @@ function CTASection() {
           className={`text-sm text-white/40 mb-10 transition-all duration-700 delay-200 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
           data-testid="text-cta-urgency"
         >
-          FBAR. FATCA. PFIC. RNOR — handled correctly.
+          FBAR. FATCA. PFIC. RNOR. Handled correctly.
         </p>
 
         <div className={`flex flex-wrap justify-center gap-4 transition-all duration-700 delay-300 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}>
@@ -1356,7 +1358,7 @@ function NriFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
@@ -1379,6 +1381,7 @@ export default function NrisPage() {
     <div className="min-h-screen bg-white">
       <SharedNavbar variant="individual" sourcePage="/nris" />
       <HeroSection />
+      <QuickAnswer {...QUICK_ANSWERS.nri} />
       <WhyNrisSection />
       <KeyAreasSection />
       <WhoWeServeSection />
