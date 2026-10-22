@@ -96,7 +96,7 @@ const FUND_TYPES: { icon: LucideIcon; name: string; type: string }[] = [
 const SMART_STEPS = [
   "Know your risk score in 5 simple questions",
   "Share your investment preferences",
-  "Get a flexible portfolio — swap funds, adjust allocation or rebalance anytime",
+  "Get a flexible portfolio: swap funds, adjust allocation or rebalance anytime",
   "Invest and relax",
 ];
 
@@ -252,7 +252,7 @@ function GiftCitySection() {
       id="gift-city"
       icon={Globe}
       title="GIFT City Investments"
-      subtitle="Invest in India seamlessly — no Indian bank account, no TDS and no tax headaches."
+      subtitle="Invest in India seamlessly: no Indian bank account, no TDS and no tax headaches."
     >
       <FeaturePills items={["Tax benefits", "No TDS for NRIs", "Foreign currency", "Global markets", "Simplified KYC"]} />
       <ServiceCards items={GIFT_PROVIDERS} />

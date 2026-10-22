@@ -27,6 +27,8 @@ import teamJithendraImg from "@assets/team_jithendra_clean.webp";
 import teamRobertImg from "@assets/team_robert_clean.webp";
 import { FaqJsonLd } from "@/components/json-ld";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
+import QuickAnswer from "@/components/quick-answer";
+import { QUICK_ANSWERS } from "@/components/quick-answers";
 
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
@@ -99,7 +101,7 @@ const teamMembers = [
   {
     id: "jithendra",
     name: "Jithendra",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "6+ years experience",
     specialty: "Cross-border tax, FBAR & FATCA",
     image: teamJithendraImg,
@@ -107,7 +109,7 @@ const teamMembers = [
   {
     id: "robert",
     name: "Robert",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "12+ years experience",
     specialty: "Tax resolution, wills & trusts",
     image: teamRobertImg,
@@ -181,7 +183,7 @@ const howItWorksSteps = [
   },
   {
     title: "We build your return",
-    desc: "We process your documents and generate a complete tax return — typically within 48 hours. Every detail reviewed by a CPA.",
+    desc: "We process your documents and generate a complete tax return, typically within 48 hours. Every detail reviewed by a CPA.",
   },
   {
     title: "Review and file",
@@ -232,7 +234,7 @@ const testimonials = [
 const faqs = [
   {
     question: "How can you offer flat-fee pricing?",
-    answer: "Our platform handles document parsing, transaction categorization, and return generation. You're paying for smart technology backed by CPA oversight — not hours of manual accountant work.",
+    answer: "Our platform handles document parsing, transaction categorization, and return generation. You're paying for smart technology backed by CPA oversight, not hours of manual accountant work.",
   },
   {
     question: "Do I really not have to pay until I see my return?",
@@ -248,7 +250,7 @@ const faqs = [
   },
   {
     question: "What if my return is too complex for the flat-fee option?",
-    answer: "We'll let you know upfront if your situation requires our full-service team. No surprises — you'll know before you upload.",
+    answer: "We'll let you know upfront if your situation requires our full-service team. No surprises: you'll know before you upload.",
   },
   {
     question: "What's the deadline for filing?",
@@ -369,7 +371,7 @@ function HeroSection() {
             className="hero-text-reveal-sub text-lg lg:text-xl text-muted-foreground mb-8 leading-relaxed max-w-2xl mx-auto"
             data-testid="text-business-hero-subheading"
           >
-            Form 1120, 1065, or 1120-S — upload your documents and let our team handle the rest. Every return is CPA-reviewed for accuracy.
+            Form 1120, 1065, or 1120-S: upload your documents and let our team handle the rest. Every return is CPA-reviewed for accuracy.
           </p>
 
           <div className="hero-checks-reveal inline-flex flex-col sm:flex-row gap-3 sm:gap-6 mb-10">
@@ -1048,21 +1050,23 @@ function FAQSection() {
                 data-testid={`card-faq-${index}`}
               >
                 <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-primary/60 to-transparent transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'}`} />
-                <button
-                  className="w-full flex items-center gap-4 p-5 sm:p-6 text-left"
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  data-testid={`button-faq-${index}`}
-                >
-                  <div className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${isOpen ? 'bg-primary text-white scale-105' : 'bg-primary/8 text-primary group-hover:bg-primary/12'}`}>
-                    {String(index + 1).padStart(2, '0')}
-                  </div>
-                  <span className={`font-semibold pr-4 flex-1 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-foreground'}`} data-testid={`text-faq-question-${index}`}>
-                    {faq.question}
-                  </span>
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-primary/10 rotate-180' : 'bg-muted/50 group-hover:bg-primary/5'}`}>
-                    <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-muted-foreground'}`} />
-                  </div>
-                </button>
+                <h3 className="m-0 font-normal tracking-normal">
+                  <button
+                    className="w-full flex items-center gap-4 p-5 sm:p-6 text-left"
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    data-testid={`button-faq-${index}`}
+                  >
+                    <div className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${isOpen ? 'bg-primary text-white scale-105' : 'bg-primary/8 text-primary group-hover:bg-primary/12'}`}>
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <span className={`font-semibold pr-4 flex-1 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-foreground'}`} data-testid={`text-faq-question-${index}`}>
+                      {faq.question}
+                    </span>
+                    <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-primary/10 rotate-180' : 'bg-muted/50 group-hover:bg-primary/5'}`}>
+                      <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-muted-foreground'}`} />
+                    </div>
+                  </button>
+                </h3>
                 <div className={`overflow-hidden transition-all duration-400 ease-out ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
                   <div className="px-5 sm:px-6 pb-6 pl-[4.25rem] sm:pl-[4.75rem]">
                     <div className="w-8 h-[1px] bg-primary/15 mb-4" />
@@ -1145,7 +1149,7 @@ function BusinessFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>
@@ -1168,6 +1172,7 @@ export default function BusinessPage() {
     <div className="min-h-screen bg-white">
       <SharedNavbar variant="business" sourcePage="/business" />
       <HeroSection />
+      <QuickAnswer {...QUICK_ANSWERS.business} />
       <TrustSignals />
       <FormTypesSection />
       <HowItWorksSection />

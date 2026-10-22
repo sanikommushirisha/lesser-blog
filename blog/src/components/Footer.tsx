@@ -4,7 +4,7 @@ export function Footer() {
     <footer className="mt-20 bg-foreground">
       <div className="mx-auto grid max-w-[1100px] gap-10 px-4 py-12 sm:grid-cols-3 sm:px-6">
         <div>
-          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lesser" className="h-10 brightness-0 invert" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lesser Tax" width={237} height={103} className="h-10 w-auto brightness-0 invert" />
           <p className="mt-3 text-sm text-white/60">
             Flat-fee tax planning &amp; filing for tech professionals.
           </p>

@@ -17,6 +17,8 @@ export function PostCard({ post }: { post: PostListItem }) {
             <img
               src={cover}
               alt={altText(image?.alt, post.slug)}
+              width={600}
+              height={400}
               loading="lazy"
               className="aspect-[3/2] w-full object-cover transition-transform duration-300 ease-out group-hover:scale-[1.03]"
             />
@@ -41,7 +43,7 @@ export function PostCard({ post }: { post: PostListItem }) {
         {post.author && (
           <div className="mt-3 flex items-center gap-2.5">
             {avatar ? (
-              <img src={avatar} alt={post.author.name ?? ''} className="h-7 w-7 rounded-full object-cover" />
+              <img src={avatar} alt={post.author.name ?? ''} width={28} height={28} className="h-7 w-7 rounded-full object-cover" />
             ) : (
               <span className="flex h-7 w-7 items-center justify-center rounded-full bg-secondary text-xs font-medium text-primary">
                 {post.author.name?.charAt(0) ?? '?'}

@@ -4,7 +4,7 @@ export function Nav() {
     <header className="border-b border-black/5 bg-white/90 shadow-[0_1px_3px_rgba(0,0,0,0.06),0_4px_12px_rgba(0,0,0,0.03)] backdrop-blur-xl backdrop-saturate-150">
       <nav className="mx-auto flex h-16 max-w-[1100px] items-center justify-between px-4 sm:px-6">
         <a href="/" className="flex items-center gap-2" aria-label="Lesser home">
-          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lesser" className="h-[52px]" />
+          <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lesser Tax" width={237} height={103} className="h-[52px] w-auto" />
         </a>
         <div className="flex items-center gap-4 sm:gap-7">
           <a

@@ -17,6 +17,8 @@ import SharedNavbar from "@/components/shared-navbar";
 import lesserLogo from "@assets/lesser_logo.png";
 import { FaqJsonLd } from "@/components/json-ld";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
+import QuickAnswer from "@/components/quick-answer";
+import { QUICK_ANSWERS } from "@/components/quick-answers";
 
 const APP_URL = "https://lesser.tax/app/auth/sign-up";
 
@@ -29,7 +31,7 @@ const INCLUDED = [
   {
     icon: FileText,
     title: "Custom document checklist",
-    desc: "A checklist tailored to your embassy or VFS centre — no guesswork.",
+    desc: "A checklist tailored to your embassy or VFS centre, no guesswork.",
   },
   {
     icon: Camera,
@@ -44,7 +46,7 @@ const INCLUDED = [
 ];
 
 const CASES = [
-  { title: "Expiring Indian passport", desc: "Renew before or after expiry — including 10-year adult and 5-year minor passports." },
+  { title: "Expiring Indian passport", desc: "Renew before or after expiry, including 10-year adult and 5-year minor passports." },
   { title: "Lost or damaged passport", desc: "Re-issue support with police report guidance and embassy-specific paperwork." },
   { title: "Name or address change", desc: "Update marital name, address, or other personal details on your passport." },
 ];
@@ -62,7 +64,7 @@ const STEPS = [
   {
     n: "1",
     title: "Tell us what you need",
-    desc: "Share the type of application — renewal, lost, or update — along with your current address.",
+    desc: "Share the type of application (renewal, lost, or update) along with your current address.",
   },
   {
     n: "2",
@@ -99,7 +101,7 @@ const FAQS = [
   },
   {
     q: "Do you help with notarization?",
-    a: "We provide guidance, but notarization itself must be done in person — the Indian Embassy does not accept online notarization.",
+    a: "We provide guidance, but notarization itself must be done in person: the Indian Embassy does not accept online notarization.",
   },
 ];
 
@@ -115,8 +117,10 @@ function PassportFooter() {
           <div className="flex items-center gap-5">
             <img
               src={lesserLogo}
-              alt="Lesser"
-              className="h-8 brightness-0 invert opacity-70"
+              alt="Lesser Tax"
+              width={96}
+              height={96}
+              className="w-auto h-8 brightness-0 invert opacity-70"
               data-testid="img-footer-logo"
             />
           </div>
@@ -279,6 +283,8 @@ export default function PassportRenewalPage() {
         </div>
       </section>
 
+      <QuickAnswer {...QUICK_ANSWERS.passport} />
+
       {/* Overview */}
       <section className="py-20 bg-muted/30" data-testid="section-overview">
         <div className="max-w-6xl mx-auto px-6">
@@ -390,7 +396,7 @@ export default function PassportRenewalPage() {
                   <AlertCircle className="w-4 h-4 text-primary/70 flex-shrink-0 mt-0.5" />
                   <span>
                     Government charges (consular fees, VFS courier, service & transaction
-                    charges) are billed separately. Notarization is not included — the Indian
+                    charges) are billed separately. Notarization is not included: the Indian
                     Embassy does not accept online notarization. Timelines and government fees
                     may vary by jurisdiction.
                   </span>
@@ -448,10 +454,10 @@ export default function PassportRenewalPage() {
                 data-testid={`faq-${i}`}
               >
                 <summary className="flex items-center justify-between gap-4 cursor-pointer list-none">
-                  <span className="text-base font-semibold text-foreground flex items-start gap-3">
+                  <h3 className="m-0 text-base font-semibold tracking-normal text-foreground flex items-start gap-3">
                     <HelpCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                     {f.q}
-                  </span>
+                  </h3>
                   <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform duration-300 group-open:rotate-90 flex-shrink-0" />
                 </summary>
                 <p className="mt-4 pl-8 text-sm text-muted-foreground leading-relaxed">{f.a}</p>

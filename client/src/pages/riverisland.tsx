@@ -200,7 +200,7 @@ const coreAreas = [
     icon: Building2,
     num: "01",
     title: "FBAR (Foreign Bank Reporting)",
-    description: "If your Indian accounts exceeded $10,000 at any point — FBAR may be required. Most people don't know this.",
+    description: "If your Indian accounts exceeded $10,000 at any point, FBAR may be required. Most people don't know this.",
     highlight: "We handle it properly.",
   },
   {
@@ -249,7 +249,7 @@ const teamMembers = [
   {
     id: "jithendra",
     name: "Jithendra",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "6+ years experience",
     specialty: "Cross-border tax, FBAR & FATCA",
     image: teamJithendraImg,
@@ -257,7 +257,7 @@ const teamMembers = [
   {
     id: "robert",
     name: "Robert",
-    credential: "IRS EA",
+    credential: "Enrolled Agent",
     experience: "12+ years experience",
     specialty: "Tax resolution, wills & trusts",
     image: teamRobertImg,
@@ -345,7 +345,7 @@ const faqs = [
     answer: "Yes. Our CPAs and IRS Enrolled Agents are experienced in FBAR, FATCA, PFIC (Form 8621), Indian rental income, Foreign Tax Credits, and RNOR planning. We've handled hundreds of cross-border filings."
   },
   {
-    question: "I have NRE/NRO accounts — do I need to file anything?",
+    question: "I have NRE/NRO accounts, do I need to file anything?",
     answer: "Likely yes. If the aggregate value of all your foreign accounts exceeds $10,000 at any point during the year, you must file an FBAR (FinCEN 114). FATCA filing (Form 8938) may also apply based on your asset thresholds. Penalties for non-filing can be severe."
   },
   {
@@ -474,7 +474,7 @@ function HeroSection() {
             </div>
 
             <div className={`flex flex-wrap items-center gap-x-5 gap-y-2 mt-5 hero-fade-up [animation-delay:400ms]`}>
-              {["CPA & IRS EA reviewed", "No obligation", "Flat-fee pricing"].map((item, i) => (
+              {["Reviewed by a CPA or Enrolled Agent", "No obligation", "Flat-fee pricing"].map((item, i) => (
                 <div key={i} className="flex items-center gap-1.5">
                   <CheckCircle2 className="w-3.5 h-3.5 text-primary/50" />
                   <span className="text-xs text-muted-foreground/60 font-medium">{item}</span>
@@ -596,7 +596,7 @@ function RiskCheckSection() {
         <div className={`text-center mt-10 transition-all duration-700 delay-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-4'}`}>
           <p className="text-base text-muted-foreground font-medium bg-amber-50/80 border border-amber-200/60 rounded-xl px-6 py-3 inline-flex items-center gap-2">
             <AlertTriangle className="w-4 h-4 text-amber-500" />
-            <span>If you're unsure — it's better to <span className="font-bold text-foreground">review early</span>.</span>
+            <span>If you're unsure, it's better to <span className="font-bold text-foreground">review early</span>.</span>
           </p>
         </div>
       </div>
@@ -838,7 +838,7 @@ function PricingSection() {
             className={`text-lg text-muted-foreground max-w-2xl mx-auto mb-12 transition-all duration-700 delay-100 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
             data-testid="text-pricing-subheading"
           >
-            Annual tax preparation and filing, year-round planning, and equity advisory — all included in your personalized plan. No hourly billing. No surprise charges.
+            Annual tax preparation and filing, year-round planning, and equity advisory, all included in your personalized plan. No hourly billing. No surprise charges.
           </p>
         </div>
 
@@ -1020,21 +1020,23 @@ function FAQSection() {
               >
                 <div className={`absolute top-0 left-0 right-0 h-[2px] bg-gradient-to-r from-primary via-primary/60 to-transparent transition-opacity duration-500 ${isOpen ? 'opacity-100' : 'opacity-0 group-hover:opacity-40'}`} />
 
-                <button
-                  className="w-full flex items-center gap-4 p-5 sm:p-6 text-left"
-                  onClick={() => setOpenIndex(isOpen ? null : index)}
-                  data-testid={`button-faq-${index}`}
-                >
-                  <div className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${isOpen ? 'bg-primary text-white scale-105' : 'bg-primary/8 text-primary group-hover:bg-primary/12'}`}>
-                    {String(index + 1).padStart(2, '0')}
-                  </div>
-                  <span className={`font-semibold pr-4 flex-1 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-foreground'}`} data-testid={`text-faq-question-${index}`}>
-                    {faq.question}
-                  </span>
-                  <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-primary/10 rotate-180' : 'bg-muted/50 group-hover:bg-primary/5'}`}>
-                    <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-muted-foreground'}`} />
-                  </div>
-                </button>
+                <h3 className="m-0 font-normal tracking-normal">
+                  <button
+                    className="w-full flex items-center gap-4 p-5 sm:p-6 text-left"
+                    onClick={() => setOpenIndex(isOpen ? null : index)}
+                    data-testid={`button-faq-${index}`}
+                  >
+                    <div className={`flex-shrink-0 w-9 h-9 rounded-xl flex items-center justify-center text-sm font-bold transition-all duration-300 ${isOpen ? 'bg-primary text-white scale-105' : 'bg-primary/8 text-primary group-hover:bg-primary/12'}`}>
+                      {String(index + 1).padStart(2, '0')}
+                    </div>
+                    <span className={`font-semibold pr-4 flex-1 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-foreground'}`} data-testid={`text-faq-question-${index}`}>
+                      {faq.question}
+                    </span>
+                    <div className={`flex-shrink-0 w-8 h-8 rounded-lg flex items-center justify-center transition-all duration-300 ${isOpen ? 'bg-primary/10 rotate-180' : 'bg-muted/50 group-hover:bg-primary/5'}`}>
+                      <ChevronDown className={`w-4 h-4 transition-colors duration-300 ${isOpen ? 'text-primary' : 'text-muted-foreground'}`} />
+                    </div>
+                  </button>
+                </h3>
 
                 <div className={`overflow-hidden transition-all duration-400 ease-out ${isOpen ? 'max-h-96' : 'max-h-0'}`}>
                   <div className="px-5 sm:px-6 pb-6 pl-[4.25rem] sm:pl-[4.75rem]">
@@ -1127,7 +1129,7 @@ function RiFooter() {
       <div className="relative max-w-6xl mx-auto px-6 py-8">
         <div className="flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-5">
-            <img src={lesserLogo} alt="Lesser" className="h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-8 brightness-0 invert opacity-70" data-testid="img-footer-logo" />
           </div>
           <div className="flex items-center gap-4 text-xs text-white/60">
             <a href="/privacy" className="hover:text-white transition-colors">Privacy</a>

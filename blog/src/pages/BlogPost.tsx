@@ -6,6 +6,7 @@ import {
   fetchPost,
   fetchMorePosts,
   imageUrl,
+  imageSize,
   authorAvatarUrl,
   altText,
   readTime,
@@ -155,9 +156,16 @@ function BodyImage({ value }: { value: { alt?: string; caption?: string } }) {
   const slug = useContext(PostSlugContext)
   const src = imageUrl(value as never, 1440)
   if (!src) return null
+  const size = imageSize(value)
   return (
     <figure className="my-8">
-      <img src={src} alt={altText(value.alt, slug)} loading="lazy" className="w-full rounded-xl" />
+      <img
+        src={src}
+        alt={altText(value.alt, slug)}
+        loading="lazy"
+        {...(size ? { width: size.width, height: size.height } : {})}
+        className="h-auto w-full rounded-xl"
+      />
       {value.caption && (
         <figcaption className="mt-2 text-center text-sm text-muted-foreground">{value.caption}</figcaption>
       )}
@@ -317,7 +325,7 @@ const components: PortableTextComponents = {
 
 function Avatar({ post, size, className }: { post: Post; size: number; className: string }) {
   const src = authorAvatarUrl(post.author, size)
-  if (src) return <img src={src} alt={post.author?.name ?? ''} className={className + ' object-cover'} />
+  if (src) return <img src={src} alt={post.author?.name ?? ''} width={size} height={size} className={className + ' object-cover'} />
   return (
     <span className={className + ' flex items-center justify-center bg-secondary text-sm font-medium text-primary'}>
       {post.author?.name?.charAt(0) ?? '?'}
@@ -521,6 +529,8 @@ export function BlogPost() {
               <img
                 src={heroImage}
                 alt={altText(post.mainImage?.alt, post.slug)}
+                width={1280}
+                height={720}
                 fetchPriority="high"
                 className="aspect-video w-full rounded-2xl object-cover shadow-card-lg"
               />

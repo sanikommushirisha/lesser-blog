@@ -52,7 +52,7 @@ const INDIA_SERVICES: ServiceCardData[] = [
   {
     badge: "From $69",
     name: "India Tax Filing",
-    desc: "File your Indian ITR from the U.S. — handled by vetted Indian CAs.",
+    desc: "File your Indian ITR from the U.S., handled by vetted Indian CAs.",
     features: ["Interest & dividend income", "Rental income & capital gains", "DTAA benefits"],
     href: "/services/india-tax-filing",
     cta: "File India Taxes",
@@ -83,7 +83,7 @@ export default function DashboardTaxationPage() {
         eyebrow="Taxation"
         title="Expert tax solutions for"
         highlight="global Indians"
-        intro="Comprehensive tax services for tech professionals and NRIs — navigate complex U.S. and India tax requirements with confidence."
+        intro="Comprehensive tax services for tech professionals and NRIs. Navigate complex U.S. and India tax requirements with confidence."
       />
       {/* The wrapper bounds the sticky tab bar to the sections it controls. */}
       <div>

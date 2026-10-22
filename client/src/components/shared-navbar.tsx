@@ -35,7 +35,7 @@ const NAV_GROUPS = [
     label: "Services",
     items: [
       { name: "Indian Passport Renewal", description: "For Indian NRIs in the United States", href: "/services/passport-renewal" },
-      { name: "India Tax Filing", description: "File your Indian ITR — for U.S.-based NRIs", href: "/services/india-tax-filing" },
+      { name: "India Tax Filing", description: "File your Indian ITR from the U.S.", href: "/services/india-tax-filing" },
     ],
   },
   {
@@ -115,7 +115,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
 
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <a href="/" className="flex-shrink-0 group" data-testid="img-nav-logo">
-            <img src={lesserLogo} alt="Lesser" className="h-[60px] transition-transform duration-300 group-hover:scale-[1.02]" />
+            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-[60px] transition-transform duration-300 group-hover:scale-[1.02]" />
           </a>
 
           <div className="hidden md:flex items-center">

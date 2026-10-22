@@ -39,6 +39,17 @@ export function imageUrl(
 }
 
 /**
+ * Pixel size of a Sanity image, read from its asset reference
+ * ("image-<id>-1200x630-png"), so <img> can carry width/height and the page
+ * does not shift while images load. Null when the reference is not loaded.
+ */
+export function imageSize(source: unknown): { width: number; height: number } | null {
+  const ref = (source as { asset?: { _ref?: string; _id?: string } } | null)?.asset
+  const m = /-(\d+)x(\d+)-[a-z]+$/.exec(ref?._ref ?? ref?._id ?? '')
+  return m ? { width: Number(m[1]), height: Number(m[2]) } : null
+}
+
+/**
  * The old blue logo, uploaded in Sanity as the "Lesser Tax" author's picture.
  * Until that picture is replaced in the Studio, the site shows the current
  * green logo (public/lesser-logo-mark.png) in its place. Matches this one

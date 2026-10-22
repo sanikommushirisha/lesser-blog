@@ -47,7 +47,7 @@ const CATEGORIES: Category[] = [
       {
         icon: FileText,
         name: "Personal Tax Filing",
-        desc: "Flat-fee filing for W-2 earners with RSUs, ISOs, ESPP and stock options — reviewed by a CPA.",
+        desc: "Flat-fee filing for W-2 earners with RSUs, ISOs, ESPP and stock options, reviewed by a CPA.",
         tag: "From $99/yr",
         href: "/",
       },
@@ -61,7 +61,7 @@ const CATEGORIES: Category[] = [
       {
         icon: Landmark,
         name: "India Tax Filing (ITR)",
-        desc: "File your Indian return from the U.S. — interest, rent, capital gains and DTAA benefits, by vetted CAs.",
+        desc: "File your Indian return from the U.S. (interest, rent, capital gains and DTAA benefits) with vetted CAs.",
         tag: "From $69",
         href: "/services/india-tax-filing",
       },
@@ -76,7 +76,7 @@ const CATEGORIES: Category[] = [
       {
         icon: Briefcase,
         name: "Business Tax Filing",
-        desc: "Form 1120, 1065 or 1120-S — CPA-reviewed with a 48-hour turnaround and no rush fee.",
+        desc: "Form 1120, 1065 or 1120-S, CPA-reviewed with a 48-hour turnaround and no rush fee.",
         tag: "$100 flat",
         href: "/business",
       },
@@ -112,7 +112,7 @@ const CATEGORIES: Category[] = [
       {
         icon: BookUser,
         name: "Indian Passport Renewal",
-        desc: "Renewals, lost passports and name or address updates — forms prepared and reviewed for you.",
+        desc: "Renewals, lost passports and name or address updates: forms prepared and reviewed for you.",
         tag: "$140 flat",
         href: "/services/passport-renewal",
       },
@@ -146,7 +146,7 @@ const TEAM = [teamDavidImg, teamVishweshImg, teamJithendraImg, teamRobertImg];
 
 const WHY_LESSER: { icon: LucideIcon; title: string; desc: string }[] = [
   { icon: UserCheck, title: "Big Four-trained experts", desc: "CPAs and IRS enrolled agents with 6–12+ years of experience." },
-  { icon: Wallet, title: "Flat-fee pricing", desc: "Know the price up front — no hourly billing, no surprises." },
+  { icon: Wallet, title: "Flat-fee pricing", desc: "Know the price up front: no hourly billing, no surprises." },
   { icon: MessageSquare, title: "Direct messaging", desc: "Message your CPA anytime without counting the cost per question." },
   { icon: Eye, title: "Total transparency", desc: "See your status, next steps and timeline at every stage." },
 ];
@@ -313,7 +313,7 @@ export default function DashboardMarketplacePage() {
         eyebrow="Marketplace"
         title="Expert services for"
         highlight="global Indians"
-        intro="Expert help with taxation, business filings and documentation. Our CPAs provide personalised solutions for all your needs — 100% digital."
+        intro="Expert help with taxation, business filings and documentation. Our CPAs provide personalised solutions for all your needs, 100% digital."
         aside={<TeamAside />}
       />
 

@@ -77,6 +77,8 @@ export function YouTubePlayer({
         ref={img}
         src={thumbs[thumb]}
         alt={posterAlt}
+        width={1280}
+        height={720}
         loading={eager ? 'eager' : 'lazy'}
         decoding="async"
         // Missing sizes come back as a 120x90 placeholder rather than a 404.

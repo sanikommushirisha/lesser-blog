@@ -48,7 +48,7 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">6. Intellectual Property</h2>
             <p>
-              All content on the Services — including the Lesser.tax name, logo, website design, software, and materials — is owned by or licensed to Lesser Inc. and protected under applicable intellectual property laws. You may not reproduce, distribute, modify, or create derivative works from our content without prior written consent.
+              All content on the Services, including the Lesser.tax name, logo, website design, software, and materials, is owned by or licensed to Lesser Inc. and protected under applicable intellectual property laws. You may not reproduce, distribute, modify, or create derivative works from our content without prior written consent.
             </p>
 
             <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">7. No Professional Relationship Without Engagement</h2>
@@ -63,7 +63,7 @@ export default function TermsPage() {
 
             <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">9. Limitation of Liability</h2>
             <p>
-              To the fullest extent permitted by law, Lesser Inc., its officers, employees, agents, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, arising out of your use or inability to use the Services — even if we have been advised of the possibility of such damages. Your sole remedy for dissatisfaction with the Services is to stop using them.
+              To the fullest extent permitted by law, Lesser Inc., its officers, employees, agents, and affiliates shall not be liable for any indirect, incidental, special, consequential, or punitive damages, or any loss of profits or revenues, arising out of your use or inability to use the Services, even if we have been advised of the possibility of such damages. Your sole remedy for dissatisfaction with the Services is to stop using them.
             </p>
 
             <h2 className="text-2xl font-semibold text-foreground mt-10 mb-4">10. Indemnification</h2>
