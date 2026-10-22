@@ -454,10 +454,10 @@ export default function PassportRenewalPage() {
                 data-testid={`faq-${i}`}
               >
                 <summary className="flex items-center justify-between gap-4 cursor-pointer list-none">
-                  <span className="text-base font-semibold text-foreground flex items-start gap-3">
+                  <h3 className="m-0 text-base font-semibold tracking-normal text-foreground flex items-start gap-3">
                     <HelpCircle className="w-5 h-5 text-primary flex-shrink-0 mt-0.5" />
                     {f.q}
-                  </span>
+                  </h3>
                   <ArrowRight className="w-4 h-4 text-muted-foreground transition-transform duration-300 group-open:rotate-90 flex-shrink-0" />
                 </summary>
                 <p className="mt-4 pl-8 text-sm text-muted-foreground leading-relaxed">{f.a}</p>
