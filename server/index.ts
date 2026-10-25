@@ -3,6 +3,7 @@ import { registerRoutes } from "./routes";
 import { serveStatic } from "./static";
 import { createServer } from "http";
 import { mountDevAppProxy } from "./dev-app-proxy";
+import { mountPostHogProxy } from "./posthog-proxy";
 
 const app = express();
 const httpServer = createServer(app);
@@ -14,6 +15,7 @@ declare module "http" {
 }
 
 // Before the body parsers, so request bodies stream through untouched.
+mountPostHogProxy(app);
 if (process.env.NODE_ENV !== "production") {
   mountDevAppProxy(app);
 }
