@@ -1,9 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <!-- Google tag (gtag.js) -->
+    <!-- Google tag (gtag.js): one script serves both the GA4 property and the
+         Ads account. The Ads config only stores the ad click (gclid) on
+         lesser.tax. The signup CONVERSION is sent by the app when an account is
+         actually created (lesser/components/analytics/GoogleAdsConversion.tsx),
+         never from here: firing it on page load counted every visit. -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=G-PZM9S3W008"></script>
-    <script async src="https://www.googletagmanager.com/gtag/js?id=AW-17968454942"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag(){dataLayer.push(arguments);}
@@ -11,7 +14,6 @@
 
       gtag('config', 'G-PZM9S3W008');
       gtag('config', 'AW-17968454942');
-      gtag('event', 'conversion', {'send_to': 'AW-17968454942/j82uCJC-s4AcEJ66g_hC'});
     </script>
     <!-- Marketing attribution: records which channel (UTM tags / referring site)
          brought the visitor in the lsr_attr cookie; the app saves it on sign-up.
