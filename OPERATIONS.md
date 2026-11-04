@@ -87,10 +87,19 @@ articles, and the tool pages stay `noindex` with a draft banner.
 
 - Gate on articles: `blog/src/components/EmailGate.tsx`, configured in
   `blog/src/lib/lead-magnets.ts`.
-- Signup: `POST /api/newsletter/subscribe` in `server/newsletter.ts`. Adds the
-  reader to a Resend segment and emails the PDF.
-- Free tools: static pages in `blog/public/tools/`. Tax rules are in
-  `tools-logic.js`, and every figure comes from a published post.
+- Article signup: `POST /api/newsletter/subscribe` in `server/newsletter.ts`.
+  Adds the reader to a Resend segment and emails the PDF.
+- Free tools: static pages in `blog/public/tools/`. They show no result on the
+  page. `POST /api/newsletter/tool-result` takes the answers and an email, adds
+  the reader to the segment, and emails the result with the matching PDF link.
+- Tax rules and result text: `shared/tool-results.ts`. Every figure comes from a
+  published post. It runs only on the server, so the endpoint can never be used
+  to send text of a visitor's choosing.
+
+**Privacy:** tool answers such as salary figures are not stored or logged by
+this server, but they appear in the email, so they sit in Resend's email logs
+and the reader's inbox. Check Resend's retention setting and the privacy policy
+before launch.
 
 **Server setup**
 
@@ -113,7 +122,8 @@ an unsubscribe route for the welcome email, which today says to reply
    name in `shared/lead-magnets.ts`. `/blog/guides/*` is served `noindex`.
 2. Add a small batch of post slugs to `GATE_ROLLOUT`. Watch Search Console
    before adding more. Do not add passport posts.
-3. For each approved tool: remove its `noindex` meta and draft banner, add it to
+3. For each approved tool, its matching PDF must already be live, because the
+   result email links to it. Then remove its `noindex` meta and draft banner, add it to
    `PUBLISHED_TOOLS` in `blog/scripts/prerender.mjs`, and add a "Free tools" link
    to `blog/src/components/Footer.tsx`.
 
@@ -121,8 +131,8 @@ an unsubscribe route for the welcome email, which today says to reply
 
 PostHog events `gate_shown` and `gate_subscribed` carry `offer`, `topic` and
 `arm`. Compare `matched` with `general` inside each topic. Tools send
-`tool_used` and `tool_subscribed`. No figures typed into a tool are sent, and
-session replay is off on those pages.
+`tool_used` and `tool_result_sent`. No figures typed into a tool go to PostHog,
+and session replay is off on those pages.
 
 **Previewing the gate:** build with `VITE_GATE_PREVIEW=true`, then open any post
 with `?gate=preview`.

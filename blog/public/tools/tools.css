@@ -88,3 +88,10 @@ button:disabled { opacity: 0.6; cursor: wait; }
 .tool-list a:hover { border-color: var(--green); }
 .tool-list strong { display: block; color: var(--green); }
 .foot { max-width: 720px; margin: 0 auto; padding: 20px 16px 36px; border-top: 1px solid var(--line); font-size: 13px; color: var(--muted); }
+.email-step { scroll-margin-top: 24px; }
+.email-step h2 { margin-top: 0; font-size: 20px; }
+.email-step form { display: grid; gap: 10px; }
+.email-step form[hidden] { display: none; }
+.email-step p { margin: 0 0 12px; }
+.email-step .consent { font-size: 13px; color: var(--muted); margin: 12px 0 0; }
+.email-error { color: var(--warn); font-size: 14px; }
