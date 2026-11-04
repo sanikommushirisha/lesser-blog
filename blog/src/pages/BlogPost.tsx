@@ -28,6 +28,8 @@ import { parseYouTubeUrl, youTubeThumbnails, youTubeWatchUrl } from '../lib/yout
 import { Toc, Takeaways, QuickAnswer, Faq, TrustFooter } from '../components/Editorial'
 import { BRAND, ORGANIZATION, pageDescription, pageTitle } from '../lib/seo'
 import { ServiceCard, ServiceLink } from '../components/ServiceCta'
+import { EmailGate, GATED_CLASS, GATED_ID } from '../components/EmailGate'
+import { isGatedPost } from '../lib/lead-magnets'
 
 type Node = Record<string, unknown>
 
@@ -66,6 +68,13 @@ function buildJsonLd(
     ...(post.reviewedBy ? { reviewedBy: { '@type': 'Person', name: post.reviewedBy } } : {}),
     publisher: ORGANIZATION,
     mainEntityOfPage: { '@type': 'WebPage', '@id': canonical },
+    // Tells Google the blurred part is an email gate, not hidden text.
+    ...(isGatedPost(post.slug)
+      ? {
+          isAccessibleForFree: false,
+          hasPart: { '@type': 'WebPageElement', isAccessibleForFree: false, cssSelector: `.${GATED_CLASS}` },
+        }
+      : {}),
   }
 
   const graph: Node[] = [article]
@@ -558,6 +567,10 @@ export function BlogPost() {
             <RenewalWidget slug={post.slug} placement="top" variant={motion.ab ? variant : undefined} />
           )}
 
+          {/* The free part ends here: title, image, Quick Answer and Takeaways. */}
+          <EmailGate slug={post.slug} />
+
+          <div id={GATED_ID} className={GATED_CLASS}>
           <div className="mt-8">
             {motion?.splitAfterH2 && sections ? (
               (() => {
@@ -590,6 +603,7 @@ export function BlogPost() {
               avatar={<Avatar post={post} size={96} className="h-12 w-12 rounded-full" />}
             />
           )}
+          </div>
         </article>
         </PostSlugContext.Provider>
 

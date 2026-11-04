@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Money from India: Form 3520 Checker for NRIs | Lesser Tax</title>
+<meta name="description" content="Free Form 3520 checker for money from India. See if a gift, inheritance or loan from your parents must be reported to the IRS, and what a late form costs.">
+<!-- Remove at go-live, after tax review. See the note in blog/scripts/prerender.mjs. -->
+<meta name="robots" content="noindex">
+<link rel="canonical" href="https://lesser.tax/blog/tools/money-from-india-form-3520-checker">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://lesser.tax/blog/tools/money-from-india-form-3520-checker">
+<meta property="og:title" content="Money from India: Form 3520 Checker for NRIs | Lesser Tax">
+<meta property="og:description" content="Free Form 3520 checker for money from India. See if a gift, inheritance or loan from your parents must be reported to the IRS, and what a late form costs.">
+<meta property="og:image" content="https://lesser.tax/blog/logo.png">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Money from India: Form 3520 Checker for NRIs | Lesser Tax">
+<meta name="twitter:description" content="Free Form 3520 checker for money from India. See if a gift, inheritance or loan from your parents must be reported to the IRS, and what a late form costs.">
+<meta name="twitter:image" content="https://lesser.tax/blog/logo.png">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/blog/tools/tools.css">
+<script>
+      !function(t,e){var o,n,p,r;e.__SV||(window.posthog && window.posthog.__loaded)||(window.posthog=e,e._i=[],e.init=function(i,s,a){function g(t,e){var o=e.split(".");2==o.length&&(t=t[o[0]],e=o[1]),t[e]=function(){t.push([e].concat(Array.prototype.slice.call(arguments,0)))}}p||((p=t.createElement("script")).type="text/javascript",p.crossOrigin="anonymous",p.async=!0,p.src=s.api_host.replace(".i.posthog.com","-assets.i.posthog.com")+"/static/array.js",p.onerror=function(){p=null},(r=t.getElementsByTagName("script")[0]).parentNode.insertBefore(p,r));var u=e;for(void 0!==a?u=e[a]=[]:a="posthog",u.people=u.people||[],Object.defineProperty(u,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(t){var e="posthog";return"posthog"!==a&&(e+="."+a),t||(e+=" (stub)"),e}}),Object.defineProperty(u.people,"toString",{configurable:!0,enumerable:!0,writable:!0,value:function(){return u.toString(1)+".people (stub)"}}),o="init capture register register_once register_for_session unregister unregister_for_session getFeatureFlag getFeatureFlagResult isFeatureEnabled reloadFeatureFlags updateEarlyAccessFeatureEnrollment getEarlyAccessFeatures on onFeatureFlags onSessionId getSurveys getActiveMatchingSurveys renderSurvey canRenderSurvey getNextSurveyStep identify setPersonProperties group resetGroups setPersonPropertiesForFlags resetPersonPropertiesForFlags setGroupPropertiesForFlags resetGroupPropertiesForFlags reset get_distinct_id getGroups get_session_id get_session_replay_url alias set_config startSessionRecording stopSessionRecording sessionRecordingStarted captureException loadToolbar get_property getSessionProperty createPersonProfile opt_in_capturing opt_out_capturing has_opted_in_capturing has_opted_out_capturing clear_opt_in_out_capturing debug".split(" "),n=0;n<o.length;n++)g(u,o[n]);e._i.push([i,s,a])},e.__SV=1)}(document,window.posthog||[]);
+      posthog.init('phc_RWFxLjoP00wcsIeKsRi2yE8C4Rxdd6ZKJZqCHQTlpRL', {
+        // Same-origin proxy (server/posthog-proxy.ts): ad-blockers drop posthog.com.
+        api_host: '/ingest',
+        ui_host: 'https://us.posthog.com',
+        defaults: '2026-05-30',
+        // Results show figures typed by the visitor, so no session replay here.
+        disable_session_recording: true
+      });
+    </script>
+<script src="/blog/tools/tools-logic.js" defer></script>
+<script src="/blog/tools/tools.js" defer></script>
+</head>
+<body>
+<header class="top"><a class="brand" href="/">Lesser Tax</a><a class="top-link" href="/blog/tools">All free tools</a></header>
+<main>
+<p class="crumbs"><a href="/blog">Blog</a> / <a href="/blog/tools">Free tools</a> / Money from India Checker</p>
+<h1>Money from India Checker</h1>
+<p class="draft">Draft. This tool is under tax review and may change.</p>
+<p class="intro">Money from family in India is usually not taxed in the US, but large amounts must be reported on Form 3520. Answer three questions to check where you stand.</p>
+<form id="tool-form" class="card" data-tool="india-money">
+<label class="field"><span>Do you file Form 1040 in the US</span><select name="usperson"><option value="yes">Yes</option><option value="no">No, I am a nonresident alien</option></select></label>
+<label class="field"><span>Where did the money come from</span><select name="source"><option value="family">Parents or other related family</option><option value="person">One person who is not related</option><option value="estate">An inheritance from a foreign estate</option><option value="loan">A loan with written documents</option><option value="company">An Indian company or partnership</option><option value="trust">An Indian trust</option></select></label>
+<label class="field"><span>Total received this calendar year (USD)</span><input type="number" name="amount" inputmode="numeric" min="0" max="1000000000" step="any" placeholder="150000" required><small>Add every transfer in the year from your parents and related family together. Each recipient counts separately.</small></label>
+<button type="submit">Check my money</button>
+</form>
+<section id="result" class="card" tabindex="-1" aria-live="polite" hidden></section>
+<section id="capture" class="card capture" hidden>
+<h2>Get the free FBAR and FATCA checklist for Indian accounts</h2>
+<p>We will email you the PDF and our short weekly tax note. Unsubscribe any time.</p>
+<form id="capture-form" data-offer="india-accounts-checklist" data-slug="money-from-india-form-3520-checker">
+<label class="field"><span>Email</span><input type="email" name="email" autocomplete="email" required placeholder="you@email.com"></label>
+<input class="trap" type="text" name="company" tabindex="-1" autocomplete="off" aria-hidden="true">
+<button type="submit">Email me the checklist</button>
+</form>
+<p id="capture-message" role="status"></p>
+</section>
+<h2>How this works</h2>
+<p>The line is more than $100,000 in a calendar year, counted per recipient. Gifts from related people add together, so $70,000 from each parent is $140,000. Once you cross the line, the full amount is reported.</p><p>Form 3520 is usually due April 15 of the next year, or October 15 with a Form 4868 extension. The late penalty is 5% of the gift for each month, capped at 25%.</p><p>A gift from a nonresident individual is not income. How the money arrives does not change the rule, and the Indian financial year does not matter here.</p>
+<h2>Related reading</h2>
+<ul><li><a href="/blog/form-3520-gifts-inheritance-from-parents-india">Form 3520 for gifts from parents in India</a></li><li><a href="/blog/parents-sent-money-for-house-us-reporting">Parents sent money for a house</a></li><li><a href="/blog/sending-money-to-parents-monthly-gift-tax">Sending money to your parents</a></li></ul>
+<script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "WebApplication", "name": "Money from India Checker", "url": "https://lesser.tax/blog/tools/money-from-india-form-3520-checker", "applicationCategory": "FinanceApplication", "operatingSystem": "Any", "description": "Free Form 3520 checker for money from India. See if a gift, inheritance or loan from your parents must be reported to the IRS, and what a late form costs.", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "USD"}, "publisher": {"@type": "Organization", "name": "Lesser Tax", "url": "https://lesser.tax"}}, {"@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Blog", "item": "https://lesser.tax/blog"}, {"@type": "ListItem", "position": 2, "name": "Free tools", "item": "https://lesser.tax/blog/tools"}, {"@type": "ListItem", "position": 3, "name": "Money from India Checker", "item": "https://lesser.tax/blog/tools/money-from-india-form-3520-checker"}]}]}</script>
+</main>
+<footer class="foot">Educational only. Not tax or legal advice. Your situation may differ, so check with a qualified tax professional before acting. <a href="/privacy">Privacy policy</a> · <a href="/blog">Blog</a> · <a href="/nris">Tax help for NRIs</a></footer>
+</body>
+</html>

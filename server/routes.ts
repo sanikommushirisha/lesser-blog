@@ -3,11 +3,14 @@ import { createServer, type Server } from "http";
 import { storage } from "./storage";
 import { insertSignupSchema, insertBusinessSignupSchema } from "@shared/schema";
 import { appendSignupToSheet, appendBusinessSignupToSheet } from "./google-sheets";
+import { registerNewsletterRoutes } from "./newsletter";
 
 export async function registerRoutes(
   httpServer: Server,
   app: Express
 ): Promise<Server> {
+
+  registerNewsletterRoutes(app);
 
   // /get-started has never been a route on this site, so older blog and
   // campaign links to it 404'd. Send them to the app's sign-up instead.

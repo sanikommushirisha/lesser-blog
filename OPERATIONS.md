@@ -77,3 +77,52 @@ Studio), then redeploy.
   has Full access for automated checks.
 - Bing Webmaster Tools: site imported from GSC (Jul 2, 2026). Submit
   `sitemap.xml` there too — Bing's index feeds ChatGPT.
+
+## Email gate, lead magnets and free tools (added Nov 2026)
+
+Everything below ships switched off. Merging changes nothing a reader sees on
+articles, and the tool pages stay `noindex` with a draft banner.
+
+**Pieces**
+
+- Gate on articles: `blog/src/components/EmailGate.tsx`, configured in
+  `blog/src/lib/lead-magnets.ts`.
+- Signup: `POST /api/newsletter/subscribe` in `server/newsletter.ts`. Adds the
+  reader to a Resend segment and emails the PDF.
+- Free tools: static pages in `blog/public/tools/`. Tax rules are in
+  `tools-logic.js`, and every figure comes from a published post.
+
+**Server setup**
+
+Add to the `lesser-blog` PM2 environment, then restart:
+
+- `RESEND_API_KEY`
+- `RESEND_NEWSLETTER_SEGMENT_ID`
+- `NEWSLETTER_FROM`, for example `Lesser Tax <news@news.lesser.tax>`
+
+Without them the route answers 503 and the gate lets readers through. Use a
+separate sending subdomain so newsletter complaints do not affect app email.
+Before launch, send one real test and check: a repeat signup for an existing
+contact (the code accepts 409, Resend's actual response is unconfirmed), and
+an unsubscribe route for the welcome email, which today says to reply
+"unsubscribe".
+
+**Going live, in order**
+
+1. Tax team signs off each PDF. Add it to `blog/public/guides/` with the file
+   name in `shared/lead-magnets.ts`. `/blog/guides/*` is served `noindex`.
+2. Add a small batch of post slugs to `GATE_ROLLOUT`. Watch Search Console
+   before adding more. Do not add passport posts.
+3. For each approved tool: remove its `noindex` meta and draft banner, add it to
+   `PUBLISHED_TOOLS` in `blog/scripts/prerender.mjs`, and add a "Free tools" link
+   to `blog/src/components/Footer.tsx`.
+
+**Reading the test**
+
+PostHog events `gate_shown` and `gate_subscribed` carry `offer`, `topic` and
+`arm`. Compare `matched` with `general` inside each topic. Tools send
+`tool_used` and `tool_subscribed`. No figures typed into a tool are sent, and
+session replay is off on those pages.
+
+**Previewing the gate:** build with `VITE_GATE_PREVIEW=true`, then open any post
+with `?gate=preview`.
