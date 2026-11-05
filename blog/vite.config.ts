@@ -3,6 +3,8 @@ import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 
 export default defineConfig({
+  // Dev only: lets the blog read shared/nav-links.ts from the repo root.
+  server: { fs: { allow: ['..'] } },
   // The blog is served as a sub-app of lesser.tax at /blog, so every emitted
   // asset URL has to carry that prefix.
   base: '/blog/',

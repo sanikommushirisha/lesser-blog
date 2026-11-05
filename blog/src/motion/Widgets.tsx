@@ -250,7 +250,7 @@ export function ScrollExplainer({ slug }: { slug: string }) {
   }, [mounted, slug])
   return (
     <section ref={ref} className="my-10 font-sans" style={{ height: '200vh' }}>
-      <div className="sticky top-16">
+      <div className="sticky top-20">
         <div className="overflow-hidden rounded-xl" style={{ aspectRatio: isNarrow() ? '36/35' : '16/8.5' }}>
           {mounted ? (
             <Suspense fallback={<Poster />}>

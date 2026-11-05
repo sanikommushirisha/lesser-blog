@@ -651,3 +651,8 @@ html.lesser-gate-open {
   color: #034f46;
   cursor: pointer;
 }
+
+/* The navigation bar stays on screen, so in-page links stop just below it. */
+html {
+  scroll-padding-top: 4.5rem;
+}

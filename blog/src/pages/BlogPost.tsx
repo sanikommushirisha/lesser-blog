@@ -508,7 +508,7 @@ export function BlogPost() {
             can follow the reader down the page. Scrolls itself if the list of
             sections is taller than the screen. */}
         <div className="hidden xl:block">
-          <div className="sticky top-8 max-h-[calc(100vh-4rem)] overflow-y-auto pb-4">
+          <div className="sticky top-20 max-h-[calc(100vh-6rem)] overflow-y-auto pb-4">
             <Link to="/" className="text-sm text-muted-foreground transition-colors hover:text-primary">
               ← All articles
             </Link>
@@ -612,7 +612,7 @@ export function BlogPost() {
         </div>
 
         <div className="hidden lg:block">
-          <div className="sticky top-8">
+          <div className="sticky top-20">
             {/* Space for the floating video; grows with the same timing as its animation. */}
             <div
               ref={videoDock}

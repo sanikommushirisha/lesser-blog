@@ -1,7 +1,8 @@
 import { ArrowRight, ChevronDown, Menu } from "lucide-react";
 import { SiWhatsapp } from "react-icons/si";
 import { useState, useEffect, useRef } from "react";
-import lesserLogo from "@assets/lesser_logo.png";
+import lesserLogo from "@assets/lesser_logo_wordmark.png";
+import { NAV_GROUPS } from "@shared/nav-links";
 
 function createRipple(e: React.MouseEvent<HTMLElement>) {
   const el = e.currentTarget;
@@ -13,43 +14,6 @@ function createRipple(e: React.MouseEvent<HTMLElement>) {
   el.appendChild(ripple);
   setTimeout(() => ripple.remove(), 600);
 }
-
-const NAV_GROUPS = [
-  {
-    label: "Individual",
-    items: [
-      { name: "Personal Tax Filing", description: "For W-2 earners & equity compensation", href: "/" },
-      { name: "NRI Tax Filing", description: "Cross-border U.S.–India tax services", href: "/nris" },
-    ],
-  },
-  {
-    label: "Business",
-    items: [
-      { name: "Business Tax Filing", description: "Form 1120, 1065, 1120-S", href: "/business" },
-      { name: "Partnerships", description: "Form 1065 + K-1s for RE investors", href: "/business/partnerships" },
-      { name: "Real Estate", description: "$100/entity for rental LLCs", href: "/business/realestate" },
-      { name: "March 15 Deadline", description: "File in 24 hrs before the deadline", href: "/business/deadline" },
-    ],
-  },
-  {
-    label: "Services",
-    items: [
-      { name: "Indian Passport Renewal", description: "For Indian NRIs in the United States", href: "/services/passport-renewal" },
-      { name: "India Tax Filing", description: "File your Indian ITR from the U.S.", href: "/services/india-tax-filing" },
-    ],
-  },
-  {
-    label: "Offers",
-    items: [
-      { name: "Nextdoor", description: "Exclusive offer for Nextdoor employees", href: "/offers/nextdoor" },
-      { name: "Broadcom", description: "Exclusive offer for Broadcom employees", href: "/offers/broadcom" },
-      { name: "Coupa", description: "Exclusive offer for Coupa employees", href: "/offers/coupa" },
-      { name: "Google", description: "Exclusive offer for Google employees", href: "/offers/google" },
-      { name: "Infosys", description: "Exclusive offer for Infosys employees", href: "/offers/infosys" },
-      { name: "River Island", description: "Tax services for River Island residents", href: "/offers/riverisland" },
-    ],
-  },
-];
 
 interface SharedNavbarProps {
   variant: "individual" | "business";
@@ -115,7 +79,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
 
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <a href="/" className="flex-shrink-0 group" data-testid="img-nav-logo">
-            <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="w-auto h-[60px] transition-transform duration-300 group-hover:scale-[1.02]" />
+            <img src={lesserLogo} alt="Lesser Tax" width={237} height={103} className="w-auto h-[52px] transition-transform duration-300 group-hover:scale-[1.02]" />
           </a>
 
           <div className="hidden md:flex items-center">
