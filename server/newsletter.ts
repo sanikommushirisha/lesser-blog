@@ -22,8 +22,9 @@ const signupSchema = z.object({
   offer: z.enum(LEAD_MAGNET_IDS),
   // The post or tool the signup came from.
   slug: z.string().regex(/^[a-z0-9-]{1,120}$/),
-  // Honeypot: hidden from people, filled in by form bots.
-  company: z.string().max(200).optional(),
+  // Honeypot: hidden from people, filled in by form bots. Not named like a
+  // real field (e.g. "company"), so browser autofill leaves it empty.
+  lsr_trap: z.string().max(200).optional(),
 });
 
 // Each signup sends a real email, so cap per address and in total.
@@ -153,10 +154,10 @@ export function registerNewsletterRoutes(app: Express) {
       res.status(400).json({ error: "Enter a valid email address." });
       return;
     }
-    const { email, offer, slug, company } = parsed.data;
+    const { email, offer, slug, lsr_trap } = parsed.data;
 
     // Bots get a normal answer and nothing happens.
-    if (company) {
+    if (lsr_trap) {
       res.json({ ok: true });
       return;
     }

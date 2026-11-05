@@ -3,6 +3,7 @@ import { createPortal } from 'react-dom'
 import { Link } from 'react-router-dom'
 import { abVariant } from '../motion/events'
 import {
+  GATE_OPEN_CLASS,
   chooseOffer,
   isGatedPost,
   isGatePreview,
@@ -77,11 +78,13 @@ export function EmailGate({ slug }: { slug: string }) {
     const root = document.documentElement
     content?.setAttribute('data-locked', 'true')
     content?.setAttribute('inert', '')
-    root.classList.add('lesser-gate-open')
+    root.classList.add(GATE_OPEN_CLASS)
+    // An open chat window would sit on top of the gate, so close it.
+    window.Intercom?.('hide')
     return () => {
       content?.removeAttribute('data-locked')
       content?.removeAttribute('inert')
-      root.classList.remove('lesser-gate-open')
+      root.classList.remove(GATE_OPEN_CLASS)
     }
   }, [choice])
 
@@ -100,8 +103,8 @@ export function EmailGate({ slug }: { slug: string }) {
 function GateDialog({ choice, slug, onDone }: { choice: Choice; slug: string; onDone: () => void }) {
   const { offer, topic, arm } = choice
   const [email, setEmail] = useState('')
-  const [company, setCompany] = useState('')
-  const [status, setStatus] = useState<'idle' | 'sending' | 'done'>('idle')
+  const [trap, setTrap] = useState('')
+  const [status, setStatus] = useState<'idle' | 'sending' | 'done' | 'failed'>('idle')
   const [error, setError] = useState('')
   const input = useRef<HTMLInputElement>(null)
 
@@ -117,7 +120,7 @@ function GateDialog({ choice, slug, onDone }: { choice: Choice; slug: string; on
       const res = await fetch('/api/newsletter/subscribe', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email, offer: offer.id, slug, company }),
+        body: JSON.stringify({ email, offer: offer.id, slug, lsr_trap: trap }),
         signal: AbortSignal.timeout(12000),
       })
       if (res.status === 400 || res.status === 429) {
@@ -131,20 +134,25 @@ function GateDialog({ choice, slug, onDone }: { choice: Choice; slug: string; on
       rememberUnlock()
       setStatus('done')
     } catch {
-      // Our outage is not the reader's problem: let them read.
+      // Our outage is not the reader's problem: let them read, and say the
+      // PDF is not coming so they do not wait for it.
       capture('gate_error', { offer: offer.id, slug })
       rememberUnlock()
-      onDone()
+      setStatus('failed')
     }
   }
 
   return (
     <div className="lesser-gate" role="dialog" aria-modal="true" aria-labelledby="lesser-gate-title">
       <div className="lesser-gate-box">
-        {status === 'done' ? (
+        {status === 'done' || status === 'failed' ? (
           <>
-            <h2 id="lesser-gate-title">You're in</h2>
-            <p>The full article is unlocked, and your free PDF is on its way to {email}.</p>
+            <h2 id="lesser-gate-title">{status === 'done' ? "You're in" : 'Keep reading'}</h2>
+            <p>
+              {status === 'done'
+                ? `The full article is unlocked, and your free PDF is on its way to ${email}.`
+                : "Sorry, we couldn't send your PDF just now. The full article is unlocked, so you can keep reading."}
+            </p>
             <button type="button" className="lesser-gate-button" onClick={onDone}>
               Keep reading
             </button>
@@ -153,12 +161,12 @@ function GateDialog({ choice, slug, onDone }: { choice: Choice; slug: string; on
           <GateForm
             offer={offer}
             email={email}
-            company={company}
+            trap={trap}
             error={error}
             sending={status === 'sending'}
             input={input}
             onEmail={setEmail}
-            onCompany={setCompany}
+            onTrap={setTrap}
             onSubmit={submit}
           />
         )}
@@ -170,15 +178,15 @@ function GateDialog({ choice, slug, onDone }: { choice: Choice; slug: string; on
 function GateForm(props: {
   offer: Offer
   email: string
-  company: string
+  trap: string
   error: string
   sending: boolean
   input: React.RefObject<HTMLInputElement | null>
   onEmail: (v: string) => void
-  onCompany: (v: string) => void
+  onTrap: (v: string) => void
   onSubmit: (e: FormEvent) => void
 }) {
-  const { offer, email, company, error, sending, input, onEmail, onCompany, onSubmit } = props
+  const { offer, email, trap, error, sending, input, onEmail, onTrap, onSubmit } = props
   return (
     <>
       <p className="lesser-gate-eyebrow">Free for readers</p>
@@ -199,16 +207,18 @@ function GateForm(props: {
           aria-describedby="lesser-gate-note"
           aria-invalid={error ? true : undefined}
         />
-        {/* Honeypot for form bots: off screen, skipped by keyboard and screen readers. */}
+        {/* Honeypot for form bots: off screen, skipped by keyboard and screen readers.
+            Named so browser autofill does not recognise it (a field called
+            "company" gets autofilled, and the server would drop real readers). */}
         <input
           className="lesser-gate-trap"
           type="text"
-          name="company"
+          name="lsr_trap"
           tabIndex={-1}
           autoComplete="off"
           aria-hidden="true"
-          value={company}
-          onChange={(e) => onCompany(e.target.value)}
+          value={trap}
+          onChange={(e) => onTrap(e.target.value)}
         />
         {error && (
           <p className="lesser-gate-error" role="alert">

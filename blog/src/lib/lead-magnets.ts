@@ -1,7 +1,8 @@
 /**
  * Email gate on articles: which posts show it, and which lead magnet (free PDF)
- * each post offers. Delivery details are in shared/lead-magnets.ts (the server
- * side); keep the ids in step.
+ * each post offers. The ids and delivery details are in shared/lead-magnets.ts
+ * (used by the server too), so adding a PDF there makes OFFERS below fail to
+ * typecheck until it has pop-up copy.
  *
  * TURNING IT ON: the gate only appears on posts listed in GATE_ROLLOUT, which
  * ships empty. List a post only after the tax team has signed off its PDF and
@@ -16,12 +17,9 @@
  * `topic` and `arm`.
  */
 
-export type OfferId =
-  | 'rsu-checklist'
-  | 'india-accounts-checklist'
-  | 'moving-back-checklist'
-  | 'founder-checklist'
-  | 'nri-checklist'
+import type { LeadMagnetId } from '../../../shared/lead-magnets'
+
+export type OfferId = LeadMagnetId
 
 export type Offer = { id: OfferId; headline: string; sub: string }
 
@@ -141,4 +139,11 @@ export function rememberUnlock() {
   } catch {
     // Private mode: the reader sees the gate again on the next post.
   }
+}
+
+/** Set on <html> while the gate is on screen (see components/EmailGate.tsx). */
+export const GATE_OPEN_CLASS = 'lesser-gate-open'
+
+export function isGateOpen(): boolean {
+  return document.documentElement.classList.contains(GATE_OPEN_CLASS)
 }
