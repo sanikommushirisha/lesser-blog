@@ -1,4 +1,5 @@
 import { useEffect } from 'react'
+import { isGateOpen } from './lead-magnets'
 
 // Lesser workspace. The app_id is public — it only identifies which
 // workspace's Messenger to load; all data access happens server-side.
@@ -111,6 +112,8 @@ export function useIntercomForPost(post: PostContext | null) {
     const timer = window.setTimeout(() => {
       ensureLoaded(attributes)
       if (hasAutoOpened()) return
+      // Never pop the chat over the email gate; it can auto-open on a later post.
+      if (isGateOpen()) return
       markAutoOpened()
       window.Intercom?.(
         'showNewMessage',

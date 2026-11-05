@@ -77,3 +77,25 @@ Studio), then redeploy.
   has Full access for automated checks.
 - Bing Webmaster Tools: site imported from GSC (Jul 2, 2026). Submit
   `sitemap.xml` there too — Bing's index feeds ChatGPT.
+
+## Email gate and lead magnets (added Nov 2026)
+
+This ships switched off. Merging changes nothing a reader sees on articles.
+
+- Gate on articles: `blog/src/components/EmailGate.tsx`, configured in
+  `blog/src/lib/lead-magnets.ts`. It only appears on posts in `GATE_ROLLOUT`,
+  which is empty.
+- Signup: `POST /api/newsletter/subscribe` in `server/newsletter.ts`. The email
+  service is not decided yet. Until it is configured the route answers 503.
+- Lead magnet PDFs go in `blog/public/guides/` after tax review. `/blog/guides/*`
+  is served `noindex`.
+
+**Before turning it on:** decide the email service, get the PDFs signed off, then
+add a small batch of post slugs to `GATE_ROLLOUT` and watch Search Console. Do
+not add passport posts.
+
+**Reading the test:** PostHog events `gate_shown` and `gate_subscribed` carry
+`offer`, `topic` and `arm`. Compare `matched` with `general` inside each topic.
+
+**Previewing the gate:** build with `VITE_GATE_PREVIEW=true`, then open any post
+with `?gate=preview`.

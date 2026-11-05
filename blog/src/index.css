@@ -497,3 +497,162 @@ h6 {
     transform: scale(1);
   }
 }
+/* ---- Email gate on articles (components/EmailGate.tsx) ----
+   The article stays in the HTML for crawlers; these rules only apply once the
+   reader reaches the gate and the component sets data-locked. */
+.lesser-gated[data-locked] {
+  filter: blur(7px);
+  pointer-events: none;
+  user-select: none;
+}
+
+html.lesser-gate-open {
+  overflow: hidden;
+}
+
+.lesser-gate {
+  position: fixed;
+  inset: 0;
+  /* Above the event popup (.lsr-evt) if a promo is live at the same time. */
+  z-index: 100000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 16px;
+  background: linear-gradient(to bottom, rgba(26, 26, 26, 0.12), rgba(26, 26, 26, 0.45));
+  font-family: var(--font-sans);
+}
+
+.lesser-gate-box {
+  width: min(440px, 100%);
+  max-height: calc(100dvh - 32px);
+  overflow: auto;
+  padding: 28px;
+  border-radius: 20px;
+  background: #faf8f0;
+  color: #1a1a1a;
+  box-shadow: 0 24px 70px rgba(26, 26, 26, 0.3);
+  animation: lesser-gate-in 280ms ease-out;
+}
+
+@keyframes lesser-gate-in {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .lesser-gate-box {
+    animation: none;
+  }
+}
+
+.lesser-gate-eyebrow {
+  margin: 0 0 6px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #034f46;
+}
+
+.lesser-gate-box h2 {
+  margin: 0 0 8px;
+  font-size: 24px;
+  font-weight: 800;
+  line-height: 1.2;
+  letter-spacing: -0.01em;
+}
+
+.lesser-gate-box p {
+  margin: 0 0 16px;
+  font-size: 15px;
+  line-height: 1.5;
+}
+
+.lesser-gate-box label {
+  display: block;
+  margin-bottom: 6px;
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.lesser-gate-box input[type='email'] {
+  width: 100%;
+  height: 48px;
+  padding: 0 14px;
+  border: 1px solid rgba(26, 26, 26, 0.25);
+  border-radius: 12px;
+  background: #fff;
+  /* 16px stops iOS zooming the page when the field is focused. */
+  font-size: 16px;
+}
+
+.lesser-gate-box input[type='email']:focus {
+  outline: 2px solid #034f46;
+  outline-offset: 1px;
+}
+
+.lesser-gate-trap {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  opacity: 0;
+}
+
+.lesser-gate-button {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  padding: 13px 20px;
+  border-radius: 999px;
+  background: #034f46;
+  color: #fff;
+  font-size: 15px;
+  font-weight: 700;
+  text-align: center;
+  cursor: pointer;
+}
+
+.lesser-gate-button:hover:not(:disabled) {
+  background: #023d35;
+}
+
+.lesser-gate-button:disabled {
+  opacity: 0.65;
+  cursor: wait;
+}
+
+.lesser-gate-box .lesser-gate-error {
+  margin: 8px 0 0;
+  font-size: 14px;
+  color: #b42318;
+}
+
+.lesser-gate-box .lesser-gate-note {
+  margin: 12px 0 0;
+  font-size: 12.5px;
+  color: #555;
+}
+
+.lesser-gate-note a {
+  text-decoration: underline;
+}
+
+.lesser-gate-link {
+  display: block;
+  width: 100%;
+  margin-top: 12px;
+  font-size: 13.5px;
+  font-weight: 600;
+  text-align: center;
+  color: #034f46;
+  cursor: pointer;
+}
+
+/* The navigation bar stays on screen, so in-page links stop just below it. */
+html {
+  scroll-padding-top: 4.5rem;
+}

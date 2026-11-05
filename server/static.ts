@@ -130,6 +130,11 @@ export function serveBlog(app: Express, blogPath: string) {
 
   // index:false + redirect:false so directory requests fall through to the
   // handler below, which picks the prerendered file and avoids a 301 hop.
+  // Lead magnet PDFs are for subscribers, so keep them out of search results.
+  app.use("/blog/guides", (_req: Request, res: Response, next: NextFunction) => {
+    res.setHeader("X-Robots-Tag", "noindex");
+    next();
+  });
   app.use("/blog", express.static(blogPath, staticOptions()));
 
   app.use("/blog", (req: Request, res: Response) => {
