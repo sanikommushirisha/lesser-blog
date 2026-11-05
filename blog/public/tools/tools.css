@@ -1,0 +1,173 @@
+/* Free tools (blog/src/pages/ToolPage.tsx). Every rule starts with .tool-app so
+   none of it reaches the shared navigation bar, footer or blog posts. */
+.tool-app {
+  --cream: #faf8f0; --panel: #ffffff; --ink: #14201d; --muted: #5b6863; --line: #e2e2d6;
+  --green: #034f46; --deep: #022c27; --mid: #0b7a6b; --mint: #d7ece4; --soft: #f1f4ee; --amber: #c9791a; --red: #b4471f;
+  --sans: 'Plus Jakarta Sans', system-ui, -apple-system, 'Segoe UI', sans-serif;
+  color-scheme: light;
+}
+.tool-app, .tool-app * { box-sizing: border-box; }
+.tool-app { background: var(--cream); color: var(--ink); font: 400 15.5px/1.5 var(--sans); }
+.tool-app .band { background: linear-gradient(160deg, var(--green), var(--deep)); color: #fff; }
+.tool-app .wrap { max-width: 1160px; margin: 0 auto; padding-left: max(18px, env(safe-area-inset-left, 0px)); padding-right: max(18px, env(safe-area-inset-right, 0px)); }
+.tool-app .topbar { display: flex; justify-content: flex-end; align-items: center; gap: 12px; padding-block: 16px; flex-wrap: wrap; }
+.tool-app .logo { font-weight: 800; font-size: 19px; letter-spacing: -0.01em; }
+.tool-app .review { font-size: 12.5px; font-weight: 600; color: #cfe5dc; }
+.tool-app .hero { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 34px; padding-block: 20px 34px; align-items: center; }
+.tool-app .eyebrow { display: inline-block; background: #f6efd9; color: var(--green); font-size: 12px; font-weight: 800; letter-spacing: 0.06em; text-transform: uppercase; border-radius: 99px; padding: 5px 12px; }
+.tool-app h1 { font-size: clamp(32px, 5vw, 50px); line-height: 1.06; letter-spacing: -0.025em; font-weight: 800; margin: 12px 0 10px; text-wrap: balance; }
+.tool-app .hero p { margin: 0; color: #d6e7e0; font-size: 16.5px; max-width: 56ch; }
+.tool-app .trust { display: grid; gap: 8px; }
+.tool-app .trust div { background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.14); border-radius: 12px; padding: 10px 14px; }
+.tool-app .trust strong { display: block; font-size: 14px; }
+.tool-app .trust span { font-size: 13px; color: #cfe2da; }
+.tool-app .paths { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 14px; margin-top: -2px; padding-bottom: 26px; }
+.tool-app .path { border-radius: 16px; padding: 16px 18px; display: grid; gap: 4px; }
+.tool-app .path.on { background: #fff; color: var(--ink); }
+.tool-app .path.off { background: rgba(255,255,255,.09); border: 1px solid rgba(255,255,255,.18); }
+.tool-app .path strong { font-size: 16px; font-weight: 800; }
+.tool-app .path p { margin: 0; font-size: 14px; opacity: .85; }
+.tool-app .path .tag { font-size: 11.5px; font-weight: 800; color: var(--mid); letter-spacing: .03em; }
+.tool-app .path.off a { color: #fff; font-weight: 700; font-size: 14px; }
+.tool-app .main { display: grid; grid-template-columns: minmax(0, 1.65fr) minmax(0, 1fr); gap: 20px; align-items: start; padding-block: 22px 40px; }
+.tool-app .card { background: var(--panel); border: 1px solid var(--line); border-radius: 18px; padding: 22px 24px; min-width: 0; }
+.tool-app .stepper { display: flex; gap: 6px; background: var(--soft); padding: 5px; border-radius: 14px; margin-bottom: 20px; overflow-x: auto; }
+.tool-app .stepper button { flex: 1 0 auto; border: 0; background: none; color: var(--muted); font: 700 13.5px var(--sans); padding: 9px 12px; border-radius: 10px; display: flex; align-items: center; justify-content: center; gap: 7px; cursor: pointer; }
+.tool-app .stepper button:disabled { cursor: default; }
+.tool-app .stepper button i { width: 21px; height: 21px; border-radius: 99px; background: #fff; display: inline-grid; place-items: center; font-style: normal; font-size: 12px; }
+.tool-app .stepper button.now { background: var(--green); color: #fff; }
+.tool-app .stepper button.now i { color: var(--green); }
+.tool-app .stepper button.done i { background: var(--mid); color: #fff; }
+.tool-app .step-title { font-size: 25px; font-weight: 800; letter-spacing: -0.015em; margin: 0; }
+.tool-app .step-sub { margin: 3px 0 18px; color: var(--muted); }
+.tool-app .block { border-top: 1px solid var(--line); padding-block: 16px; display: grid; gap: 12px; }
+.tool-app .block:first-of-type { border-top: 0; padding-top: 0; }
+.tool-app .block h3 { font-size: 15.5px; font-weight: 800; margin: 0; }
+.tool-app .block .bsub { margin: -9px 0 0; font-size: 13.5px; color: var(--muted); }
+.tool-app .tiles { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 9px; }
+.tool-app .tile { text-align: left; border: 1.5px solid var(--line); background: #fff; border-radius: 13px; padding: 11px 13px; cursor: pointer; font-family: var(--sans); color: var(--ink); display: grid; gap: 1px; transition: border-color 120ms, background 120ms; }
+.tool-app .tile:hover { border-color: var(--mid); }
+.tool-app .tile b { font-size: 14px; font-weight: 700; }
+.tool-app .tile span { font-size: 12.5px; color: var(--muted); }
+.tool-app .tile[aria-pressed="true"] { border-color: var(--green); background: #eaf4ef; box-shadow: inset 0 0 0 1px var(--green); }
+.tool-app .fields { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 13px; }
+.tool-app .f { display: grid; gap: 3px; min-width: 0; align-content: start; }
+.tool-app .f label, .tool-app .f .lab { font-size: 13.5px; font-weight: 700; }
+.tool-app .f small { font-size: 12.5px; color: var(--muted); }
+.tool-app .f .box { display: flex; align-items: center; border: 1px solid #c6cec7; border-radius: 11px; background: #fff; height: 44px; padding: 0 11px; }
+.tool-app .f .box:focus-within { outline: 2px solid var(--mid); outline-offset: 1px; }
+.tool-app .f .box span { color: var(--muted); margin-right: 4px; }
+.tool-app .f input, .tool-app .f select { border: 0; outline: 0; background: none; width: 100%; font: 400 16px var(--sans); color: var(--ink); min-width: 0; height: 100%; }
+.tool-app .count { display: flex; align-items: center; gap: 12px; height: 44px; }
+.tool-app .count button { width: 34px; height: 34px; border-radius: 99px; border: 1px solid #c6cec7; background: #fff; font: 700 17px var(--sans); cursor: pointer; color: var(--green); }
+.tool-app .count b { min-width: 22px; text-align: center; font-size: 16px; }
+.tool-app .toggle { display: inline-flex; align-items: center; gap: 8px; border: 1.5px solid var(--line); border-radius: 99px; padding: 8px 14px; font: 600 14px var(--sans); background: #fff; cursor: pointer; color: var(--ink); justify-self: start; }
+.tool-app .toggle[aria-pressed="true"] { border-color: var(--green); background: #eaf4ef; }
+.tool-app .rowcard { border: 1px solid var(--line); border-radius: 14px; background: #fbfbf6; padding: 13px 14px; display: grid; gap: 11px; }
+.tool-app .rowhead { display: flex; justify-content: space-between; font-weight: 800; font-size: 14px; }
+.tool-app .rm { border: 0; background: none; color: var(--red); font: 600 13px var(--sans); cursor: pointer; }
+.tool-app .add { justify-self: start; border: 1.5px dashed var(--mid); background: none; color: var(--green); border-radius: 99px; padding: 8px 15px; font: 700 14px var(--sans); cursor: pointer; }
+.tool-app .drop { position: relative; border: 1.5px dashed #9fb2a9; border-radius: 13px; background: var(--soft); padding: 12px 14px; display: grid; gap: 1px; cursor: pointer; }
+.tool-app .drop:hover, .tool-app .drop.over { background: var(--mint); border-color: var(--green); }
+.tool-app .drop strong { font-size: 14.5px; color: var(--green); }
+.tool-app .drop span { font-size: 13px; color: var(--muted); }
+.tool-app .drop input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.tool-app .found { font-size: 13.5px; border-radius: 10px; padding: 9px 12px; background: var(--mint); color: var(--green); margin-top: 7px; }
+.tool-app .found.bad { background: #fbeadf; color: var(--red); }
+.tool-app .found ul { margin: 3px 0 0; padding-left: 18px; }
+.tool-app .nav { display: flex; justify-content: flex-end; gap: 10px; margin-top: 18px; align-items: center; }
+.tool-app .nav .why { margin-right: auto; font-size: 13.5px; color: var(--muted); }
+.tool-app .btn { border: 0; border-radius: 99px; background: var(--green); color: #fff; font: 800 15px var(--sans); padding: 13px 22px; cursor: pointer; }
+.tool-app .btn:disabled { opacity: .45; cursor: not-allowed; }
+.tool-app .btn.ghost { background: #fff; border: 1px solid #c6cec7; color: var(--ink); }
+.tool-app aside { position: sticky; top: calc(12px + env(safe-area-inset-top, 0px)); display: grid; gap: 14px; min-width: 0; }
+.tool-app .mini { font-size: 11.5px; font-weight: 800; letter-spacing: .07em; color: var(--mid); text-transform: uppercase; }
+.tool-app aside h2 { font-size: 18px; font-weight: 800; margin: 2px 0 0; }
+.tool-app .big { font-size: 38px; font-weight: 800; line-height: 1.1; letter-spacing: -0.02em; font-variant-numeric: tabular-nums; color: var(--green); }
+.tool-app .big.warn { color: var(--red); }
+.tool-app .lines { margin: 10px 0 0; display: grid; }
+.tool-app .lines div { display: flex; justify-content: space-between; gap: 12px; padding: 7px 0; border-top: 1px solid var(--line); font-size: 14px; }
+.tool-app .lines dt { color: var(--muted); }
+.tool-app .lines dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; text-align: right; }
+.tool-app .incl { list-style: none; margin: 8px 0 0; padding: 0; display: grid; gap: 6px; font-size: 13.5px; }
+.tool-app .incl li { padding-left: 20px; position: relative; }
+.tool-app .incl li::before { content: ""; position: absolute; left: 2px; top: 7px; width: 9px; height: 5px; border-left: 2px solid var(--mid); border-bottom: 2px solid var(--mid); transform: rotate(-45deg); }
+.tool-app .cpa { background: var(--deep); color: #fff; border: 0; }
+.tool-app .cpa p { color: #cfe2da; margin: 6px 0 12px; font-size: 14px; }
+.tool-app .cpa a { display: inline-block; background: #f6efd9; color: var(--green); font-weight: 800; border-radius: 99px; padding: 10px 16px; text-decoration: none; font-size: 14px; }
+.tool-app .result { display: grid; gap: 16px; }
+.tool-app .heroNum { background: linear-gradient(150deg, var(--green), var(--deep)); color: #fff; border-radius: 16px; padding: 20px 22px; }
+.tool-app .heroNum .lab { font-size: 12px; letter-spacing: .07em; font-weight: 800; color: #cfe2da; text-transform: uppercase; }
+.tool-app .heroNum strong { display: block; font-size: clamp(32px, 6vw, 46px); line-height: 1.1; font-weight: 800; letter-spacing: -0.02em; margin: 3px 0; overflow-wrap: anywhere; }
+.tool-app .heroNum.warn { background: linear-gradient(150deg, #8d3515, #4a1c0b); }
+.tool-app .heroNum p { margin: 0; color: #dfeee8; font-size: 14.5px; }
+.tool-app .box2 { border: 1px solid var(--line); border-radius: 14px; padding: 15px 16px; display: grid; gap: 9px; min-width: 0; }
+.tool-app .box2 h3 { margin: 0; font-size: 15.5px; font-weight: 800; }
+.tool-app .split { height: 12px; border-radius: 99px; overflow: hidden; display: flex; background: var(--soft); }
+.tool-app .split i { display: block; height: 100%; }
+.tool-app .legend { display: flex; flex-wrap: wrap; gap: 5px 14px; font-size: 13px; color: var(--muted); }
+.tool-app .legend b { color: var(--ink); }
+.tool-app .legend u { text-decoration: none; display: inline-block; width: 10px; height: 10px; border-radius: 3px; margin-right: 5px; }
+.tool-app .two { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 12px; }
+.tool-app .why { list-style: none; padding: 0; margin: 0; display: grid; gap: 7px; }
+.tool-app .why li { border: 1px solid var(--line); border-radius: 11px; padding: 9px 12px 9px 34px; position: relative; font-size: 14.5px; }
+.tool-app .why li::before { content: ""; position: absolute; left: 13px; top: 15px; width: 10px; height: 5px; border-left: 2px solid var(--mid); border-bottom: 2px solid var(--mid); transform: rotate(-45deg); }
+.tool-app .save { background: linear-gradient(150deg, #1d7a5f, #0f5a46); color: #fff; border-radius: 14px; padding: 15px 18px; }
+.tool-app .save span { font-size: 12px; font-weight: 800; letter-spacing: .07em; color: #cdeadd; text-transform: uppercase; }
+.tool-app .save strong { display: block; font-size: 30px; font-weight: 800; }
+.tool-app .save p { margin: 0; font-size: 14px; color: #dbefe6; }
+.tool-app .num { display: grid; grid-template-columns: 30px minmax(0, 1fr); gap: 10px; border: 1px solid var(--line); border-radius: 12px; padding: 11px 13px; }
+.tool-app .num i { width: 26px; height: 26px; border-radius: 99px; background: var(--mint); color: var(--green); font-style: normal; font-weight: 800; display: grid; place-items: center; font-size: 13px; }
+.tool-app .num b { display: block; font-size: 14.5px; }
+.tool-app .num span { font-size: 14px; color: var(--muted); }
+.tool-app .more { font-size: 14px; font-weight: 700; color: var(--green); }
+.tool-app .gate { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 0; border-radius: 16px; overflow: hidden; border: 1px solid var(--line); }
+.tool-app .gate .l { padding: 18px 20px; background: #fff; }
+.tool-app .gate .l .mini { display: block; }
+.tool-app .gate h3 { font-size: 19px; font-weight: 800; margin: 3px 0 8px; }
+.tool-app .gate form { background: var(--green); color: #fff; padding: 18px 20px; display: grid; gap: 9px; align-content: center; }
+.tool-app .gate input { width: 100%; height: 44px; border: 0; border-radius: 10px; padding: 0 12px; font: 400 16px var(--sans); }
+.tool-app .gate label { font-size: 13px; font-weight: 700; }
+.tool-app .gate .send { height: 46px; border: 0; border-radius: 99px; background: #f6efd9; color: var(--green); font: 800 15px var(--sans); cursor: pointer; }
+.tool-app .gate small { color: #cfe2da; font-size: 12.5px; }
+.tool-app .report { border: 1px dashed #b9c4bb; border-radius: 14px; padding: 18px; overflow-x: auto; background: #fff; }
+.tool-app .fine { font-size: 13px; color: var(--muted); margin: 0; }
+.tool-app .tablewrap { overflow-x: auto; }
+.tool-app table { border-collapse: collapse; width: 100%; font-size: 14px; }
+.tool-app th { text-align: left; font-size: 12px; color: var(--muted); padding: 6px 12px 6px 0; border-bottom: 2px solid var(--green); }
+.tool-app td { padding: 8px 12px 8px 0; border-bottom: 1px solid var(--line); font-variant-numeric: tabular-nums; }
+.tool-app svg { display: block; width: 100%; height: auto; }
+.tool-app svg text { font-family: var(--sans); fill: var(--muted); font-size: 11.5px; }
+.tool-app .incl.light { margin: 0 0 13px; color: #e4f0eb; }
+.tool-app .incl.light li::before { border-color: #a9d6c6; }
+.tool-app .planrow { display: flex; justify-content: space-between; align-items: center; gap: 14px; flex-wrap: wrap; border: 1.5px solid var(--green); background: #eff6f2; border-radius: 14px; padding: 14px 16px; }
+.tool-app .planrow > div { flex: 1 1 260px; min-width: 0; }
+.tool-app .planrow h3 { margin: 2px 0; font-size: 17px; font-weight: 800; }
+.tool-app a.btn.plan { display: inline-block; text-decoration: none; white-space: nowrap; }
+.tool-app .mobilebar { display: none; }
+.tool-app button:focus-visible, .tool-app input:focus-visible, .tool-app a:focus-visible { outline: 2px solid var(--mid); outline-offset: 2px; }
+.tool-app footer.foot { padding-block: 0 34px; font-size: 13px; color: var(--muted); }
+@media (max-width: 900px) {
+.tool-app .hero, .tool-app .paths, .tool-app .main, .tool-app .gate, .tool-app .two { grid-template-columns: minmax(0, 1fr); }
+.tool-app aside { position: static; }
+.tool-app .mobilebar { display: flex; position: sticky; bottom: env(safe-area-inset-bottom, 0px); z-index: 5; justify-content: space-between; align-items: center; gap: 10px; background: var(--deep); color: #fff; padding: 10px 16px; border-radius: 14px; margin-top: 12px; font-weight: 800; }
+.tool-app .mobilebar span { font-size: 13px; font-weight: 600; color: #cfe2da; }
+}
+@media (max-width: 520px) {
+.tool-app .fields { grid-template-columns: minmax(0, 1fr); }
+.tool-app .card { padding: 18px 16px; }
+.tool-app .nav { flex-wrap: wrap; }
+}
+@media (prefers-reduced-motion: reduce) {
+.tool-app .tile { transition: none; }
+}
+
+/* The blog's base styles set these for articles; the tools set their own. */
+.tool-app [hidden] { display: none !important; }
+.tool-app h1, .tool-app h2, .tool-app h3 { color: inherit; }
+/* Clear the sticky navigation bar. */
+.tool-app aside { top: 90px; }
+.tool-app #flowcard { scroll-margin-top: 90px; }
+.tool-app .tool-related { margin: 0 0 18px; display: flex; flex-wrap: wrap; gap: 8px 18px; font-size: 14px; }
+.tool-app .tool-related a { color: var(--green); font-weight: 600; text-decoration: underline; text-underline-offset: 3px; }
+.tool-app .tool-error { padding: 18px; color: var(--red); font-weight: 600; }
