@@ -105,15 +105,8 @@ for (const slug of Object.keys(RENEWAL_VIDEOS)) {
 }
 console.log(`prerendered ${Object.keys(RENEWAL_VIDEOS).length} /r/ share pages (noindex, not in sitemap)`)
 
-// Free tools (blog/public/tools). Static pages, copied into dist by Vite and
-// served by serveBlog. GO-LIVE, after tax review: list each slug here, remove
-// the noindex meta and the draft banner from its page, and add a "Free tools"
-// link to components/Footer.tsx.
-const PUBLISHED_TOOLS = []
-
 // sitemap.xml
 const urls = [
-  ...PUBLISHED_TOOLS.map((slug) => ({ loc: `${SITE_URL}/tools/${slug}` })),
   { loc: url('/'), lastmod: posts[0]?._updatedAt || posts[0]?.publishedAt },
   ...posts.map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p._updatedAt || p.publishedAt })),
   ...VIDEOS.map((v) => ({ loc: `${SITE_URL}/videos/${v.slug}`, lastmod: v.uploadDate })),

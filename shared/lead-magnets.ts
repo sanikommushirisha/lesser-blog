@@ -1,6 +1,5 @@
 /**
- * Lead magnets (free PDFs) offered by the blog's email gate and sent with
- * the free web tools' results: what the server needs to email each one. The pop-up copy and which
+ * Lead magnets (free PDFs) offered by the blog's email gate: what the server needs to email each one. The pop-up copy and which
  * post shows which PDF live in blog/src/lib/lead-magnets.ts (the blog is a
  * separate build); keep the ids in step.
  *

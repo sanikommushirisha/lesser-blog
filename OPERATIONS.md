@@ -78,64 +78,24 @@ Studio), then redeploy.
 - Bing Webmaster Tools: site imported from GSC (Jul 2, 2026). Submit
   `sitemap.xml` there too — Bing's index feeds ChatGPT.
 
-## Email gate, lead magnets and free tools (added Nov 2026)
+## Email gate and lead magnets (added Nov 2026)
 
-Everything below ships switched off. Merging changes nothing a reader sees on
-articles, and the tool pages stay `noindex` with a draft banner.
-
-**Pieces**
+This ships switched off. Merging changes nothing a reader sees on articles.
 
 - Gate on articles: `blog/src/components/EmailGate.tsx`, configured in
-  `blog/src/lib/lead-magnets.ts`.
-- Article signup: `POST /api/newsletter/subscribe` in `server/newsletter.ts`.
-  Adds the reader to a Resend segment and emails the PDF.
-- Free tools: static pages in `blog/public/tools/`. They show no result on the
-  page. `POST /api/newsletter/tool-result` takes the answers and an email, adds
-  the reader to the segment, and emails the result with the matching PDF link.
-- Tax rules and reports: `shared/tool-results.ts`. Rules come from published
-  posts; brackets and standard deductions match the Lesser app
-  (`lib/tax-plan/brackets.ts`). It runs only on the server, so the endpoint can
-  never be used to send text of a visitor's choosing.
-- The apps are multi-step forms driven by `blog/public/tools/tools.js`. Page
-  markup is plain HTML, one `.step` per screen and one `.repeater` per list.
+  `blog/src/lib/lead-magnets.ts`. It only appears on posts in `GATE_ROLLOUT`,
+  which is empty.
+- Signup: `POST /api/newsletter/subscribe` in `server/newsletter.ts`. The email
+  service is not decided yet. Until it is configured the route answers 503.
+- Lead magnet PDFs go in `blog/public/guides/` after tax review. `/blog/guides/*`
+  is served `noindex`.
 
-**Privacy:** tool answers such as salary figures are not stored or logged by
-this server, but they appear in the email, so they sit in Resend's email logs
-and the reader's inbox. Check Resend's retention setting and the privacy policy
-before launch.
+**Before turning it on:** decide the email service, get the PDFs signed off, then
+add a small batch of post slugs to `GATE_ROLLOUT` and watch Search Console. Do
+not add passport posts.
 
-**Server setup**
-
-Add to the `lesser-blog` PM2 environment, then restart:
-
-- `RESEND_API_KEY`
-- `RESEND_NEWSLETTER_SEGMENT_ID`
-- `NEWSLETTER_FROM`, for example `Lesser Tax <news@news.lesser.tax>`
-
-Without them the route answers 503 and the gate lets readers through. Use a
-separate sending subdomain so newsletter complaints do not affect app email.
-Before launch, send one real test and check: a repeat signup for an existing
-contact (the code accepts 409, Resend's actual response is unconfirmed), and
-an unsubscribe route for the welcome email, which today says to reply
-"unsubscribe".
-
-**Going live, in order**
-
-1. Tax team signs off each PDF. Add it to `blog/public/guides/` with the file
-   name in `shared/lead-magnets.ts`. `/blog/guides/*` is served `noindex`.
-2. Add a small batch of post slugs to `GATE_ROLLOUT`. Watch Search Console
-   before adding more. Do not add passport posts.
-3. For each approved tool, its matching PDF must already be live, because the
-   result email links to it. Then remove its `noindex` meta and draft banner, add it to
-   `PUBLISHED_TOOLS` in `blog/scripts/prerender.mjs`, and add a "Free tools" link
-   to `blog/src/components/Footer.tsx`.
-
-**Reading the test**
-
-PostHog events `gate_shown` and `gate_subscribed` carry `offer`, `topic` and
-`arm`. Compare `matched` with `general` inside each topic. Tools send
-`tool_used` and `tool_result_sent`. No figures typed into a tool go to PostHog,
-and session replay is off on those pages.
+**Reading the test:** PostHog events `gate_shown` and `gate_subscribed` carry
+`offer`, `topic` and `arm`. Compare `matched` with `general` inside each topic.
 
 **Previewing the gate:** build with `VITE_GATE_PREVIEW=true`, then open any post
 with `?gate=preview`.

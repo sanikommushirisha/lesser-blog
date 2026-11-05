@@ -1,15 +1,11 @@
-import { createHash } from "crypto";
 import { promises as dns } from "dns";
 import type { Express, Request, Response } from "express";
 import { z } from "zod";
 import { LEAD_MAGNETS, LEAD_MAGNET_IDS } from "@shared/lead-magnets";
-import { TOOL_IDS, buildReport, reportEmail, type ToolAnswers, type ToolId } from "@shared/tool-results";
 
 /**
  * Blog email gate signup: adds the reader to the newsletter list in Resend and
- * emails them what they asked for. /subscribe sends a lead magnet PDF (the gate
- * on articles). /tool-result sends the result of a free web tool, which readers
- * only get by email.
+ * emails them the lead magnet PDF they asked for (the gate on articles).
  *
  * Needs on the server:
  *   RESEND_API_KEY              Resend key that can write contacts and send
@@ -27,87 +23,6 @@ const signupSchema = z.object({
   // The post or tool the signup came from.
   slug: z.string().regex(/^[a-z0-9-]{1,120}$/),
   // Honeypot: hidden from people, filled in by form bots.
-  company: z.string().max(200).optional(),
-});
-
-const amount = z.coerce.number().finite().min(0).max(100_000_000_000);
-const blankZero = (n: z.ZodTypeAny) => z.preprocess((v) => (v === "" || v === undefined ? 0 : v), n);
-const money = blankZero(amount);
-const yesNo = z.enum(["no", "yes"]);
-const filing = z.enum(["S", "MFJ", "MFS", "HOH"]);
-const date = z.string().regex(/^(19|20)\d\d-\d\d-\d\d$/).refine((d) => !Number.isNaN(Date.parse(d)));
-const year = z.coerce.number().int().min(2000).max(2040);
-const optionalYear = blankZero(z.coerce.number().int().min(0).max(2040));
-
-// Only fixed choices, dates and bounded numbers get in. Neither reaches the logs.
-const answerSchemas: Record<ToolId, z.ZodTypeAny> = {
-  "rsu-gap": z.object({
-    filing,
-    lastYearTax: money,
-    lastYearAgi: money,
-    spouseWages: money,
-    spouseWithheld: money,
-    otherIncome: money,
-    estimatedPaid: money,
-    employers: z.array(z.object({ salary: money, bonus: money, withheld: money })).min(1).max(4),
-    vests: z
-      .array(z.object({ employer: blankZero(z.coerce.number().int().min(0).max(3)), quarter: z.enum(["Q1", "Q2", "Q3", "Q4"]), value: money }))
-      .max(24),
-  }),
-  "residency-test": z.object({
-    year,
-    greencard: yesNo,
-    firstStudentYear: optionalYear,
-    firstScholarYear: optionalYear,
-    greenCardSteps: yesNo,
-    foreignTaxHome: yesNo,
-    trips: z
-      .array(z.object({ from: date, to: date, status: z.enum(["worker", "student", "scholar", "dependent"]) }).refine((t) => t.from <= t.to))
-      .max(40),
-  }),
-  "india-money": z.object({
-    usperson: yesNo,
-    transfers: z
-      .array(
-        z.object({
-          date,
-          kind: z.enum(["gift", "inheritance", "loan-documented", "loan-undocumented", "company", "trust"]),
-          donor: z.enum(["family1", "family2", "other1", "other2"]),
-          recipient: z.enum(["me", "spouse", "joint"]),
-          amount,
-          currency: z.enum(["USD", "INR"]),
-          rate: money,
-        }),
-      )
-      .max(40),
-  }),
-  "401k-exit": z.object({
-    balance: amount,
-    age: z.coerce.number().min(18).max(110),
-    left55: yesNo,
-    filing,
-    incomeThisYear: money,
-    incomeNextYear: money,
-    stillResidentNextYear: yesNo,
-    years: z.coerce.number().int().min(1).max(50),
-    growth: z.coerce.number().min(0).max(15),
-  }),
-  "founder-forms": z.object({
-    entity: z.enum(["smllc", "mmllc", "scorp", "ccorp"]),
-    taxYear: year,
-    firstDay: z.union([date, z.literal("")]),
-    revenue: yesNo,
-    ownerMoney: yesNo,
-    employees: yesNo,
-    monthsLate: blankZero(z.coerce.number().int().min(0).max(60)),
-    owners: z.array(z.object({ pct: z.coerce.number().min(0).max(100), status: z.enum(["citizen", "greencard", "visa", "nonresident"]) })).min(1).max(12),
-  }),
-};
-
-const toolResultSchema = z.object({
-  email: z.string().trim().toLowerCase().email().max(254),
-  tool: z.enum(TOOL_IDS),
-  answers: z.record(z.string(), z.unknown()),
   company: z.string().max(200).optional(),
 });
 
@@ -251,32 +166,5 @@ export function registerNewsletterRoutes(app: Express) {
     const magnet = LEAD_MAGNETS[offer];
     const url = `${SITE_URL}/blog/guides/${magnet.file}`;
     await subscribeAndSend(res, email, `post ${slug}`, guideEmail(magnet.title, url), `gate-${offer}-${email}`.slice(0, 256));
-  });
-
-  app.post("/api/newsletter/tool-result", async (req: Request, res: Response) => {
-    const parsed = toolResultSchema.safeParse(req.body);
-    if (!parsed.success) {
-      res.status(400).json({ error: "Enter a valid email address." });
-      return;
-    }
-    const { email, tool, company } = parsed.data;
-    const answers = answerSchemas[tool].safeParse(parsed.data.answers);
-    if (!answers.success) {
-      res.status(400).json({ error: "Check your answers and try again." });
-      return;
-    }
-
-    // Bots get a normal answer and nothing happens.
-    if (company) {
-      res.json({ ok: true });
-      return;
-    }
-
-    if (!(await passesChecks(req, res, email))) return;
-
-    const message = reportEmail(tool, buildReport(tool, answers.data as ToolAnswers[typeof tool], Date.now()));
-    // New answers are a new email, and a double click is not.
-    const key = createHash("sha256").update(JSON.stringify([email, tool, answers.data])).digest("hex");
-    await subscribeAndSend(res, email, `tool ${tool}`, message, `tool-${key}`);
   });
 }
