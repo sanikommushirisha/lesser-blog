@@ -92,9 +92,12 @@ articles, and the tool pages stay `noindex` with a draft banner.
 - Free tools: static pages in `blog/public/tools/`. They show no result on the
   page. `POST /api/newsletter/tool-result` takes the answers and an email, adds
   the reader to the segment, and emails the result with the matching PDF link.
-- Tax rules and result text: `shared/tool-results.ts`. Every figure comes from a
-  published post. It runs only on the server, so the endpoint can never be used
-  to send text of a visitor's choosing.
+- Tax rules and reports: `shared/tool-results.ts`. Rules come from published
+  posts; brackets and standard deductions match the Lesser app
+  (`lib/tax-plan/brackets.ts`). It runs only on the server, so the endpoint can
+  never be used to send text of a visitor's choosing.
+- The apps are multi-step forms driven by `blog/public/tools/tools.js`. Page
+  markup is plain HTML, one `.step` per screen and one `.repeater` per list.
 
 **Privacy:** tool answers such as salary figures are not stored or logged by
 this server, but they appear in the email, so they sit in Resend's email logs
