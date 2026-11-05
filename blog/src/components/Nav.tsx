@@ -94,7 +94,7 @@ export function Nav() {
             alt="Lesser Tax"
             width={237}
             height={103}
-            className="h-[52px] w-auto transition-transform duration-300 hover:scale-[1.02]"
+            className="h-[52px] w-auto"
           />
         </a>
 

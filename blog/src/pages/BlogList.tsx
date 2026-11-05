@@ -54,7 +54,7 @@ export function BlogList() {
   }, [seeded])
 
   return (
-    <main className="mx-auto w-full max-w-[1200px] px-4 pt-10 pb-4 sm:px-6">
+    <main className="mx-auto w-full max-w-7xl px-6 pt-10 pb-4">
       <Helmet>
         <title>{TITLE}</title>
         <meta name="description" content={DESCRIPTION} />
