@@ -13,7 +13,7 @@ export function Footer() {
           <h2 className="text-sm font-semibold text-white!">Quick links</h2>
           <ul className="mt-3 space-y-2 text-sm text-white/60">
             <li><a href="/" className="transition-colors hover:text-white">Home</a></li>
-            <li><a href="/#pricing" className="transition-colors hover:text-white">Pricing</a></li>
+            <li><a href="/pricing" className="transition-colors hover:text-white">Pricing</a></li>
             <li><a href="/blog" className="transition-colors hover:text-white">Blog</a></li>
           </ul>
         </div>

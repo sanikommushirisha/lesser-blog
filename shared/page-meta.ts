@@ -232,6 +232,22 @@ export const PAGE_META: Record<string, PageMeta> = {
       breadcrumbs(["Marketplace", "/marketplace"], ["Passport renewal", "/services/passport-renewal"]),
     ],
   }),
+  "/pricing": page("/pricing", {
+    title: `CPA Tax Filing Pricing and Flat-Fee Plans | ${BRAND}`,
+    description:
+      "Compare Lesser Tax plans: Essential at $99, Premium at $399 and Private Client at $999 a year. Flat-fee CPA tax filing and planning. Choose your plan today.",
+    jsonLd: [
+      service({
+        name: "Flat-fee CPA tax filing and planning",
+        serviceType: "Tax preparation and planning",
+        path: "/pricing",
+        description:
+          "Annual tax filing and planning plans from Lesser Tax CPAs: Essential, Premium and Private Client, each for one flat yearly fee.",
+        price: "99",
+      }),
+      breadcrumbs(["Pricing", "/pricing"]),
+    ],
+  }),
   "/marketplace": page("/marketplace", {
     title: `NRI Services: Passport Renewal and India ITR | ${BRAND}`,
     description:
