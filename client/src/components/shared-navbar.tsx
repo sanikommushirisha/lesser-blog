@@ -79,7 +79,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
 
         <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between gap-4">
           <a href="/" className="flex-shrink-0 group" data-testid="img-nav-logo">
-            <img src={lesserLogo} alt="Lesser Tax" width={237} height={103} className="w-auto h-[52px] transition-transform duration-300 group-hover:scale-[1.02]" />
+            <img src={lesserLogo} alt="Lesser Tax" width={237} height={103} className="w-auto h-[52px]" />
           </a>
 
           <div className="hidden md:flex items-center">

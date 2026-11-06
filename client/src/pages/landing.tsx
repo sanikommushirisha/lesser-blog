@@ -30,10 +30,6 @@ import SharedNavbar from "@/components/shared-navbar";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import { useState, useEffect, useRef, useCallback } from "react";
 import lesserLogo from "@assets/lesser_logo.png";
-import teamDavidImg from "@assets/team_david_clean.webp";
-import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
-import teamJithendraImg from "@assets/team_jithendra_clean.webp";
-import teamRobertImg from "@assets/team_robert_clean.webp";
 import socBadge from "@assets/soc_2_1770525581521.png";
 import irsBadge from "@assets/irs_1770525648550.png";
 import encryptionBadge from "@assets/image_1771470632228.png";
@@ -282,41 +278,6 @@ const modernCpaFeatures = [
     icon: Cpu,
     title: "AI that catches what others miss",
     description: "Our AI platform works alongside your tax team to scan for thousands of potential issues. You get the judgment of world class human expertise with the precision of automation.",
-  },
-];
-
-const teamMembers = [
-  {
-    id: "david",
-    name: "David",
-    credential: "CPA",
-    experience: "8+ years experience",
-    specialty: "Business tax planning & financial reporting",
-    image: teamDavidImg,
-  },
-  {
-    id: "vishwesh",
-    name: "Vishwesh",
-    credential: "CPA",
-    experience: "10+ years experience",
-    specialty: "RSU & equity taxation, complex returns",
-    image: teamVishweshImg,
-  },
-  {
-    id: "jithendra",
-    name: "Jithendra",
-    credential: "Enrolled Agent",
-    experience: "6+ years experience",
-    specialty: "Cross-border tax, FBAR & FATCA",
-    image: teamJithendraImg,
-  },
-  {
-    id: "robert",
-    name: "Robert",
-    credential: "Enrolled Agent",
-    experience: "12+ years experience",
-    specialty: "Tax resolution, wills & trusts",
-    image: teamRobertImg,
   },
 ];
 
@@ -1266,80 +1227,6 @@ function ModernCpaSection() {
   );
 }
 
-function TeamSection() {
-  const { ref, isVisible } = useInView();
-
-  return (
-    <section ref={ref} id="team" className="relative py-20 lg:py-28 bg-white dark:bg-background overflow-hidden" data-testid="section-team">
-      <SectionDecorations variant="alt" />
-      <div className="relative max-w-7xl mx-auto px-6">
-        <div className="text-center mb-14">
-          <h2
-            className={`text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-[-0.03em] text-foreground tracking-tight mb-4 transition-all duration-700 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-6'}`}
-            data-testid="text-team-heading"
-          >
-            Year-round support from{" "}
-            <span className="text-primary">experienced professionals</span>
-          </h2>
-        </div>
-
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 lg:gap-6 max-w-6xl mx-auto">
-          {teamMembers.map((member, index) => {
-            const baseDelay = 200 + index * 120;
-            return (
-              <div
-                key={member.id}
-                className={`group relative rounded-3xl overflow-hidden transition-all duration-700 ease-out hover:-translate-y-1.5 hover:shadow-[0_12px_40px_-8px_rgba(3,79,70,0.12)] hover:border-primary/30 border border-[#e0e8e5] dark:border-border/40 shadow-[0_2px_12px_-2px_rgba(0,0,0,0.06)] flex flex-col ${isVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-10 scale-[0.97]'}`}
-                style={{ transitionDelay: `${baseDelay}ms`, background: 'hsl(171 39% 94%)' }}
-                data-testid={`card-team-${member.id}`}
-              >
-                <div className="absolute top-0 left-0 right-0 h-1 bg-gradient-to-r from-primary via-primary/50 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
-
-                <div className="relative overflow-hidden flex items-end justify-center px-4 mt-6" style={{ height: '150px' }}>
-                  <img
-                    src={member.image}
-                    loading="lazy"
-                    decoding="async"
-                    width={400}
-                    height={400}
-                    alt={member.name}
-                    className="w-32 h-full object-cover object-top group-hover:scale-[1.03] transition-transform duration-700"
-                    style={{ objectPosition: 'center 15%' }}
-                    data-testid={`img-team-${member.id}`}
-                  />
-                </div>
-                <div className="relative mx-3 mb-3 bg-white dark:bg-card rounded-2xl px-5 py-5 shadow-[0_1px_6px_rgba(0,0,0,0.05)] group-hover:shadow-[0_4px_16px_rgba(0,0,0,0.08)] transition-shadow duration-500 flex-1 flex flex-col">
-                  <h3
-                    className={`text-xl lg:text-2xl font-extrabold tracking-[-0.03em] text-foreground leading-tight mb-4 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
-                    style={{ transitionDelay: `${baseDelay + 200}ms` }}
-                    data-testid={`text-team-name-${member.id}`}
-                  >
-                    {member.name}
-                  </h3>
-                  <div className="space-y-2.5 flex-1">
-                    {[member.credential, member.experience, member.specialty].map((detail, i) => (
-                      <div
-                        key={i}
-                        className={`flex items-center gap-2.5 transition-all duration-500 ${isVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-3'}`}
-                        style={{ transitionDelay: `${baseDelay + 300 + i * 80}ms` }}
-                      >
-                        <div className="w-[22px] h-[22px] rounded-full bg-primary flex items-center justify-center flex-shrink-0 group-hover:scale-110 transition-transform duration-300">
-                          <CheckCircle2 className="w-3.5 h-3.5 text-white" />
-                        </div>
-                        <span className="text-sm text-foreground font-medium">{detail}</span>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            );
-          })}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function TestimonialsSection() {
   const { ref, isVisible } = useInView();
 
@@ -1866,12 +1753,11 @@ export default function LandingPage() {
       <QuickAnswer {...QUICK_ANSWERS.home} />
       <TrustedByBanner />
       <ModernCpaSection />
-      <TeamSection />
+      <PricingSection />
       <HowItWorksSection />
       <ComparisonSection />
       <SavingsShowcaseSection />
       <GoogleReviewsSection />
-      <PricingSection />
       <SecuritySection />
       <FAQSection />
       <FaqJsonLd items={faqs} />

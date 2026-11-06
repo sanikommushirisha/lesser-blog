@@ -470,7 +470,7 @@ export function BlogPost() {
       {/* Title header: breadcrumb + date above the title, so the featured image
           directly below is the first thing in the article itself. */}
       <header>
-        <div className="mx-auto max-w-[1600px] px-4 pt-10 sm:px-6 sm:pt-12 lg:px-10">
+        <div className="mx-auto max-w-7xl px-6 pt-10 sm:pt-12">
           <div className="flex flex-wrap items-center justify-between gap-x-6 gap-y-2 text-sm text-muted-foreground">
             <nav aria-label="Breadcrumb">
               <ol className="flex flex-wrap items-center gap-2">
@@ -503,7 +503,7 @@ export function BlogPost() {
       {/* Full-width layout: [On this page | article | Recent blogs] on wide
           screens, [article | Recent blogs] on laptops, one column on phones.
           The article column takes whatever width is left. */}
-      <main className="mx-auto w-full max-w-[1600px] px-4 pt-8 sm:px-6 sm:pt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10 lg:px-10 xl:grid-cols-[200px_minmax(0,1fr)_340px] xl:gap-12">
+      <main className="mx-auto w-full max-w-7xl px-6 pt-8 sm:pt-10 lg:grid lg:grid-cols-[minmax(0,1fr)_320px] lg:gap-10 xl:grid-cols-[200px_minmax(0,1fr)_340px] xl:gap-12">
         {/* Sticky: this column stretches to the article's height, so its content
             can follow the reader down the page. Scrolls itself if the list of
             sections is taller than the screen. */}

@@ -2,7 +2,7 @@ export function Footer() {
   return (
     // Dark footer matching the marketing site's (bg-foreground, white text at reduced opacity).
     <footer className="mt-20 bg-foreground">
-      <div className="mx-auto grid max-w-[1100px] gap-10 px-4 py-12 sm:grid-cols-3 sm:px-6">
+      <div className="mx-auto grid max-w-7xl gap-10 px-6 py-12 sm:grid-cols-3">
         <div>
           <img src={`${import.meta.env.BASE_URL}logo.png`} alt="Lesser Tax" width={237} height={103} className="h-10 w-auto brightness-0 invert" />
           <p className="mt-3 text-sm text-white/60">
@@ -26,7 +26,7 @@ export function Footer() {
         </div>
       </div>
       <div className="border-t border-white/10">
-        <p className="mx-auto max-w-[1100px] px-4 py-5 text-xs text-white/60 sm:px-6">
+        <p className="mx-auto max-w-7xl px-6 py-5 text-xs text-white/60">
           © {new Date().getFullYear()} Lesser. All rights reserved.
         </p>
       </div>
