@@ -125,6 +125,13 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
                 </div>
               ))}
               <a
+                href="/pricing"
+                className="flex items-center px-4 py-1.5 text-sm font-medium text-muted-foreground rounded-full transition-all duration-300 hover:text-foreground hover:bg-white dark:hover:bg-white/10 hover:shadow-sm"
+                data-testid="link-nav-pricing"
+              >
+                Pricing
+              </a>
+              <a
                 href="/marketplace"
                 className="flex items-center px-4 py-1.5 text-sm font-medium text-muted-foreground rounded-full transition-all duration-300 hover:text-foreground hover:bg-white dark:hover:bg-white/10 hover:shadow-sm"
                 data-testid="link-nav-marketplace"
@@ -156,7 +163,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
             <a
               href="https://lesser.tax/app/auth/sign-up"
               onClick={(e) => { createRipple(e); }}
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-primary rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.03] active:scale-[0.98] no-default-hover-elevate relative overflow-hidden"
+              className="hidden sm:inline-flex items-center gap-2 whitespace-nowrap px-5 py-2 text-sm font-semibold text-white bg-primary rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.03] active:scale-[0.98] no-default-hover-elevate relative overflow-hidden"
               data-testid="button-nav-cta"
             >
               <span className="btn-magnetic-text relative z-10 flex items-center gap-1.5">
@@ -221,6 +228,16 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
                   </div>
                 );
               })}
+
+              <a
+                href="/pricing"
+                className="flex items-center gap-3 w-full px-4 py-3 text-sm font-medium text-muted-foreground rounded-xl transition-all duration-300 hover:text-foreground hover:bg-primary/5"
+                data-testid="link-nav-pricing-mobile"
+                onClick={() => setMobileOpen(false)}
+              >
+                <div className="w-1 h-1 rounded-full bg-primary/40" />
+                Pricing
+              </a>
 
               <a
                 href="/marketplace"

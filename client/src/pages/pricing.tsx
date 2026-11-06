@@ -1,203 +1,250 @@
-import { CheckCircle2, FileText, Headphones, UserCheck } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { CheckCircle2, Minus } from "lucide-react";
+import SharedNavbar from "@/components/shared-navbar";
+import SiteFooter from "@/components/site-footer";
+import PlanCards from "@/components/plan-cards";
+import { FaqJsonLd } from "@/components/json-ld";
+import { PLANS, planCta, planSignUpUrl } from "@/lib/plans";
 
-const coreFeatures = [
-  { icon: FileText, label: "Federal & State Filing", id: "federal-state" },
-  { icon: Headphones, label: "24/7 Support", id: "support" },
-  { icon: UserCheck, label: "Expert CPA Review", id: "cpa-review" },
-];
+const INCLUDED_IN_ALL = ["Federal & State Filing", "Expert CPA Review", "Year-Round Advisory"];
 
-const plans = [
+// true = included, false = not included, text = what that plan gets.
+type Cell = boolean | string;
+
+const COMPARISON: { group: string; rows: { label: string; cells: [Cell, Cell, Cell] }[] }[] = [
   {
-    id: "essential",
-    name: "Essential",
-    price: 99,
-    description: "Professionals & students with standard wage & interest income",
-    featured: false,
-    includesLabel: "What's included?",
-    features: [
-      "Tax Savings Plan",
-      "Annual CPA Check-in",
-      "Multi-state Income",
-      "W-2 & Bank Interest",
+    group: "Filing",
+    rows: [
+      { label: "Federal & state filing", cells: [true, true, true] },
+      { label: "W-2 & bank interest", cells: [true, true, true] },
+      { label: "Basic deductions review", cells: [true, true, true] },
+      { label: "Business & rental income", cells: [false, false, true] },
     ],
   },
   {
-    id: "premium",
-    name: "Premium",
-    price: 399,
-    description: "Professionals with stocks, foreign income & complex situations",
-    featured: true,
-    includesLabel: "Everything in Essential, plus:",
-    features: [
-      "Tax Savings Plan Implementation",
-      "Semi-Annual CPA Check-ins",
-      "Stock, Crypto & Capital Gains",
-      "Foreign Income & Tax Credits",
+    group: "Your CPA",
+    rows: [
+      { label: "CPA check-ins", cells: ["Annual", "Semi-annual", "Quarterly strategy calls"] },
+      { label: "Support", cells: ["Standard", "Priority", "Priority"] },
+      { label: "Dedicated account manager", cells: [false, false, true] },
     ],
   },
   {
-    id: "private-client",
-    name: "Private Client",
-    price: 999,
-    description: "Founders, investors & business owners who need proactive strategy",
-    featured: false,
-    includesLabel: "Everything in Premium, plus:",
-    features: [
-      "Quarterly CPA Strategy Sessions",
-      "Entity Structure Optimization",
-      "Estate & Trust Planning",
-      "Dedicated Account Manager",
+    group: "Planning",
+    rows: [
+      { label: "RSU / ISO / NSO planning", cells: [false, true, true] },
+      { label: "Foreign reporting (FBAR / FATCA)", cells: [false, true, true] },
+      { label: "Home mortgage optimization", cells: [false, true, true] },
+      { label: "Trust & estate planning", cells: [false, false, true] },
+      { label: "Advanced tax strategies", cells: [false, false, true] },
     ],
   },
 ];
 
-function FeatureItem({ text, planId, index }: { text: string; planId: string; index: number }) {
-  return (
-    <div
-      className="flex items-center gap-2.5"
-      data-testid={`text-feature-${planId}-${index}`}
-    >
-      <CheckCircle2 className="h-5 w-5 flex-shrink-0 text-primary" />
-      <span className="text-sm text-muted-foreground tracking-tight">{text}</span>
-    </div>
-  );
+const FAQS = [
+  {
+    question: "Which plan is right for me?",
+    answer:
+      "Essential is ideal for W-2 employees with straightforward tax needs. Premium is for tech professionals with equity compensation and complex income. Private Client is for founders, investors and business owners who need proactive strategy.",
+  },
+  {
+    question: "Is there any hourly billing?",
+    answer: "No. Each plan is one flat annual fee, with no hourly billing and no surprise charges.",
+  },
+  {
+    question: "Does every plan include filing?",
+    answer: "Yes. Federal and state filing and expert CPA review are part of every plan.",
+  },
+  {
+    question: "Do I get to talk to a real person?",
+    answer:
+      "Yes! Every client is matched with a dedicated CPA who knows your situation. You'll have direct access via chat, video calls, and email throughout the year.",
+  },
+  {
+    question: "Is my financial data secure?",
+    answer:
+      "Yes. We use bank-level encryption, are SOC 2 compliant, and are an Authorized IRS e-file Provider. Your data is never sold or shared.",
+  },
+];
+
+function ComparisonCell({ value }: { value: Cell }) {
+  if (value === true) {
+    return (
+      <>
+        <CheckCircle2 className="mx-auto h-5 w-5 text-primary" aria-hidden="true" />
+        <span className="sr-only">Included</span>
+      </>
+    );
+  }
+  if (value === false) {
+    return (
+      <>
+        <Minus className="mx-auto h-4 w-4 text-muted-foreground/40" aria-hidden="true" />
+        <span className="sr-only">Not included</span>
+      </>
+    );
+  }
+  return <span className="text-sm font-medium text-foreground">{value}</span>;
 }
 
-function PricingCard({
-  plan,
-}: {
-  plan: (typeof plans)[0];
-}) {
-  const { id, name, price, description, featured, includesLabel, features } = plan;
-
+function ComparisonTable() {
   return (
-    <div
-      className={`relative flex flex-col p-6 gap-4 bg-white dark:bg-card rounded-3xl border ${
-        featured
-          ? "border-primary shadow-[6px_6px_4px_rgba(0,0,0,0.12)]"
-          : "border-[#e0e0e0] dark:border-border"
-      }`}
-      data-testid={`card-plan-${id}`}
-    >
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
-        <div className="flex flex-col gap-1">
-          <h3
-            className={`font-serif text-2xl sm:text-[32px] font-semibold tracking-tight leading-none ${
-              featured ? "text-primary" : "text-foreground"
-            }`}
-            data-testid={`text-plan-name-${id}`}
-          >
-            {name}
-          </h3>
-          <p
-            className="text-sm text-muted-foreground max-w-[234px] leading-snug tracking-tight"
-            data-testid={`text-plan-description-${id}`}
-          >
-            {description}
-          </p>
-        </div>
-        <div className="flex items-baseline gap-2">
-          <span
-            className="text-base text-muted-foreground tracking-tight"
-            data-testid={`text-starts-at-${id}`}
-          >
-            Starts at
-          </span>
-          <span
-            className="font-serif text-[42px] font-semibold tracking-tighter leading-none text-foreground"
-            data-testid={`text-price-${id}`}
-          >
-            ${price}
-            <span className="text-xl">/yr</span>
-          </span>
-        </div>
-      </div>
-
-      <div className="w-full border-t border-dashed border-[#e0e0e0] dark:border-border" />
-
-      <div className="flex flex-col gap-4">
-        <p
-          className="text-sm font-bold uppercase tracking-tight text-foreground"
-          data-testid={`text-includes-label-${id}`}
-        >
-          {includesLabel}
-        </p>
-        <div className="grid grid-cols-1 sm:grid-cols-2 gap-x-8 gap-y-3">
-          {features.map((feature, index) => (
-            <FeatureItem key={feature} text={feature} planId={id} index={index} />
-          ))}
-        </div>
-      </div>
-
-      <Button
-        className="mt-2 w-full sm:w-auto sm:self-end"
-        variant={featured ? "default" : "outline"}
-        data-testid={`button-select-${id}`}
-      >
-        Get Started
-      </Button>
+    <div className="relative overflow-x-auto rounded-2xl border border-gray-200 dark:border-border" data-testid="table-compare-plans">
+      <table className="w-full min-w-[720px] border-collapse text-left">
+        <thead>
+          <tr className="border-b border-gray-200 dark:border-border">
+            <th scope="col" className="w-[34%] p-5 text-sm font-semibold text-muted-foreground">
+              What you get
+            </th>
+            {PLANS.map((plan) => (
+              <th key={plan.id} scope="col" className="w-[22%] p-5 text-center align-top">
+                <span className={`block text-base font-extrabold ${plan.featured ? "text-primary" : "text-foreground"}`}>
+                  {plan.name}
+                </span>
+                <span className="mt-1 block text-sm font-medium text-muted-foreground">
+                  ${plan.price}
+                  {plan.period}
+                </span>
+              </th>
+            ))}
+          </tr>
+        </thead>
+        {COMPARISON.map((section) => (
+          <tbody key={section.group}>
+            <tr className="bg-primary/5">
+              <th scope="colgroup" colSpan={4} className="px-5 py-2.5 text-xs font-bold uppercase tracking-[0.12em] text-primary">
+                {section.group}
+              </th>
+            </tr>
+            {section.rows.map((row) => (
+              <tr key={row.label} className="border-b border-gray-100 dark:border-border">
+                <th scope="row" className="px-5 py-3.5 text-sm font-medium text-foreground">
+                  {row.label}
+                </th>
+                {row.cells.map((cell, i) => (
+                  <td key={PLANS[i].id} className="px-5 py-3.5 text-center">
+                    <ComparisonCell value={cell} />
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        ))}
+        <tfoot>
+          <tr>
+            <td className="p-5" />
+            {PLANS.map((plan) => (
+              <td key={plan.id} className="p-4 text-center align-top">
+                <a
+                  href={planSignUpUrl(plan.id)}
+                  data-plan={plan.id}
+                  data-testid={`button-compare-${plan.id}`}
+                  className={`inline-flex min-h-10 items-center justify-center rounded-full px-4 py-2 text-sm font-semibold transition-colors ${
+                    plan.featured
+                      ? "bg-primary text-white hover:bg-primary/90"
+                      : "border border-primary/30 text-primary hover:bg-primary/5"
+                  }`}
+                >
+                  {planCta(plan)}
+                </a>
+              </td>
+            ))}
+          </tr>
+        </tfoot>
+      </table>
     </div>
   );
 }
 
 export default function PricingPage() {
   return (
-    <div className="min-h-screen bg-background">
-      <div className="max-w-3xl mx-auto px-4 py-12 sm:py-16">
-        <div className="text-center space-y-3 mb-8">
-          <h1
-            className="font-serif text-4xl sm:text-5xl md:text-[56px] font-semibold text-foreground tracking-tighter leading-none"
-            data-testid="text-main-heading"
-          >
-            Flat-Fee Pricing for{" "}
-            <br />
-            Year-Round Strategy
-          </h1>
-          <p
-            className="text-lg sm:text-xl text-muted-foreground tracking-tight"
-            data-testid="text-subheading"
-          >
-            Core Features Included in All Plans
-          </p>
-        </div>
+    <div className="min-h-screen bg-white dark:bg-background">
+      <SharedNavbar variant="individual" sourcePage="/pricing" />
 
-        <div className="flex justify-center mb-10">
-          <div className="inline-flex flex-wrap justify-center items-center gap-6 sm:gap-8 bg-[#FAFAFA] dark:bg-muted/50 rounded-2xl px-6 py-5">
-            {coreFeatures.map((feature, index) => (
-              <div key={feature.id} className="flex items-center gap-3">
-                {index > 0 && (
-                  <div className="hidden sm:block w-px h-7 border-l border-dashed border-[#e0e0e0] dark:border-border" />
-                )}
-                <div
-                  className="flex flex-col items-center gap-2"
-                  data-testid={`text-core-feature-${feature.id}`}
-                >
-                  <feature.icon className="h-6 w-6 text-primary" />
-                  <span className="text-sm font-medium text-muted-foreground text-center tracking-tight max-w-[80px] leading-tight">
-                    {feature.label}
-                  </span>
-                </div>
-              </div>
+      <main className="pt-32 pb-20 lg:pb-28">
+        <div className="mx-auto max-w-7xl px-6">
+          <header className="mx-auto max-w-3xl text-center">
+            <h1
+              className="text-4xl font-extrabold tracking-[-0.03em] text-foreground sm:text-5xl lg:text-6xl"
+              data-testid="text-pricing-title"
+            >
+              Tax filing and planning. <span className="block text-primary">One flat fee.</span>
+            </h1>
+            <p className="mt-5 text-lg text-muted-foreground">
+              Choose the plan that fits your income, from W-2 wages to RSUs, foreign accounts and your own business. No hourly
+              billing. No surprise charges.
+            </p>
+          </header>
+
+          <ul className="mt-8 mb-14 flex flex-wrap justify-center gap-4 text-sm text-muted-foreground">
+            {INCLUDED_IN_ALL.map((item) => (
+              <li key={item} className="flex items-center gap-2 rounded-full border border-primary/10 bg-primary/5 px-4 py-2">
+                <CheckCircle2 className="h-4 w-4 text-primary" aria-hidden="true" />
+                <span className="font-medium">{item}</span>
+              </li>
             ))}
-          </div>
-        </div>
+          </ul>
 
-        <div className="flex flex-col gap-6">
-          {plans.map((plan) => (
-            <PricingCard key={plan.id} plan={plan} />
-          ))}
-        </div>
+          <section aria-labelledby="choose-plan">
+            <h2 id="choose-plan" className="sr-only">
+              Choose your plan
+            </h2>
+            <PlanCards />
+          </section>
 
-        <div className="mt-12 text-center">
-          <p
-            className="text-sm text-muted-foreground tracking-tight"
-            data-testid="text-footer-note"
-          >
-            All plans include federal and state filing, 24/7 support, and expert CPA review.
-          </p>
+          <section className="mt-20" aria-labelledby="compare-plans">
+            <h2 id="compare-plans" className="mb-8 text-center text-3xl font-extrabold tracking-[-0.03em] text-foreground sm:text-4xl">
+              Compare plans
+            </h2>
+            <ComparisonTable />
+          </section>
+
+          <section className="mx-auto mt-20 max-w-3xl" aria-labelledby="pricing-questions">
+            <h2 id="pricing-questions" className="mb-8 text-center text-3xl font-extrabold tracking-[-0.03em] text-foreground sm:text-4xl">
+              Pricing questions
+            </h2>
+            <div className="divide-y divide-border/60">
+              {FAQS.map((faq) => (
+                <div key={faq.question} className="py-5">
+                  <h3 className="text-base font-bold text-foreground">{faq.question}</h3>
+                  <p className="mt-2 text-sm leading-relaxed text-muted-foreground">{faq.answer}</p>
+                </div>
+              ))}
+            </div>
+            <FaqJsonLd items={FAQS} />
+          </section>
+
+          <section className="mx-auto mt-16 max-w-3xl text-center" aria-labelledby="more-services">
+            <h2 id="more-services" className="text-xl font-extrabold tracking-[-0.02em] text-foreground">
+              Looking for something else?
+            </h2>
+            <p className="mt-3 text-sm leading-relaxed text-muted-foreground">
+              We also handle{" "}
+              <a href="/nris" className="font-semibold text-primary hover:underline">
+                U.S. and India tax filing for NRIs
+              </a>
+              ,{" "}
+              <a href="/services/india-tax-filing" className="font-semibold text-primary hover:underline">
+                India tax return filing
+              </a>{" "}
+              and{" "}
+              <a href="/business" className="font-semibold text-primary hover:underline">
+                business tax filing
+              </a>
+              . You can also browse the{" "}
+              <a href="/marketplace" className="font-semibold text-primary hover:underline">
+                Lesser Tax Marketplace
+              </a>{" "}
+              or read our{" "}
+              <a href="/blog" className="font-semibold text-primary hover:underline">
+                tax guides
+              </a>
+              .
+            </p>
+          </section>
         </div>
-      </div>
+      </main>
+
+      <SiteFooter />
     </div>
   );
 }

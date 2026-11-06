@@ -27,6 +27,7 @@ export const ROUTES: { path: string; load: Loader }[] = [
   { path: "/business/realestate", load: () => import("@/pages/re-pricing") },
   { path: "/services/passport-renewal", load: () => import("@/pages/passport-renewal") },
   { path: "/services/india-tax-filing", load: () => import("@/pages/india-tax-filing") },
+  { path: "/pricing", load: () => import("@/pages/pricing") },
   { path: "/marketplace", load: () => import("@/pages/marketplace") },
   { path: "/dashboard", load: () => import("@/pages/dashboard") },
   { path: "/dashboard/investments", load: () => import("@/pages/dashboard-investments") },
