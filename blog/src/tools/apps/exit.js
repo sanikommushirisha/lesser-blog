@@ -4,6 +4,9 @@ import * as Tax from '../../../../shared/tool-results';
 export default function mount() {
   function ans(s) { return { balance: s.balance, age: s.age, left55: s.left55 ? 'yes' : 'no', filing: s.filing, incomeThisYear: s.incomeThisYear, incomeNextYear: s.incomeNextYear, stillResidentNextYear: s.resident, years: s.years || 1, growth: s.growth }; }
   App.mount({
+    /* What the report request sends: the server rebuilds the report from these answers. */
+    tool: '401k-exit',
+    answers: function (s) { return ans(s); },
     defaults: { balance: 0, age: 0, left55: false, filing: 'S', incomeThisYear: 0, resident: 'no', incomeNextYear: 0, years: 15, growth: 6 },
     cta: 'Compare my options', waiting: 'Enter your balance and age to see the cost of cashing out.',
     steps: [

@@ -11,6 +11,9 @@ export default function mount() {
     return s + '</svg><p class="fine">' + year + ' calendar, for a calendar tax year.</p>';
   }
   App.mount({
+    /* What the report request sends: the server rebuilds the report from these answers. */
+    tool: 'founder-forms',
+    answers: function (s) { return ans(s); },
     defaults: { entity: '', taxYear: '2026', firstDay: '', act: [], monthsLate: 0, owners: [{ pct: 100, status: 'citizen' }] },
     cta: 'Build my filing calendar', waiting: 'Choose how your company is taxed to see your next deadline.',
     steps: [

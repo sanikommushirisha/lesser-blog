@@ -56,6 +56,14 @@ export default function mount() {
   }
   var has = function (k) { return function (s) { return s.income.indexOf(k) >= 0; }; }, adj = function (k) { return function (s) { return s.adjust.indexOf(k) >= 0; }; };
   App.mount({
+    /* What the report request sends. The server needs this tool's calculation
+       added to shared/tool-results.ts before it can rebuild the report. */
+    tool: 'tax-estimator',
+    answers: function (s) {
+      var keys = ['filing', 'state', 'kids', 'income', 'adjust', 'wages', 'interest', 'dividends', 'qualified', 'stGain', 'ltGain', 'selfNet', 'rental', 'other', 'hsa', 'ira', 'loan', 'k401', 'fedPaid', 'statePaid'], o = {};
+      keys.forEach(function (k) { o[k] = s[k]; });
+      return o;
+    },
     defaults: { filing: 'S', state: '', kids: 0, income: ['wages'], adjust: [], wages: 0, interest: 0, dividends: 0, qualified: 0, stGain: 0, ltGain: 0, selfNet: 0, rental: 0, other: 0, hsa: 0, ira: 0, loan: 0, k401: 0, fedPaid: 0, statePaid: 0 },
     cta: 'Calculate my 2026 estimate',
     waiting: 'Choose your state to unlock the live preview.',

@@ -1,6 +1,13 @@
 var campaign = '';
 export function setCampaign(name) { campaign = name; }
 
+/* Off while the tools are under review (catalog.ts TOOLS_LIVE): the report shows
+   on screen as a preview and nothing is sent. On: the form asks the server to
+   email the report and subscribe the reader (POST /api/tools/report). */
+var live = false;
+export function setLive(on) { live = !!on; }
+var REPORT_URL = '/api/tools/report';
+
 var PDF_JS = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/3.11.174/';
 /* Loaded on the first upload only, so a visitor who types their numbers never fetches it. */
 function loadPdfJs() {
@@ -117,9 +124,23 @@ export var PLANS = {
   'private-client': { name: 'Private Client', price: '$999', who: 'For founders, investors and business owners who need proactive strategy.', items: ['Everything in Premium', 'Quarterly CPA strategy sessions', 'Entity structure optimization', 'Estate and trust planning', 'Dedicated account manager'] },
 };
 
-/* Sign-up link for a plan. The app saves these tags to the new profile (lesser repo, lib/attribution.ts). */
+/* The visit's attribution cookie, written by the script in blog/index.html (lesser repo, lib/attribution.ts). */
+function attribution() {
+  try {
+    var m = document.cookie.match(/(?:^|; )lsr_attr=([^;]*)/);
+    return m ? JSON.parse(decodeURIComponent(m[1])) : null;
+  } catch (e) { return null; }
+}
+
+/* Sign-up link for a plan. The app saves the latest UTM tags it sees to the new
+   profile, so a visitor who arrived from a tagged link (a Meta ad, an email)
+   keeps those tags and the link carries none. Everyone else gets this tool's
+   tags, so sign-ups can be traced to the tool. */
+var UNTAGGED = ['organic', 'referral', 'social', 'community', 'review'];
 export function planLink(key, place) {
-  return 'https://lesser.tax/app/auth/sign-up?utm_source=free_tool&utm_medium=web_app&utm_campaign=' + campaign + '&utm_content=' + place + '&utm_term=' + key;
+  var base = 'https://lesser.tax/app/auth/sign-up', a = attribution();
+  if (a && a.utm_source && UNTAGGED.indexOf(a.utm_medium) < 0) return base;
+  return base + '?utm_source=free_tool&utm_medium=web_app&utm_campaign=' + campaign + '&utm_content=' + place + '&utm_term=' + key;
 }
 export function planButton(key, place, cls) {
   var p = PLANS[key];
@@ -267,6 +288,36 @@ export var App = {
       nav.appendChild(next); body.appendChild(nav);
     }
 
+    /* Asks the server to email the report and subscribe the reader. The request
+       carries answers only; the server builds the report itself. */
+    function sendReport(form, gate) {
+      var name = form.querySelector('#fn').value.trim(), email = form.querySelector('#em').value.trim();
+      var trap = form.querySelector('.trap').value, err = form.querySelector('.form-error'), btn = form.querySelector('.send');
+      err.hidden = true; btn.disabled = true; btn.textContent = 'Sending...';
+      var fail = function (msg) {
+        err.textContent = msg; err.hidden = false;
+        btn.disabled = false; btn.textContent = 'Email me my free report';
+      };
+      fetch(REPORT_URL, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ tool: cfg.tool, firstName: name, email: email, answers: cfg.answers(s), page: location.pathname, lsr_trap: trap }),
+      }).then(function (res) {
+        if (res.ok) {
+          var done = el('div', 'sent');
+          done.innerHTML = '<span class="mini">Report sent</span><h3>Check your inbox</h3><p>We sent your report to <b></b>. It can take a minute to arrive. If you do not see it, check your Promotions or spam folder.</p>';
+          done.querySelector('b').textContent = email;
+          gate.replaceWith(done);
+          if (window.gtag) window.gtag('event', 'generate_lead', { tool: cfg.tool });
+          return;
+        }
+        return res.json().catch(function () { return {}; }).then(function (body) {
+          /* The server's own message for a typo or too many tries; a plain one for anything else. */
+          fail((res.status === 400 || res.status === 429) && body.error ? body.error : 'We could not send your report just now. Please try again in a few minutes.');
+        });
+      }).catch(function () { fail('We could not reach our server. Check your connection and try again.'); });
+    }
+
     function drawResult() {
       var r = cfg.result(s), wrap = el('div', 'result'), key = cfg.plan(s);
       var head = el('div', '', '<div style="display:flex;justify-content:space-between;gap:10px;align-items:baseline;flex-wrap:wrap"><h2 class="step-title">' + r.title + '</h2><button type="button" class="rm" style="color:var(--green)" id="edit">Edit answers</button></div><p class="step-sub" style="margin-bottom:0">' + r.sub + '</p>');
@@ -290,13 +341,20 @@ export var App = {
       var pc = PLANS[key];
       wrap.appendChild(el('div', 'planrow', '<div><span class="mini">Recommended for you</span><h3>' + pc.name + ' &middot; ' + pc.price + ' a year</h3><p class="fine">' + (cfg.planWhy ? cfg.planWhy(s) : pc.who) + '</p></div>' + planButton(key, 'result', 'btn plan')));
       var gate = el('div', 'gate', '<div class="l"><span class="mini">Free report</span><h3>' + cfg.report.title + '</h3><ul class="incl">' + cfg.report.items.map(function (x) { return '<li>' + x + '</li>'; }).join('') + '</ul></div>');
-      var form = el('form', '', '<label for="fn">First name</label><input id="fn" required autocomplete="given-name"><label for="em">Email</label><input id="em" type="email" required autocomplete="email" placeholder="you@email.com"><button class="send" type="submit">Email me my free report</button><small>You will also get our short weekly tax note. Unsubscribe any time. A Lesser Tax CPA will only contact you if you ask.</small>');
+      var form = el('form', '', '<label for="fn">First name</label><input id="fn" required maxlength="60" autocomplete="given-name"><label for="em">Email</label><input id="em" type="email" required maxlength="254" autocomplete="email" placeholder="you@email.com">'
+        /* Honeypot for form bots: off screen, skipped by keyboard and screen readers, named so autofill leaves it empty. */
+        + '<input class="trap" type="text" name="lsr_trap" tabindex="-1" autocomplete="off" aria-hidden="true">'
+        + '<p class="form-error" role="alert" hidden></p><button class="send" type="submit">Email me my free report</button><small>You will also get our short weekly tax note. Unsubscribe any time. A Lesser Tax CPA will only contact you if you ask.</small>');
       gate.appendChild(form); wrap.appendChild(gate);
       var rep = el('div', 'report'); rep.hidden = true; wrap.appendChild(rep);
       form.addEventListener('submit', function (e) {
         e.preventDefault();
-        rep.innerHTML = '<p class="fine" style="margin-bottom:12px"><strong>Review version:</strong> the reader sees "Check your inbox" and receives this by email, with the matching PDF. Nothing was sent.</p>' + r.full();
-        rep.hidden = false; gate.hidden = true; rep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (!live) {
+          rep.innerHTML = '<p class="fine" style="margin-bottom:12px"><strong>Review version:</strong> the reader sees "Check your inbox" and receives this by email. Nothing was sent.</p>' + r.full();
+          rep.hidden = false; gate.hidden = true; rep.scrollIntoView({ behavior: 'smooth', block: 'start' });
+          return;
+        }
+        sendReport(form, gate);
       });
       if (r.complex) wrap.appendChild(el('div', 'box2', '<h3>' + r.complex[0] + '</h3><p class="fine">' + r.complex[1] + '</p>' + planButton(key, 'result_complex', 'more')));
       wrap.appendChild(el('p', 'fine', r.fine));
