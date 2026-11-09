@@ -1,7 +1,7 @@
 import { CheckCircle2, Minus } from "lucide-react";
 import SharedNavbar from "@/components/shared-navbar";
 import SiteFooter from "@/components/site-footer";
-import PlanCards from "@/components/plan-cards";
+import PlanCards, { FreeAccountNote } from "@/components/plan-cards";
 import { FaqJsonLd } from "@/components/json-ld";
 import { PLANS, planCta, planSignUpUrl } from "@/lib/plans";
 
@@ -97,9 +97,12 @@ function ComparisonTable() {
             </th>
             {PLANS.map((plan) => (
               <th key={plan.id} scope="col" className="w-[22%] p-5 text-center align-top">
-                <span className={`block text-base font-extrabold ${plan.featured ? "text-primary" : "text-foreground"}`}>
+                <a
+                  href={plan.path}
+                  className={`block text-base font-extrabold underline-offset-4 hover:underline ${plan.featured ? "text-primary" : "text-foreground"}`}
+                >
                   {plan.name}
-                </span>
+                </a>
                 <span className="mt-1 block text-sm font-medium text-muted-foreground">
                   ${plan.price}
                   {plan.period}
@@ -189,6 +192,7 @@ export default function PricingPage() {
               Choose your plan
             </h2>
             <PlanCards />
+            <FreeAccountNote className="mt-10" />
           </section>
 
           <section className="mt-20" aria-labelledby="compare-plans">

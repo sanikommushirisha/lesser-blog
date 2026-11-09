@@ -1,6 +1,6 @@
 import { CheckCircle2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
-import { PLANS, planCta, planSignUpUrl } from "@/lib/plans";
+import { FREE_SIGN_UP_URL, PLANS, planCta, planSignUpUrl } from "@/lib/plans";
 
 // The three plan cards, used on the homepage and on /pricing. The homepage
 // passes isVisible for its scroll-in animation; /pricing keeps the default so
@@ -95,10 +95,29 @@ export default function PlanCards({ isVisible = true }: { isVisible?: boolean })
                   <span className="btn-magnetic-text relative z-10">{planCta(plan)}</span>
                 </a>
               </Button>
+              <a
+                href={plan.path}
+                className="mt-4 block text-center text-sm font-medium text-primary underline-offset-4 hover:underline"
+                data-testid={`link-plan-details-${plan.id}`}
+              >
+                See everything in {plan.name}
+              </a>
             </div>
           </div>
         );
       })}
     </div>
+  );
+}
+
+/** The free account stays available next to the paid plans. */
+export function FreeAccountNote({ className = "" }: { className?: string }) {
+  return (
+    <p className={`text-center text-sm text-muted-foreground ${className}`}>
+      Not ready to choose a plan?{" "}
+      <a href={FREE_SIGN_UP_URL} className="font-semibold text-primary underline-offset-4 hover:underline" data-testid="link-free-account">
+        Create a free account
+      </a>
+    </p>
   );
 }

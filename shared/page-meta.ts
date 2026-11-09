@@ -248,6 +248,54 @@ export const PAGE_META: Record<string, PageMeta> = {
       breadcrumbs(["Pricing", "/pricing"]),
     ],
   }),
+  "/pricing/essential": page("/pricing/essential", {
+    title: `Essential Tax Plan: CPA Filing for $99 a Year | ${BRAND}`,
+    description:
+      "Essential plan from Lesser Tax: CPA federal and state filing, an annual CPA check-in and a deductions review for W-2 employees. $99 a year, no hourly billing.",
+    jsonLd: [
+      service({
+        name: "Essential tax filing plan",
+        serviceType: "Tax preparation and planning",
+        path: "/pricing/essential",
+        description:
+          "CPA federal and state tax filing for W-2 employees with an annual CPA check-in, for one flat yearly fee.",
+        price: "99",
+      }),
+      breadcrumbs(["Pricing", "/pricing"], ["Essential", "/pricing/essential"]),
+    ],
+  }),
+  "/pricing/premium": page("/pricing/premium", {
+    title: `Premium Tax Plan for RSUs and Equity, $399/yr | ${BRAND}`,
+    description:
+      "Premium plan from Lesser Tax: RSU, ISO and NSO planning, FBAR and FATCA reporting and semi-annual CPA check-ins for tech professionals. $399 a year, flat fee.",
+    jsonLd: [
+      service({
+        name: "Premium tax filing and planning plan",
+        serviceType: "Tax preparation and planning",
+        path: "/pricing/premium",
+        description:
+          "CPA tax filing and planning for tech professionals with equity compensation, foreign reporting and semi-annual CPA check-ins, for one flat yearly fee.",
+        price: "399",
+      }),
+      breadcrumbs(["Pricing", "/pricing"], ["Premium", "/pricing/premium"]),
+    ],
+  }),
+  "/pricing/private-client": page("/pricing/private-client", {
+    title: `Private Client Tax Plan for Founders, $999/yr | ${BRAND}`,
+    description:
+      "Private Client plan from Lesser Tax: quarterly CPA strategy calls, business and rental income, trust and estate planning and an account manager. $999 a year.",
+    jsonLd: [
+      service({
+        name: "Private Client tax strategy plan",
+        serviceType: "Tax preparation and planning",
+        path: "/pricing/private-client",
+        description:
+          "Proactive CPA tax strategy for founders, investors and business owners with quarterly strategy calls, for one flat yearly fee.",
+        price: "999",
+      }),
+      breadcrumbs(["Pricing", "/pricing"], ["Private Client", "/pricing/private-client"]),
+    ],
+  }),
   "/marketplace": page("/marketplace", {
     title: `NRI Services: Passport Renewal and India ITR | ${BRAND}`,
     description:

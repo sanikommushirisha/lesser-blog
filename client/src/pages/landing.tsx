@@ -28,7 +28,7 @@ import {
 import { Button } from "@/components/ui/button";
 import SharedNavbar from "@/components/shared-navbar";
 import SiteFooter from "@/components/site-footer";
-import PlanCards from "@/components/plan-cards";
+import PlanCards, { FreeAccountNote } from "@/components/plan-cards";
 import GoogleReviewsSection from "@/components/google-reviews-section";
 import { useState, useEffect, useRef, useCallback } from "react";
 import lesserLogo from "@assets/lesser_logo.png";
@@ -1303,6 +1303,7 @@ function PricingSection() {
             <ArrowRight className="w-4 h-4" />
           </a>
         </p>
+        <FreeAccountNote className="mt-3" />
       </div>
     </section>
   );
