@@ -153,11 +153,11 @@ body { padding-bottom: 84px; }
   .cta::after { content: ""; position: absolute; inset: 0; pointer-events: none; background: linear-gradient(105deg, transparent 38%, rgba(255,255,255,.38) 50%, transparent 62%); transform: translateX(-130%); animation: wb-fx-shine 3.4s var(--wb-ease) infinite; }
 
   /* Scroll reveals: start dimmed and lower, settle once */
-  .fx [data-rv] { opacity: .12; transform: translateY(32px); transition: opacity .8s var(--wb-ease), transform .8s var(--wb-ease); transition-delay: var(--d, 0ms); }
+  .fx [data-rv] { opacity: .01; transform: translateY(18px); transition: opacity .4s var(--wb-ease), transform .45s var(--wb-ease); transition-delay: var(--d, 0ms); }
   .fx [data-rv].in { opacity: 1; transform: none; }
 
   /* Statement headings light up one word at a time */
-  .fx [data-words] .w { opacity: .26; transition: opacity .6s var(--wb-ease); }
+  .fx [data-words] .w { opacity: .26; transition: opacity .3s var(--wb-ease); }
   .fx [data-words] .w.on { opacity: 1; }
 
   .fx .ticker .track { flex-wrap: nowrap; justify-content: flex-start; width: max-content; padding-inline: 0; gap: 0; animation: wb-fx-marquee 32s linear infinite; }
@@ -216,10 +216,10 @@ h2.big[data-words] { font-size: clamp(32px, 5.2vw, 60px); line-height: 1.04; max
   .hero .people { animation: wb-rise .7s var(--wb-ease) .24s both; }
   .cd b.flip { animation: wb-cd-tick .45s var(--wb-ease); }
   .fx [data-rv] .vbar i { transform: scaleX(0); }
-  .fx [data-rv].in .vbar i { transform: scaleX(1); transition: transform 1.3s var(--wb-ease) .25s; }
-  .fx [data-rv].in .vbar.to i { transition-delay: .55s; }
+  .fx [data-rv].in .vbar i { transform: scaleX(1); transition: transform .7s var(--wb-ease) .08s; }
+  .fx [data-rv].in .vbar.to i { transition-delay: .2s; }
   .fx [data-rv] .bubble { transform: scale(.6); transform-origin: 0 100%; opacity: .01; }
-  .fx [data-rv].in .bubble { transform: none; opacity: 1; transition: transform .6s var(--wb-ease) .5s, opacity .4s var(--wb-ease) .5s; }
+  .fx [data-rv].in .bubble { transform: none; opacity: 1; transition: transform .35s var(--wb-ease) .15s, opacity .25s var(--wb-ease) .15s; }
 }
 @keyframes wb-cd-tick { from { transform: translateY(-55%); opacity: .01; } to { transform: none; opacity: 1; } }
 
@@ -309,3 +309,6 @@ a.cta.luma-btn { display: flex; align-items: center; justify-content: center; te
 @media (min-width: 901px) and (max-height: 680px) {
   .hero .pain { display: none; }
 }
+
+/* A fast scroll: reveals become a quick fade with no stagger, so nothing lags behind the scrolling */
+.wbn.wb-fast [data-rv], .wbn.wb-fast [data-rv] .vbar i, .wbn.wb-fast [data-rv] .bubble, .wbn.wb-fast [data-words] .w { transition-duration: .12s !important; transition-delay: 0s !important; }

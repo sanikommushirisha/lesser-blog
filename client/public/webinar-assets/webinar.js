@@ -36,7 +36,7 @@ window.FX = (function () {
       $(sel).forEach(function (el) {
         var i = Array.prototype.indexOf.call(el.parentNode.children, el);
         el.setAttribute("data-rv", "");
-        el.style.setProperty("--d", Math.min(i, 5) * 90 + "ms");
+        el.style.setProperty("--d", Math.min(i, 3) * 40 + "ms");
       });
     });
   }
@@ -63,23 +63,41 @@ window.FX = (function () {
 
     if (on) {
       doc.classList.add("fx");
+      function show(el) {
+        if (el._shown) return; el._shown = 1; io.unobserve(el); el.classList.add("in"); fire(el);
+        setTimeout(function () { el.removeAttribute("data-rv"); el.classList.remove("in"); el.style.removeProperty("--d"); }, 900);
+      }
       var io = new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          var el = e.target; io.unobserve(el); el.classList.add("in"); fire(el);
-          setTimeout(function () { el.removeAttribute("data-rv"); el.classList.remove("in"); el.style.removeProperty("--d"); }, 1700);
-        });
-      }, { rootMargin: "0px 0px -8% 0px", threshold: 0.12 });
+        es.forEach(function (e) { if (e.isIntersecting) show(e.target); });
+      }, { rootMargin: "0px 0px 18% 0px", threshold: 0 });
       $("[data-rv]").forEach(function (el) { io.observe(el); });
 
+      function lightWords(h) {
+        if (h._lit) return; h._lit = 1; wio.unobserve(h);
+        $(".w", h).forEach(function (w, i) { setTimeout(function () { w.classList.add("on"); }, i * 35); });
+      }
       var wio = new IntersectionObserver(function (es) {
-        es.forEach(function (e) {
-          if (!e.isIntersecting) return;
-          wio.unobserve(e.target);
-          $(".w", e.target).forEach(function (w, i) { setTimeout(function () { w.classList.add("on"); }, 120 + i * 85); });
-        });
-      }, { rootMargin: "0px 0px -18% 0px", threshold: 0.6 });
+        es.forEach(function (e) { if (e.isIntersecting) lightWords(e.target); });
+      }, { rootMargin: "0px 0px 10% 0px", threshold: 0 });
       $("[data-words]").forEach(function (h) { splitWords(h); wio.observe(h); });
+
+      /* Reveal speed follows the scroll. A fast flick drops the animation to a quick fade (class wb-fast),
+         and when scrolling settles, anything already passed or on screen is shown at once. */
+      var root = document.querySelector(".wbn"), lastY = window.scrollY, lastT = performance.now(), fastTimer = null, settleTimer = null;
+      window.addEventListener("scroll", function () {
+        var now = performance.now(), dy = Math.abs(window.scrollY - lastY), dt = Math.max(1, now - lastT);
+        lastY = window.scrollY; lastT = now;
+        if (root && dy / dt > 1.2) {
+          root.classList.add("wb-fast");
+          clearTimeout(fastTimer); fastTimer = setTimeout(function () { root.classList.remove("wb-fast"); }, 350);
+        }
+        clearTimeout(settleTimer);
+        settleTimer = setTimeout(function () {
+          var limit = window.innerHeight * 1.18;
+          $("[data-rv]").forEach(function (el) { if (el.getBoundingClientRect().top < limit) show(el); });
+          $("[data-words]").forEach(function (h) { if (h.getBoundingClientRect().top < limit) lightWords(h); });
+        }, 90);
+      }, { passive: true });
 
       $(".ticker .track").forEach(function (t) {
         var kids = Array.prototype.slice.call(t.children);
@@ -207,21 +225,50 @@ window.FX = (function () {
   FX.init();
 })();
 
-/* The highlighted Register button opens the Luma registration page in a new tab.
-   An ad visitor's utm_* tags are passed on so Luma sees which ad brought the registration. */
+/* Tracking: the visitor's ad tags go into Luma, and a finished registration is reported to Meta.
+   - Tags come from the page address (utm_*, fbclid, gclid) and, for a returning visitor, the lsr_attr cookie
+     the site keeps for 90 days. They are added to the Luma form's address and to the Register button's link,
+     so Luma shows which ad brought each registration.
+   - When the Luma form finishes a registration it posts {type: "luma:purchase"} to this page; that is the
+     moment we send Meta's CompleteRegistration (and a GA event). */
 (function () {
-  var b = document.querySelector(".reg-cta");
-  if (!b) return;
-  function withTags() {
-    var u = new URL("https://luma.com/5c2cffuo"), q = new URLSearchParams(location.search), any = false;
-    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) {
-      var v = q.get(k); if (v) { u.searchParams.set(k, v.slice(0, 100)); any = true; }
-    });
-    if (!any) { u.searchParams.set("utm_source", "website"); u.searchParams.set("utm_medium", "webinar_page"); u.searchParams.set("utm_campaign", "15x_webinar_nov15"); }
-    b.href = u.toString();
+  var LUMA_PAGE = "https://luma.com/5c2cffuo";
+  var KEYS = ["utm_source", "utm_medium", "utm_campaign", "utm_term", "utm_content", "fbclid", "gclid"];
+  function stored() {
+    try { var m = document.cookie.match(/(?:^|; )lsr_attr=([^;]*)/); return m ? JSON.parse(decodeURIComponent(m[1])) : {}; } catch (e) { return {}; }
   }
-  withTags();
-  b.addEventListener("click", withTags);
+  function tags() {
+    var q = new URLSearchParams(location.search), c = stored(), out = {};
+    KEYS.forEach(function (k) { var v = q.get(k) || c[k]; if (v) out[k] = String(v).slice(0, 120); });
+    return out;
+  }
+  var t = tags(), has = Object.keys(t).length > 0;
+
+  var frame = document.querySelector("iframe.luma");
+  if (frame && has) {
+    var u = new URL(frame.getAttribute("src"));
+    Object.keys(t).forEach(function (k) { u.searchParams.set(k, t[k]); });
+    frame.src = u.toString();
+  }
+
+  var b = document.querySelector(".reg-cta");
+  if (b) {
+    var link = new URL(LUMA_PAGE);
+    if (has) Object.keys(t).forEach(function (k) { link.searchParams.set(k, t[k]); });
+    else { link.searchParams.set("utm_source", "website"); link.searchParams.set("utm_medium", "webinar_page"); link.searchParams.set("utm_campaign", "15x_webinar_nov15"); }
+    b.href = link.toString();
+  }
+
+  var sent = false;
+  window.addEventListener("message", function (e) {
+    if (sent || !frame || e.source !== frame.contentWindow || !/^https:\/\/([a-z0-9-]+\.)*luma\.com$/.test(e.origin)) return;
+    var d = e.data;
+    if (!d || d.type !== "luma:purchase") return;
+    sent = true;
+    var id = "reg-" + (d.transaction_id || d.event_api_id || Date.now());
+    if (window.fbq) window.fbq("track", "CompleteRegistration", { content_name: "The 15x You Missed", value: 0, currency: "USD" }, { eventID: id });
+    if (window.gtag) window.gtag("event", "webinar_registration", { webinar: "15x_you_missed" });
+  });
 })();
 
 (function () {
