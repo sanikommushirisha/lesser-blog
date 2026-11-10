@@ -11,15 +11,10 @@
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath, pathToFileURL } from 'node:url'
+import { SITE_URL, createBuildPage, sitemapUrls, sitemapXml } from './lib/pages.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
 const dist = path.join(root, 'dist')
-// The blog is served under lesser.tax/blog, not on its own subdomain. Routes
-// below stay basename-relative ("/", "/<slug>") â€” they are written into dist/,
-// which the server mounts at /blog â€” so only the public URLs carry the prefix.
-const SITE_URL = 'https://lesser.tax/blog'
-const url = (route) => `${SITE_URL}${route === '/' ? '' : route}`
-
 // pathToFileURL, not a bare path: dynamic import() of a Windows absolute path
 // ("C:\...") is rejected as an unsupported URL scheme, so local builds on
 // Windows would fail here even though CI on Linux is fine.
@@ -29,33 +24,12 @@ const { render, fetchPosts, fetchPost, fetchMorePosts } = await import(entryServ
 
 const template = fs.readFileSync(path.join(dist, 'index.html'), 'utf8')
 
-// React 19 renders <title>, <meta> and <link> elements found anywhere in the
-// tree as "hoistables": renderToString emits them first, at the start of the
-// app's markup, and the browser moves them into <head> only once JavaScript
-// runs. Crawlers read the raw HTML, where a description or canonical inside
-// <body> is ignored. So the leading run of hoistables goes into <head> here.
-// (React does not hydrate hoistables in place, so moving them is safe.)
-const HOISTABLES = /^(?:<title>[^<]*<\/title>|<meta\b[^>]*\/?>|<link\b[^>]*\/?>)+/
+// dist/index.html is overwritten with the rendered list page below, so keep the
+// pristine shell next to the server bundle. scripts/revalidate.mjs (the on-publish
+// refresh) renders pages from it without needing a full build.
+fs.writeFileSync(path.join(root, 'dist-server', 'template.html'), template)
 
-function buildPage(route, data) {
-  const rendered = render(route, data)
-  const hoisted = rendered.html.match(HOISTABLES)?.[0] ?? ''
-  const html = rendered.html.slice(hoisted.length)
-  const head = [rendered.head, hoisted.replace(/></g, '>\n    <')].filter(Boolean).join('\n    ')
-  // JSON-encode initial data safely for an inline <script> (no </script> breakout)
-  const json = JSON.stringify(data).replace(/</g, '\\u003c')
-  return (
-    template
-      // Helmet supplies title/description per page; drop the static fallbacks
-      .replace(/<title>[\s\S]*?<\/title>\n?/, '')
-      .replace(/<meta\s+name="description"[\s\S]*?\/>\n?/, '')
-      .replace('</head>', `    ${head}\n  </head>`)
-      .replace(
-        '<div id="root"></div>',
-        `<div id="root">${html}</div>\n    <script>window.__INITIAL_DATA__=${json}</script>`
-      )
-  )
-}
+const buildPage = createBuildPage({ template, render })
 
 const posts = await fetchPosts()
 if (!posts?.length) {
@@ -106,21 +80,8 @@ for (const slug of Object.keys(RENEWAL_VIDEOS)) {
 console.log(`prerendered ${Object.keys(RENEWAL_VIDEOS).length} /r/ share pages (noindex, not in sitemap)`)
 
 // sitemap.xml
-const urls = [
-  { loc: url('/'), lastmod: posts[0]?._updatedAt || posts[0]?.publishedAt },
-  ...posts.map((p) => ({ loc: `${SITE_URL}/${p.slug}`, lastmod: p._updatedAt || p.publishedAt })),
-  ...VIDEOS.map((v) => ({ loc: `${SITE_URL}/videos/${v.slug}`, lastmod: v.uploadDate })),
-]
-const sitemap = [
-  '<?xml version="1.0" encoding="UTF-8"?>',
-  '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">',
-  ...urls.map(
-    (u) =>
-      `  <url><loc>${u.loc}</loc>${u.lastmod ? `<lastmod>${u.lastmod.slice(0, 10)}</lastmod>` : ''}</url>`
-  ),
-  '</urlset>',
-  '',
-].join('\n')
+const urls = sitemapUrls({ posts, videos: VIDEOS })
+const sitemap = sitemapXml(urls)
 fs.writeFileSync(path.join(dist, 'sitemap.xml'), sitemap)
 console.log(`wrote sitemap.xml (${urls.length} urls)`)
 

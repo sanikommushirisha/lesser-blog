@@ -28,12 +28,54 @@ Browsers hydrate the same HTML into the interactive app.
   (requires the Vercel GitHub App to have access to this repo; branches get
   preview deployments). Manual fallback: `npx vercel --prod` from a checkout
   (CLI auth: the `lessertax` Vercel account).
-- **Content changes:** publishing/editing a post in Studio needs a REBUILD to
-  reach crawlers (prerendered HTML is baked at build time). A Sanity webhook
-  on post publish should hit a Vercel Deploy Hook (Vercel project → Settings →
-  Git → Deploy Hooks; paste the URL into sanity.io/manage → project → API →
-  Webhooks, filter `_type == "post"`). Until that webhook exists, trigger a
-  redeploy manually after publishing.
+- **Content changes:** the prerendered HTML is baked at build time, so a Sanity
+  publish alone changes nothing on the site. A Sanity webhook refreshes the
+  affected post, the blog list and the sitemaps in seconds with no CI run or
+  build, see "Sanity publish webhook" below. A full redeploy rebuilds everything.
+
+## Sanity publish webhook
+
+```
+Sanity  --POST-->  https://lesser.tax/api/webhooks/sanity   (Lesser app, port 3002)
+                     verifies the signature, then runs on the same server:
+                   node blog/scripts/revalidate.mjs --slug=<slug> [--previous=<old>]
+                     re-renders that post, the list page and sitemap.xml into blog/dist
+```
+
+The receiver lives in the `lesser` repo (`app/api/webhooks/sanity/route.ts`,
+`lib/sanity/webhook.ts`); the renderer is here (`blog/scripts/revalidate.mjs`,
+sharing `blog/scripts/lib/pages.mjs` with the full build, so the output is
+identical). nginx already sends `/api/*` to the Lesser app.
+
+**Server env (Lesser app, `.env.local` on the box):** `SANITY_WEBHOOK_SECRET`
+(any long random string; the same value goes in Sanity) and `BLOG_ROOT` (absolute
+path of this repo's `blog/` folder on the server). Restart the Lesser app's
+process with `--update-env`.
+
+**Sanity webhook** (manage.sanity.io, project `1mxaoto5`, API, Webhooks):
+
+- URL: `https://lesser.tax/api/webhooks/sanity`
+- Dataset: `production`. Trigger on: Create, Update, Delete.
+- Filter: `_type == "post"`
+- Projection: `{"type": _type, "slug": coalesce(slug.current, before().slug.current), "previousSlug": before().slug.current}`
+- HTTP method: POST. Secret: the `SANITY_WEBHOOK_SECRET` value.
+- Drafts: off (only published changes should refresh the site).
+
+**Good to know**
+
+- Needs a normal build on the server (`dist/` and `dist-server/`).
+  `dist-server/template.html` is the pristine page shell the script renders into.
+- Only the changed post, the list and the sitemaps are refreshed. The "more
+  posts" strip on OTHER posts catches up on the next full deploy.
+- Unpublish or delete removes the post's static page (it then 404s). A renamed
+  slug removes the old page (uses `previousSlug`).
+- If Sanity returns zero posts the script leaves the site untouched.
+- Check delivery in Sanity (webhook, Attempts: expect 200). Server logs carry
+  `[SANITY_WEBHOOK]` lines.
+- By hand: `cd $BLOG_ROOT && node scripts/revalidate.mjs --slug=<slug>` (or
+  `--all` for just the list and sitemaps).
+- Search engines are not pinged by this refresh; the next full build submits to
+  Bing/IndexNow as before.
 
 ## Build pipeline (vercel.json at repo root)
 
