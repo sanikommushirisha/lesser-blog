@@ -4,6 +4,9 @@ import * as Tax from '../../../../shared/tool-results';
 export default function mount() {
   function ans(s) { return { usperson: s.usperson, transfers: s.transfers.filter(function (t) { return t.date && t.amount > 0; }).map(function (t) { return { date: t.date, kind: t.kind, donor: t.donor, recipient: t.recipient, amount: t.amount, currency: t.currency, rate: t.currency === 'INR' ? t.rate : 0 }; }) }; }
   App.mount({
+    /* What the report request sends: the server rebuilds the report from these answers. */
+    tool: 'india-money',
+    answers: function (s) { return ans(s); },
     defaults: { usperson: 'yes', transfers: [{ date: '', kind: 'gift', donor: 'family1', recipient: 'me', currency: 'USD', amount: 0, rate: 86 }] },
     cta: 'See my Form 3520 report', waiting: 'Add a transfer to see your total against the $100,000 line.',
     steps: [

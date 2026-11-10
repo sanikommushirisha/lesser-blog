@@ -27,6 +27,7 @@ function useToolApp(tool: Tool | undefined) {
       .then(([app, engine]) => {
         if (stale) return
         engine.setCampaign(tool.campaign)
+        engine.setLive(TOOLS_LIVE)
         app.default()
       })
       .catch(() => {

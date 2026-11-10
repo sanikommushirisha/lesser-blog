@@ -16,6 +16,9 @@ export default function mount() {
     return { filing: s.filing, lastYearTax: s.lastYearTax, lastYearAgi: s.lastYearAgi, spouseWages: s.filing === 'MFJ' ? s.spouseWages : 0, spouseWithheld: s.filing === 'MFJ' ? s.spouseWithheld : 0, otherIncome: s.otherIncome, estimatedPaid: s.estimatedPaid, employers: s.employers, vests: s.vests.map(function (v, i) { return { employer: Number(v.employer) < s.employers.length ? Number(v.employer) : 0, quarter: v.quarter, value: v.value * (i === 0 ? 1 : 1 + (move || 0) / 100) }; }) };
   }
   App.mount({
+    /* What the report request sends: the server rebuilds the report from these answers. */
+    tool: 'rsu-gap',
+    answers: function (s) { return ans(s); },
     defaults: { filing: 'S', lastYearTax: 0, lastYearAgi: 0, spouseWages: 0, spouseWithheld: 0, otherIncome: 0, estimatedPaid: 0, employers: [{ salary: 0, bonus: 0, withheld: 0 }], vests: [{ employer: '0', quarter: 'Q1', value: 0 }] },
     cta: 'See my RSU plan',
     onChange: function (s) { /* Vests entered after a W-2 upload come out of that W-2's totals. */

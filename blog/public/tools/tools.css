@@ -130,6 +130,13 @@
 .tool-app .gate label { font-size: 13px; font-weight: 700; }
 .tool-app .gate .send { height: 46px; border: 0; border-radius: 99px; background: #f6efd9; color: var(--green); font: 800 15px var(--sans); cursor: pointer; }
 .tool-app .gate small { color: #cfe2da; font-size: 12.5px; }
+.tool-app .gate .trap { position: absolute; left: -9999px; width: 1px; height: 1px; opacity: 0; }
+.tool-app .gate .form-error { margin: 0; background: #fff3ee; color: var(--red); border-radius: 10px; padding: 9px 12px; font-size: 13.5px; font-weight: 600; }
+.tool-app .gate .send:disabled { opacity: .7; cursor: progress; }
+.tool-app .sent { border-radius: 16px; background: var(--green); color: #fff; padding: 22px 24px; }
+.tool-app .sent .mini { color: #a9d6c6; }
+.tool-app .sent h3 { font-size: 21px; font-weight: 800; margin: 4px 0 6px; color: #fff; }
+.tool-app .sent p { margin: 0; color: #e3efe9; }
 .tool-app .report { border: 1px dashed #b9c4bb; border-radius: 14px; padding: 18px; overflow-x: auto; background: #fff; }
 .tool-app .fine { font-size: 13px; color: var(--muted); margin: 0; }
 .tool-app .tablewrap { overflow-x: auto; }

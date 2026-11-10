@@ -5,6 +5,9 @@ export default function mount() {
   function ans(s) { return { year: Number(s.year), greencard: s.greencard, firstStudentYear: Number(s.firstStudentYear) || 0, firstScholarYear: Number(s.firstScholarYear) || 0, greenCardSteps: s.steps2 ? 'yes' : 'no', foreignTaxHome: s.home ? 'yes' : 'no', trips: s.trips.filter(function (t) { return t.from && t.to && t.from <= t.to; }) }; }
   var STAT = [['worker', 'H-1B, L-1, O-1, H-4 or other'], ['student', 'F, M, or J/Q student'], ['scholar', 'J or Q teacher or researcher'], ['dependent', 'F-2 or J-2 dependent']];
   App.mount({
+    /* What the report request sends: the server rebuilds the report from these answers. */
+    tool: 'residency-test',
+    answers: function (s) { return ans(s); },
     defaults: { year: '2026', greencard: 'no', home: false, steps2: false, firstStudentYear: 0, firstScholarYear: 0, trips: [{ from: '', to: '', status: 'worker' }] },
     cta: 'See my residency report', waiting: 'Add a stay to see your day count.',
     steps: [
