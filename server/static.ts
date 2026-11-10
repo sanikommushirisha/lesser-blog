@@ -89,7 +89,8 @@ function staticOptions(): Parameters<typeof express.static>[1] {
     index: false,
     redirect: false,
     setHeaders(res, filePath) {
-      if (/[\\/]assets[\\/]/.test(filePath)) {
+      if (/[\\/]assets[\\/]/.test(filePath) || /[\\/]webinar-assets[\\/].*-[0-9a-f]{8}(-\d+)?\.(webp|jpg)$/.test(filePath)) {
+        // Hashed bundles, and webinar images whose file names carry a content hash: never change under that name.
         res.setHeader("Cache-Control", "public, max-age=31536000, immutable");
       } else if (filePath.endsWith(".html")) {
         res.setHeader("Cache-Control", "no-cache");

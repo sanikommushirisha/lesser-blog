@@ -17,7 +17,11 @@ export interface WebinarEntry {
   /** Where the card goes. */
   href: string;
   external?: boolean;
-  /** Card image (public/), shown cropped to the top 3:2, so keep the headline and speakers in the upper two thirds. */
+  /**
+   * Card image, without extension: the card loads `<image>-400.webp` and `<image>-800.webp`
+   * (3:2, sized for the card) with `<image>.jpg` as the fallback. Made from the event artwork
+   * cropped to its top 3:2; the file name carries a content hash, so it is cached for a year.
+   */
   image: string;
 }
 
@@ -31,7 +35,7 @@ export const WEBINARS: WebinarEntry[] = [
     endsAt: "2026-11-15T19:00:00Z",
     speakers: ["Subbu Ramasubramanian", "Abishek Surendran"],
     href: "/webinars/how-to-invest-startups-before-going-public",
-    image: "/webinar-assets/how-to-invest-startups.jpg",
+    image: "/webinar-assets/how-to-invest-startups-55982630",
   },
   {
     slug: "long-term-strategy-retirement-income-estate-planning",
@@ -44,7 +48,7 @@ export const WEBINARS: WebinarEntry[] = [
     speakers: ["Suvashis Nandy", "Parineet Sehgal"],
     href: "https://luma.com/ti65u0oq",
     external: true,
-    image: "/webinar-assets/retirement-income-estate-planning.jpg",
+    image: "/webinar-assets/retirement-income-estate-planning-6cc9e611",
   },
 ];
 

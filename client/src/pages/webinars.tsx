@@ -8,7 +8,7 @@ function initials(name: string) {
   return name.split(/\s+/).map((w) => w.charAt(0)).slice(0, 2).join("");
 }
 
-function WebinarCard({ w, label }: { w: WebinarEntry; label: "Upcoming" | "Past" }) {
+function WebinarCard({ w, label, first = false }: { w: WebinarEntry; label: "Upcoming" | "Past"; first?: boolean }) {
   return (
     <li className="group">
       <a
@@ -18,14 +18,24 @@ function WebinarCard({ w, label }: { w: WebinarEntry; label: "Upcoming" | "Past"
         data-testid={`card-webinar-${w.slug}`}
       >
         <div className="relative overflow-hidden rounded-2xl">
-          <img
-            src={w.image}
-            alt={w.title}
-            width={600}
-            height={400}
-            loading="lazy"
-            className="aspect-[3/2] w-full object-cover object-top transition-transform duration-300 ease-out group-hover:scale-[1.03]"
-          />
+          <picture>
+            <source
+              type="image/webp"
+              srcSet={`${w.image}-400.webp 400w, ${w.image}-800.webp 800w`}
+              sizes="(min-width: 1024px) 389px, (min-width: 640px) 46vw, 92vw"
+            />
+            <img
+              src={`${w.image}.jpg`}
+              alt={w.title}
+              width={800}
+              height={533}
+              // The first card is at the top of the page: load it at once and first. The rest wait until near the screen.
+              loading={first ? "eager" : "lazy"}
+              fetchPriority={first ? "high" : "auto"}
+              decoding="async"
+              className="aspect-[3/2] w-full object-cover object-top transition-transform duration-300 ease-out group-hover:scale-[1.03]"
+            />
+          </picture>
           <span className="absolute right-3 top-3 rounded-full bg-background px-3.5 py-1.5 text-sm font-medium text-foreground shadow-sm">
             {label}
           </span>
@@ -86,7 +96,7 @@ export default function WebinarsPage() {
           </div>
           {upcoming.length ? (
             <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-              {upcoming.map((w) => <WebinarCard key={w.slug} w={w} label="Upcoming" />)}
+              {upcoming.map((w, i) => <WebinarCard key={w.slug} w={w} label="Upcoming" first={i === 0} />)}
             </ul>
           ) : (
             <p className="mt-6 text-muted-foreground">No webinars are scheduled right now. Check back soon.</p>
@@ -100,7 +110,7 @@ export default function WebinarsPage() {
           </div>
           {past.length ? (
             <ul className="mt-6 grid grid-cols-1 gap-x-8 gap-y-12 sm:grid-cols-2 lg:grid-cols-3">
-              {past.map((w) => <WebinarCard key={w.slug} w={w} label="Past" />)}
+              {past.map((w, i) => <WebinarCard key={w.slug} w={w} label="Past" first={upcoming.length === 0 && i === 0} />)}
             </ul>
           ) : (
             <p className="mt-6 text-muted-foreground">Past webinars will appear here.</p>
