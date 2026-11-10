@@ -207,14 +207,21 @@ window.FX = (function () {
   FX.init();
 })();
 
-/* The highlighted Register button: scroll to the form (handled by data-goto above) and flash the card */
+/* The highlighted Register button opens the Luma registration page in a new tab.
+   An ad visitor's utm_* tags are passed on so Luma sees which ad brought the registration. */
 (function () {
-  var b = document.querySelector(".reg-cta"), card = document.getElementById("register");
-  if (!b || !card) return;
-  b.addEventListener("click", function () {
-    card.classList.remove("ping"); void card.offsetWidth; card.classList.add("ping");
-    setTimeout(function () { card.classList.remove("ping"); }, 1300);
-  });
+  var b = document.querySelector(".reg-cta");
+  if (!b) return;
+  function withTags() {
+    var u = new URL("https://luma.com/5c2cffuo"), q = new URLSearchParams(location.search), any = false;
+    ["utm_source", "utm_medium", "utm_campaign", "utm_content", "utm_term"].forEach(function (k) {
+      var v = q.get(k); if (v) { u.searchParams.set(k, v.slice(0, 100)); any = true; }
+    });
+    if (!any) { u.searchParams.set("utm_source", "website"); u.searchParams.set("utm_medium", "webinar_page"); u.searchParams.set("utm_campaign", "15x_webinar_nov15"); }
+    b.href = u.toString();
+  }
+  withTags();
+  b.addEventListener("click", withTags);
 })();
 
 (function () {
