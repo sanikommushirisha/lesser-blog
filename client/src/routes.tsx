@@ -35,7 +35,8 @@ export const ROUTES: { path: string; load: Loader }[] = [
   { path: "/dashboard/tax-experts", load: () => import("@/pages/dashboard-tax-experts") },
   { path: "/dashboard/tax-experts/:id/booking", load: () => import("@/pages/dashboard-tax-expert-booking") },
   { path: "/dashboard/tax-experts/:id", load: () => import("@/pages/dashboard-tax-expert-detail") },
-  { path: "/webinar", load: () => import("@/pages/webinar") },
+  { path: "/webinars", load: () => import("@/pages/webinars") },
+  { path: "/webinars/how-to-invest-startups-before-going-public", load: () => import("@/pages/webinar") },
   { path: "/privacy", load: () => import("@/pages/privacy") },
   { path: "/terms", load: () => import("@/pages/terms") },
 ];

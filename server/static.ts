@@ -244,6 +244,11 @@ export function serveStatic(app: Express) {
 
   // The build's index.html is the empty shell: never serve it as a page.
   app.get("/index.html", (_req: Request, res: Response) => res.redirect(301, "/"));
+  // The Meta ads still link to /webinar: send them to the webinar's own page, keeping the ad's tags.
+  app.get(["/webinar", "/webinar/"], (req: Request, res: Response) => {
+    const q = req.originalUrl.indexOf("?");
+    res.redirect(301, "/webinars/how-to-invest-startups-before-going-public" + (q >= 0 ? req.originalUrl.slice(q) : ""));
+  });
   app.use(express.static(distPath, staticOptions()));
 
   app.use("/{*path}", marketingPages(distPath, path.resolve(__dirname, "prerendered")));

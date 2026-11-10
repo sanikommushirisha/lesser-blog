@@ -251,13 +251,11 @@ window.FX = (function () {
     frame.src = u.toString();
   }
 
-  var b = document.querySelector(".reg-cta");
-  if (b) {
-    var link = new URL(LUMA_PAGE);
-    if (has) Object.keys(t).forEach(function (k) { link.searchParams.set(k, t[k]); });
-    else { link.searchParams.set("utm_source", "website"); link.searchParams.set("utm_medium", "webinar_page"); link.searchParams.set("utm_campaign", "15x_webinar_nov15"); }
-    b.href = link.toString();
-  }
+  /* Every Register button (the banner's and the navbar's) opens Luma with the visitor's tags */
+  var link = new URL(LUMA_PAGE);
+  if (has) Object.keys(t).forEach(function (k) { link.searchParams.set(k, t[k]); });
+  else { link.searchParams.set("utm_source", "website"); link.searchParams.set("utm_medium", "webinar_page"); link.searchParams.set("utm_campaign", "15x_webinar_nov15"); }
+  Array.prototype.forEach.call(document.querySelectorAll(".reg-cta, [data-reg-link]"), function (a) { a.href = link.toString(); });
 
   var sent = false;
   window.addEventListener("message", function (e) {

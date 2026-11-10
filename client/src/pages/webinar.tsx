@@ -53,7 +53,12 @@ export default function WebinarPage() {
   return (
     <>
       <style dangerouslySetInnerHTML={{ __html: css }} />
-      <SharedNavbar variant="individual" sourcePage="/webinar" />
+      <SharedNavbar
+        variant="individual"
+        sourcePage="/webinars/how-to-invest-startups-before-going-public"
+        minimal
+        cta={{ label: "Register now", href: "https://luma.com/5c2cffuo", external: true, registerLink: true }}
+      />
       <div className="wbn" dangerouslySetInnerHTML={{ __html: body }} />
     </>
   );

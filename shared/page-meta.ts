@@ -232,7 +232,12 @@ export const PAGE_META: Record<string, PageMeta> = {
       breadcrumbs(["Marketplace", "/marketplace"], ["Passport renewal", "/services/passport-renewal"]),
     ],
   }),
-  "/webinar": page("/webinar", {
+  "/webinars": page("/webinars", {
+    title: `Webinars on Tax, Money and Investing | ${BRAND}`,
+    description:
+      "Join Lesser Tax live webinars on tax, retirement, estate planning and investing for immigrants, or catch up on what you missed from past sessions.",
+  }),
+  "/webinars/how-to-invest-startups-before-going-public": page("/webinars/how-to-invest-startups-before-going-public", {
     title: `The 15x You Missed: Pre-IPO Investing Webinar | ${BRAND}`,
     description:
       "Live Q&A on Sunday, November 15, 10 to 11 AM PT: how to invest in startups before they go public. Register to get the Zoom link and a reminder.",

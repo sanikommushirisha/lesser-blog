@@ -18,9 +18,20 @@ function createRipple(e: React.MouseEvent<HTMLElement>) {
 interface SharedNavbarProps {
   variant: "individual" | "business";
   sourcePage: string;
+  /** Just the logo and one button: used by single-purpose landing pages (the webinar page). */
+  minimal?: boolean;
+  /** Replaces the "Get Started" button (label and where it goes). */
+  cta?: {
+    label: string;
+    href: string;
+    /** Opens in a new tab. */
+    external?: boolean;
+    /** The page's script adds the visitor's ad tags to this link (data-reg-link). */
+    registerLink?: boolean;
+  };
 }
 
-export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps) {
+export default function SharedNavbar({ variant, sourcePage, minimal = false, cta }: SharedNavbarProps) {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [openDropdown, setOpenDropdown] = useState<string | null>(null);
@@ -57,7 +68,8 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
     }, 150);
   };
 
-  const ctaLabel = variant === "business" ? "Start Your Return" : "Get Started";
+  const ctaLabel = cta?.label ?? (variant === "business" ? "Start Your Return" : "Get Started");
+  const ctaHref = cta?.href ?? "https://lesser.tax/app/auth/sign-up";
 
   return (
     <>
@@ -82,6 +94,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
             <img src={lesserLogo} alt="Lesser Tax" width={237} height={103} className="w-auto h-[52px]" />
           </a>
 
+          {!minimal && (
           <div className="hidden md:flex items-center">
             <div className="flex items-center gap-1 bg-muted/40 rounded-full px-1.5 py-1 border border-border/50">
               {NAV_GROUPS.map((group) => (
@@ -140,8 +153,10 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
               </a>
             </div>
           </div>
+          )}
 
           <div className="flex items-center gap-2.5">
+            {!minimal && (
             <a
               href="https://wa.me/12098842051"
               target="_blank"
@@ -152,11 +167,14 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
             >
               <SiWhatsapp className="w-4 h-4" />
             </a>
+            )}
 
             <a
-              href="https://lesser.tax/app/auth/sign-up"
+              href={ctaHref}
+              {...(cta?.external ? { target: "_blank", rel: "noopener" } : {})}
+              {...(cta?.registerLink ? { "data-reg-link": "" } : {})}
               onClick={(e) => { createRipple(e); }}
-              className="hidden sm:inline-flex items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-primary rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.03] active:scale-[0.98] no-default-hover-elevate relative overflow-hidden"
+              className={`${minimal ? "inline-flex" : "hidden sm:inline-flex"} items-center gap-2 px-5 py-2 text-sm font-semibold text-white bg-primary rounded-full transition-all duration-300 hover:shadow-lg hover:shadow-primary/25 hover:scale-[1.03] active:scale-[0.98] no-default-hover-elevate relative overflow-hidden`}
               data-testid="button-nav-cta"
             >
               <span className="btn-magnetic-text relative z-10 flex items-center gap-1.5">
@@ -165,6 +183,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
               </span>
             </a>
 
+            {!minimal && (
             <button
               className="md:hidden relative w-9 h-9 flex items-center justify-center rounded-full border border-border/50 bg-muted/30 transition-all duration-300 hover:bg-muted/60"
               onClick={() => setMobileOpen(!mobileOpen)}
@@ -178,9 +197,11 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
                 <span className={`block w-full h-[1.5px] bg-foreground rounded-full transition-all duration-300 origin-center ${mobileOpen ? "-rotate-45 -translate-y-[2.75px]" : ""}`} />
               </div>
             </button>
+            )}
           </div>
         </div>
 
+        {!minimal && (
         <div
           className={`md:hidden overflow-hidden transition-all duration-400 ease-out ${mobileOpen ? "max-h-[600px] opacity-100" : "max-h-0 opacity-0"}`}
           data-testid="nav-mobile-menu"
@@ -268,6 +289,7 @@ export default function SharedNavbar({ variant, sourcePage }: SharedNavbarProps)
             </div>
           </div>
         </div>
+        )}
       </nav>
 
     </>
