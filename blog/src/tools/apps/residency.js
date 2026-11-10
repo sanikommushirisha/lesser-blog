@@ -20,7 +20,8 @@ export default function mount() {
           ev.sort(function (a, b) { return a.d < b.d ? -1 : 1; });
           var out = [], open = null, st = s.trips[0] ? s.trips[0].status : 'worker';
           ev.forEach(function (e) { if (e.k === 'arrival') { if (!open) open = e.d; } else { out.push({ from: open || e.d.slice(0, 4) + '-01-01', to: e.d, status: st }); open = null; } });
-          if (open) out.push({ from: open, to: s.year + '-12-31', status: st });
+          /* Still in the US: the stay runs to the end of the tax year. An arrival after that year is outside it. */
+          if (open && open <= s.year + '-12-31') out.push({ from: open, to: s.year + '-12-31', status: st });
           s.trips = out;
           return [out.length + ' stays found from ' + ev.length + ' dates', 'Set the status for each stay below'];
         } } },

@@ -182,7 +182,8 @@ export var App = {
         box.appendChild(i); w.appendChild(box);
       } else if (f.type === 'select') {
         var b2 = el('div', 'box'), sel = el('select'); sel.id = id;
-        f.options.forEach(function (o) { var op = el('option', '', o[1]); op.value = o[0]; sel.appendChild(op); });
+        /* options can depend on other answers, such as the employers added so far. */
+        (typeof f.options === 'function' ? f.options(s) : f.options).forEach(function (o) { var op = el('option', '', o[1]); op.value = o[0]; sel.appendChild(op); });
         sel.value = st[f.key]; sel.addEventListener('change', function () { st[f.key] = sel.value; preview(); draw(); });
         b2.appendChild(sel); w.appendChild(b2);
       } else if (f.type === 'date') {
@@ -205,6 +206,8 @@ export var App = {
       i.type = 'file'; i.accept = '.pdf,.csv,.txt'; d.appendChild(i); parent.appendChild(d); parent.appendChild(out);
       function take(file) {
         if (!file) return;
+        /* Clear the last file's "filled in" note, so a failed read never sits next to old results. */
+        var old = document.getElementById('upnote'); if (old) old.innerHTML = '';
         out.innerHTML = '<div class="found">Reading ' + M.esc(file.name) + ' on this device...</div>';
         (/\.pdf$/i.test(file.name) ? M.readPdf(file) : file.text().then(M.textRows)).then(function (rows) {
           var f = u.parse(rows.map(function (r) { return r.text; }).join('\n'), s, M.finder(rows));
