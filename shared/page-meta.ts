@@ -232,6 +232,11 @@ export const PAGE_META: Record<string, PageMeta> = {
       breadcrumbs(["Marketplace", "/marketplace"], ["Passport renewal", "/services/passport-renewal"]),
     ],
   }),
+  "/webinar": page("/webinar", {
+    title: `The 15x You Missed: Pre-IPO Investing Webinar | ${BRAND}`,
+    description:
+      "Live Q&A on Sunday, November 15, 10 to 11 AM PT: how to invest in startups before they go public. Register to get the Zoom link and a reminder.",
+  }),
   "/marketplace": page("/marketplace", {
     title: `NRI Services: Passport Renewal and India ITR | ${BRAND}`,
     description:

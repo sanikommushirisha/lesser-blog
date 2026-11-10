@@ -244,13 +244,6 @@ export function serveStatic(app: Express) {
 
   // The build's index.html is the empty shell: never serve it as a page.
   app.get("/index.html", (_req: Request, res: Response) => res.redirect(301, "/"));
-  // The Meta ads' webinar landing page: one standalone file (client/public/webinar.html),
-  // served at /webinar. Explicit because express.static above runs with index:false.
-  const webinarPage = path.resolve(distPath, "webinar.html");
-  app.get(["/webinar", "/webinar/"], (_req: Request, res: Response) => {
-    res.setHeader("Cache-Control", "no-cache");
-    res.sendFile(webinarPage);
-  });
   app.use(express.static(distPath, staticOptions()));
 
   app.use("/{*path}", marketingPages(distPath, path.resolve(__dirname, "prerendered")));
