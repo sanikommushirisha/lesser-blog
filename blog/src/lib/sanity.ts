@@ -12,7 +12,11 @@ export const client = createClient({
   projectId: isConfigured ? projectId : 'unconfigured',
   dataset: import.meta.env.VITE_SANITY_DATASET || 'production',
   apiVersion: '2026-06-01',
-  useCdn: true,
+  // Visitors' browsers use the CDN. The on-publish refresh (scripts/revalidate.mjs)
+  // sets SANITY_NO_CDN=1 so it reads the live API: the CDN can still hold the
+  // previous version of a post for a few seconds after a publish, which made the
+  // refreshed page one edit behind.
+  useCdn: (globalThis as { process?: { env?: Record<string, string | undefined> } }).process?.env?.SANITY_NO_CDN !== '1',
 })
 
 const builder = imageUrlBuilder(client)

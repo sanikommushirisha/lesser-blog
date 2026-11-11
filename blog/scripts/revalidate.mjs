@@ -71,6 +71,9 @@ if (!fs.existsSync(templatePath) || !fs.existsSync(entryPath) || !fs.existsSync(
   fail(`no build found (${dist} and ${distServer} must come from a build)`)
 }
 
+// Read Sanity's live API, not its CDN, which can lag a few seconds behind a publish.
+process.env.SANITY_NO_CDN = '1'
+
 const { render, fetchPosts, fetchPost, fetchMorePosts, VIDEOS = [] } = await import(
   pathToFileURL(entryPath).href
 )
