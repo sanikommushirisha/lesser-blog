@@ -70,11 +70,19 @@ export const NOT_FOUND_FILE = "404.html";
  * Response headers that apply to every response: basic hardening plus HSTS
  * (the site is HTTPS-only; nginx redirects http).
  */
-export function securityHeaders(_req: Request, res: Response, next: NextFunction) {
+export function securityHeaders(req: Request, res: Response, next: NextFunction) {
   res.setHeader("Strict-Transport-Security", "max-age=31536000; includeSubDomains");
   res.setHeader("X-Content-Type-Options", "nosniff");
   res.setHeader("Referrer-Policy", "strict-origin-when-cross-origin");
-  res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  if (req.path === "/blog/studio" || req.path.startsWith("/blog/studio/")) {
+    // The Sanity Studio is opened inside sanity.io's dashboard (sanity.io/@org/studio/...),
+    // which frames this page. X-Frame-Options cannot name another site, so on this path
+    // only, frame-ancestors lets sanity.io (and ourselves) frame it. Every other page
+    // keeps SAMEORIGIN below.
+    res.setHeader("Content-Security-Policy", "frame-ancestors 'self' https://*.sanity.io");
+  } else {
+    res.setHeader("X-Frame-Options", "SAMEORIGIN");
+  }
   res.setHeader("Permissions-Policy", "camera=(), microphone=(), geolocation=()");
   next();
 }
