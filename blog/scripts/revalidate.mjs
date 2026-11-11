@@ -1,18 +1,27 @@
 #!/usr/bin/env node
-// On-publish refresh: re-renders ONE post, the blog list and the sitemaps into
-// dist/ from live Sanity data, without a CI run or a rebuild. Called by the
-// Lesser app's Sanity webhook (app/api/webhooks/sanity) on the same server.
+// On-publish refresh: re-renders ONE post, the blog list and the sitemaps from
+// live Sanity data, without a CI run or a rebuild. Called by the Lesser app's
+// Sanity webhook (app/api/webhooks/sanity) on the same server.
 //
 //   node scripts/revalidate.mjs --slug=<slug> [--previous=<old-slug>]
-//   node scripts/revalidate.mjs --all          (list + sitemaps only)
+//   node scripts/revalidate.mjs --all    (list + sitemaps, and any published post
+//                                         that has no page yet, e.g. one that was
+//                                         dated in the future when it was built)
 //
-// Needs the output of a normal `npm run build` on this machine: dist/ (served
-// files) and dist-server/ (entry-server.js + template.html). Safe to run while
-// the site is serving: every file is written to a temp name and renamed.
+// Needs the output of a normal build on this machine: the served files and
+// dist-server/ (entry-server.js + template.html). Safe to run while the site is
+// serving: every file is written to a temp name and renamed.
 //
-// A post Sanity no longer returns (unpublished/deleted) has its static page
-// removed, so it 404s like any unknown path. Exit code 0 = refreshed, non-zero =
-// nothing was changed or it failed part way (stderr says why).
+// WHERE IT WRITES: the folder the Express server actually serves at /blog. In
+// production that is <repo>/dist/public/blog (a COPY of blog/dist made by
+// script/build.ts), so it is used when it exists. Otherwise (the blog built on
+// its own) blog/dist. BLOG_OUT_DIR overrides both.
+//
+// Like the full build, only posts Sanity lists as published (publishedAt in the
+// past) get a page. A post Sanity no longer lists (unpublished, deleted, or dated
+// in the future) has its static page removed, so it 404s like any unknown path.
+// Exit code 0 = refreshed, non-zero = nothing was changed or it failed part way
+// (stderr says why).
 
 import fs from 'node:fs'
 import path from 'node:path'
@@ -20,7 +29,12 @@ import { fileURLToPath, pathToFileURL } from 'node:url'
 import { createBuildPage, sitemapUrls, sitemapXml, writeFileAtomic } from './lib/pages.mjs'
 
 const root = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..')
-const dist = path.join(root, 'dist')
+const servedByServer = path.resolve(root, '..', 'dist', 'public', 'blog')
+const dist = process.env.BLOG_OUT_DIR
+  ? path.resolve(process.env.BLOG_OUT_DIR)
+  : fs.existsSync(path.join(servedByServer, 'index.html'))
+    ? servedByServer
+    : path.join(root, 'dist')
 const distServer = path.join(root, 'dist-server')
 
 // Top-level folders in dist/ that are not posts. A slug equal to one of these must
@@ -54,7 +68,7 @@ if (!slug && !args.all) fail('pass --slug=<slug> or --all')
 const templatePath = path.join(distServer, 'template.html')
 const entryPath = path.join(distServer, 'entry-server.js')
 if (!fs.existsSync(templatePath) || !fs.existsSync(entryPath) || !fs.existsSync(path.join(dist, 'index.html'))) {
-  fail('no build found (dist/ and dist-server/ must come from `npm run build`)')
+  fail(`no build found (${dist} and ${distServer} must come from a build)`)
 }
 
 const { render, fetchPosts, fetchPost, fetchMorePosts, VIDEOS = [] } = await import(
@@ -77,14 +91,29 @@ function removePost(s) {
   return true
 }
 
-if (slug) {
-  const [post, more] = await Promise.all([fetchPost(slug), fetchMorePosts(slug)])
-  if (post) {
-    const route = `/${slug}`
-    writeFileAtomic(path.join(dist, slug, 'index.html'), buildPage(route, { route, post, more }))
+function renderPost(s) {
+  return Promise.all([fetchPost(s), fetchMorePosts(s)]).then(([post, more]) => {
+    if (!post) return false
+    const route = `/${s}`
+    writeFileAtomic(path.join(dist, s, 'index.html'), buildPage(route, { route, post, more }))
     console.log(`rendered ${route}`)
+    return true
+  })
+}
+
+if (slug) {
+  // Same rule as the full build: a page exists only for a post on the published list.
+  if (posts.some((p) => p.slug === slug)) {
+    if (!(await renderPost(slug))) removePost(slug)
   } else {
     removePost(slug)
+  }
+}
+if (args.all) {
+  // Backstop: publish any listed post that has no page yet.
+  for (const p of posts) {
+    if (!SLUG.test(p.slug) || RESERVED.has(p.slug)) continue
+    if (!fs.existsSync(path.join(dist, p.slug, 'index.html'))) await renderPost(p.slug)
   }
 }
 // A renamed slug leaves the old page behind: take it down.
@@ -92,6 +121,6 @@ if (previous && !posts.some((p) => p.slug === previous)) removePost(previous)
 
 // The list page and sitemap always reflect the full published set.
 writeFileAtomic(path.join(dist, 'index.html'), buildPage('/', { route: '/', posts }))
-console.log(`rendered / (${posts.length} posts)`)
+console.log(`rendered / (${posts.length} posts) into ${dist}`)
 writeFileAtomic(path.join(dist, 'sitemap.xml'), sitemapXml(sitemapUrls({ posts, videos: VIDEOS })))
 console.log('wrote sitemap.xml')
