@@ -11,6 +11,7 @@ import { BASE_PATH } from './lib/base'
 export { fetchPosts, fetchPost, fetchMorePosts } from './lib/sanity'
 export { VIDEOS } from './pages/watchVideos'
 export { RENEWAL_VIDEOS } from './pages/renewalVideos.generated'
+export { TOOLS } from './tools/catalog'
 
 export function render(url: string, data: InitialData): { html: string; head: string } {
   globalThis.__INITIAL_DATA__ = data

@@ -7,6 +7,7 @@ import { BlogList } from './pages/BlogList'
 import { BlogPost } from './pages/BlogPost'
 import { WatchPage } from './pages/WatchPage'
 import { RenewalWatchPage } from './pages/RenewalWatchPage'
+import { ToolPage } from './pages/ToolPage'
 
 const StudioPage = lazy(() => import('./pages/StudioPage'))
 
@@ -36,6 +37,12 @@ function PostRoute() {
   return <BlogPost key={slug} />
 }
 
+// Same for the tools: each one fills the page's empty boxes when it mounts
+function ToolRoute() {
+  const { tool } = useParams<{ tool: string }>()
+  return <ToolPage key={tool} slug={tool ?? ''} />
+}
+
 export default function App() {
   return (
     <Routes>
@@ -51,6 +58,7 @@ export default function App() {
         <Route path="/" element={<BlogList />} />
         <Route path="/videos/:vslug" element={<WatchPage />} />
         <Route path="/r/:combo" element={<RenewalWatchPage />} />
+        <Route path="/tools/:tool" element={<ToolRoute />} />
         <Route path="/:slug" element={<PostRoute />} />
       </Route>
     </Routes>
