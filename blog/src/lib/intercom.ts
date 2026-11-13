@@ -1,19 +1,9 @@
 import { useEffect } from 'react'
-import { isGateOpen } from './lead-magnets'
 
 // Lesser workspace. The app_id is public — it only identifies which
 // workspace's Messenger to load; all data access happens server-side.
 const APP_ID = 'o461n2j4'
 const WIDGET_SRC = `https://widget.intercom.io/widget/${APP_ID}`
-// Auto-open once per visitor across the whole blog, not once per post.
-const AUTO_OPEN_KEY = 'lesser_blog_intercom_auto_opened'
-// The widget must be booted well before showNewMessage: calling it within
-// a few seconds of boot silently drops the pre-filled composer text
-// (verified against the live o461n2j4 workspace — 3s gap loses the text,
-// 9s keeps it). A 10s auto-open therefore forces the load to start at 1s;
-// the script is async and layout-stable so LCP/CLS are unaffected.
-const LOAD_DELAY_MS = 1_000
-const AUTO_OPEN_DELAY_MS = 10_000
 
 type IntercomFn = ((command: string, ...args: unknown[]) => void) & {
   q?: unknown[]
@@ -31,9 +21,8 @@ let loaded = false
 
 /**
  * Inject the Messenger script and boot it. Idempotent, client-only.
- * Deliberately not called on page load — the widget is ~250KB and would
- * drag down Core Web Vitals on prerendered posts. Callers invoke this on
- * first scroll or just before the auto-open timer fires.
+ * Called after the window "load" event, never during it: the widget is ~250KB
+ * and loading it earlier would compete with the post's LCP image.
  */
 function ensureLoaded(attributes: Record<string, unknown>) {
   if (typeof window === 'undefined') return
@@ -59,22 +48,6 @@ function ensureLoaded(attributes: Record<string, unknown>) {
   document.body.appendChild(script)
 }
 
-function hasAutoOpened(): boolean {
-  try {
-    return localStorage.getItem(AUTO_OPEN_KEY) === '1'
-  } catch {
-    return true // storage blocked → err on the quiet side, never auto-open
-  }
-}
-
-function markAutoOpened() {
-  try {
-    localStorage.setItem(AUTO_OPEN_KEY, '1')
-  } catch {
-    /* ignore */
-  }
-}
-
 export interface PostContext {
   title: string
   slug: string
@@ -82,15 +55,23 @@ export interface PostContext {
 }
 
 /**
- * Blog-post Messenger behavior:
- * - loads the widget 1s after the post renders (launcher appears)
- * - at 10s, opens the composer pre-filled with the post title so the
- *   reader only has to finish the sentence and hit send — Intercom only
- *   creates a conversation once the visitor sends a message
- * - auto-open fires once per visitor (localStorage), repeat visits just
- *   get the launcher
- * - post title/slug/category ride along as custom attributes so the
- *   inbox shows what the visitor was reading and Fin can tailor answers
+ * Blog-post Messenger, on every post (USER-31):
+ * - loads the widget once the page has finished loading (the window "load"
+ *   event, the same moment the marketing pages' snippet uses). The script is
+ *   async and layout-stable and comes after the load event, so LCP/CLS are
+ *   unaffected, and the Messenger is booted well inside the first 5 seconds.
+ * - the 5-second question is NOT sent from here. Website code can only open
+ *   the Messenger or pre-fill the reader's own message; it cannot post a
+ *   message as Lesser or act on the reply. An Intercom Workflow does that:
+ *   "Customer visits a page", URL contains lesser.tax/blog/, Time on page
+ *   5 seconds, Show workflow until "Engaged with" (once per visit until the
+ *   reader answers). Its question has Yes/No reply buttons and "Yes" sends the
+ *   sign-up link. Full spec: Linear USER-31. The old 10s pre-filled pop-up was
+ *   removed so readers never get two pop-ups.
+ * - moving to another post inside the blog calls `update`, which tells
+ *   Intercom the URL changed, so the Workflow's page rules are checked again.
+ * - post title/slug/category ride along as custom attributes so the inbox
+ *   shows what the visitor was reading and Fin can tailor answers.
  */
 export function useIntercomForPost(post: PostContext | null) {
   const title = post?.title
@@ -99,31 +80,18 @@ export function useIntercomForPost(post: PostContext | null) {
   useEffect(() => {
     if (!title || !slug || typeof window === 'undefined') return
 
-    const attributes = {
-      blog_post_title: title,
-      blog_post_slug: slug,
-      ...(category ? { blog_post_category: category } : {}),
+    const load = () =>
+      ensureLoaded({
+        blog_post_title: title,
+        blog_post_slug: slug,
+        ...(category ? { blog_post_category: category } : {}),
+      })
+
+    if (loaded || document.readyState === 'complete') {
+      load()
+      return
     }
-
-    // Load well ahead of the auto-open so the widget has time to finish
-    // booting before showNewMessage fires (see LOAD_DELAY_MS comment).
-    const loadTimer = window.setTimeout(() => ensureLoaded(attributes), LOAD_DELAY_MS)
-
-    const timer = window.setTimeout(() => {
-      ensureLoaded(attributes)
-      if (hasAutoOpened()) return
-      // Never pop the chat over the email gate; it can auto-open on a later post.
-      if (isGateOpen()) return
-      markAutoOpened()
-      window.Intercom?.(
-        'showNewMessage',
-        `I'm reading "${title}" and I have a question: `
-      )
-    }, AUTO_OPEN_DELAY_MS)
-
-    return () => {
-      window.clearTimeout(loadTimer)
-      window.clearTimeout(timer)
-    }
+    window.addEventListener('load', load, { once: true })
+    return () => window.removeEventListener('load', load)
   }, [title, slug, category])
 }
