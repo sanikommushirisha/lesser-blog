@@ -3,6 +3,7 @@ import { createServer as createViteServer, createLogger } from "vite";
 import { type Server } from "http";
 import viteConfig from "../vite.config";
 import { injectMeta, metaFor, serveBlog } from "./static";
+import { mountSitemap } from "./sitemap";
 import fs from "fs";
 import path from "path";
 import { nanoid } from "nanoid";
@@ -34,6 +35,10 @@ export async function setupVite(server: Server, app: Express) {
   // catch-all below claim every path. For live blog editing run its own dev
   // server instead: `npm run dev:blog` (http://localhost:5173/blog).
   serveBlog(app, path.resolve(import.meta.dirname, "..", "dist", "public", "blog"));
+  mountSitemap(app, {
+    blogDir: path.resolve(import.meta.dirname, "..", "dist", "public", "blog"),
+    lastmodFile: path.resolve(import.meta.dirname, "..", "dist", "sitemap-lastmod.json"),
+  });
 
   app.use(vite.middlewares);
 

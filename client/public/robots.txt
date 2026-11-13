@@ -2,6 +2,8 @@ User-agent: *
 Allow: /
 Disallow: /blog/studio
 
+# One sitemap for the whole site (marketing pages + every blog post), built per
+# request by server/sitemap.ts. The video sitemap stays separate: it carries
+# the video metadata.
 Sitemap: https://lesser.tax/sitemap.xml
-Sitemap: https://lesser.tax/blog/sitemap.xml
 Sitemap: https://lesser.tax/blog/video-sitemap.xml

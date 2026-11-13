@@ -8,7 +8,8 @@
 // into the head, and the browser hydrates the result (client/src/main.tsx).
 //
 // Output: dist/prerendered/<route>.html (outside dist/public so express.static
-// never serves it under a second URL) and dist/public/sitemap.xml.
+// never serves it under a second URL) and dist/sitemap-lastmod.json, the git
+// date of each indexable page, read by the /sitemap.xml route (server/sitemap.ts).
 
 import { mkdir, readFile, writeFile } from "fs/promises";
 import { execFileSync } from "child_process";
@@ -16,6 +17,7 @@ import path from "path";
 import { pathToFileURL } from "url";
 import { BASE_URL, NOT_FOUND_META, PAGE_META, PRERENDER_ROUTES, SITEMAP_ROUTES } from "../shared/page-meta";
 import { injectMeta, NOT_FOUND_FILE, prerenderFile } from "../server/static";
+import { isExcluded } from "../server/sitemap";
 
 const ROOT = path.resolve(import.meta.dirname, "..");
 const DIST = path.join(ROOT, "dist");
@@ -42,17 +44,9 @@ function lastModified(route: string, routesSource: string): string {
   return new Date().toISOString().slice(0, 10);
 }
 
-function sitemap(routesSource: string): string {
-  const priority = (r: string) =>
-    r === "/" ? "1.0" : /^\/(nris|business|services\/|marketplace)/.test(r) ? "0.9" : r.startsWith("/offers") ? "0.7" : /^\/(privacy|terms)$/.test(r) ? "0.3" : "0.6";
-  const urls = SITEMAP_ROUTES.map(
-    (r) => `  <url>
-    <loc>${PAGE_META[r].canonical}</loc>
-    <lastmod>${lastModified(r, routesSource)}</lastmod>
-    <priority>${priority(r)}</priority>
-  </url>`,
-  ).join("\n");
-  return `<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n${urls}\n</urlset>\n`;
+/** Git date of every indexable page, for the lastmod of /sitemap.xml. */
+function sitemapLastmod(routesSource: string): Record<string, string> {
+  return Object.fromEntries(SITEMAP_ROUTES.map((r) => [r, lastModified(r, routesSource)]));
 }
 
 /**
@@ -68,6 +62,7 @@ function checkMeta(routesSource: string) {
       if (value.includes("\u2014")) problems.push(`${where}.${field} has an em-dash`);
     }
     if (m.robots) continue;
+    if (isExcluded(route)) problems.push(`${where} must stay noindex: it is excluded from sitemap.xml (EXCLUDED in server/sitemap.ts)`);
     if (m.title.length > 60 || m.title.length < 30) problems.push(`${where}.title is ${m.title.length} characters (30-60)`);
     if (!m.title.endsWith("| Lesser Tax")) problems.push(`${where}.title must end "| Lesser Tax"`);
     if (m.description.length > 160 || m.description.length < 120) problems.push(`${where}.description is ${m.description.length} characters (120-160)`);
@@ -107,6 +102,6 @@ export async function prerender() {
   await writeFile(path.join(OUT, NOT_FOUND_FILE), await page("/404-not-found", NOT_FOUND_META));
 
   const routesSource = await readFile(path.join(ROOT, "client", "src", "routes.tsx"), "utf-8");
-  await writeFile(path.join(DIST, "public", "sitemap.xml"), sitemap(routesSource));
-  console.log(`sitemap.xml: ${SITEMAP_ROUTES.length} URLs on ${BASE_URL}`);
+  await writeFile(path.join(DIST, "sitemap-lastmod.json"), JSON.stringify(sitemapLastmod(routesSource), null, 2));
+  console.log(`sitemap-lastmod.json: ${SITEMAP_ROUTES.length} pages on ${BASE_URL} (sitemap.xml is served by server/sitemap.ts)`);
 }

@@ -3,6 +3,7 @@ import compression from "compression";
 import fs from "fs";
 import path from "path";
 import { NOT_FOUND_META, normalizePath, routeMeta, type PageMeta } from "../shared/page-meta";
+import { mountSitemap } from "./sitemap";
 
 export { PAGE_META } from "../shared/page-meta";
 export type { PageMeta } from "../shared/page-meta";
@@ -250,6 +251,12 @@ export function serveStatic(app: Express) {
   // /blog/:slug and /blog/studio/* resolve to the blog rather than the
   // marketing shell.
   serveBlog(app, path.resolve(distPath, "blog"));
+
+  // Built per request from PAGE_META + Sanity, so it is mounted before express.static.
+  mountSitemap(app, {
+    blogDir: path.resolve(distPath, "blog"),
+    lastmodFile: path.resolve(__dirname, "sitemap-lastmod.json"),
+  });
 
   // The build's index.html is the empty shell: never serve it as a page.
   app.get("/index.html", (_req: Request, res: Response) => res.redirect(301, "/"));

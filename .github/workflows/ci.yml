@@ -151,6 +151,7 @@ jobs:
           for url in \
             https://lesser.tax/ \
             https://lesser.tax/blog \
+            https://lesser.tax/sitemap.xml \
             https://lesser.tax/blog/sitemap.xml; do
             code=$(curl -s -o /dev/null -w "%{http_code}" "$url")
             echo "$url -> $code"
