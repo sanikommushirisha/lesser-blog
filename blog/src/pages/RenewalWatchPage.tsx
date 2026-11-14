@@ -11,6 +11,7 @@ import { comboSlug, parseComboSlug } from '../motion/combos'
 import { RENEWAL_VIDEOS } from './renewalVideos.generated'
 import { track } from '../motion/events'
 import { SITE_URL } from '../lib/base'
+import { PASSPORT_PRICE } from '../../../shared/passport-pricing'
 
 const LazyRenewalPlayer = lazy(() => import('../motion/players').then((m) => ({ default: m.RenewalPlayer })))
 
@@ -120,7 +121,7 @@ export function RenewalWatchPage() {
           onClick={() => track('cta', { concept: 'renewal-share', slug: comboId })}
           className="rounded-xl bg-primary px-6 py-3 text-sm font-semibold text-primary-foreground no-underline"
         >
-          Renew with Lesser · $140 flat
+          Renew with Lesser · {PASSPORT_PRICE.short}
         </a>
         <Link to="/indian-passport-renewal-usa#your-timeline" className="text-sm font-medium text-muted-foreground hover:text-primary">
           Build your own timeline →

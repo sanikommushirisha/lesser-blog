@@ -3,12 +3,14 @@
 // site, outside the blog's router. Picked from the slug and category, so every
 // post (including new ones) gets a link without editors doing anything.
 
+import { PASSPORT_PRICE } from '../../../shared/passport-pricing'
+
 type Service = { href: string; name: string; pitch: string; cta: string }
 
 const PASSPORT: Service = {
   href: '/services/passport-renewal',
   name: 'Indian passport renewal',
-  pitch: 'We fill your VFS forms, check every document and photo, and review the full application before you submit. Flat $140.',
+  pitch: `We fill your VFS forms, check every document and photo, and review the full application before you submit. ${PASSPORT_PRICE.sentence}`,
   cta: 'Renew your Indian passport with Lesser Tax',
 }
 const INDIA_ITR: Service = {

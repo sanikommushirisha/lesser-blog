@@ -25,6 +25,7 @@ import {
 import lesserLogo from "@assets/lesser_logo.png";
 import DashboardLayout, { EASE } from "@/components/dashboard-layout";
 import { fadeUp, PillButton, Reveal, SectionHeading, stagger, StaggerGroup } from "@/components/dashboard-motion";
+import { PASSPORT_PRICE } from "@shared/passport-pricing";
 
 const SIGN_UP_URL = "https://lesser.tax/app/auth/sign-up";
 
@@ -373,7 +374,7 @@ const MARKETPLACE: {
     title: "Documentation",
     desc: "India services for NRIs in the United States",
     items: [
-      { name: "Indian Passport Renewal: $140 flat", href: "/services/passport-renewal" },
+      { name: `Indian Passport Renewal: ${PASSPORT_PRICE.short}`, href: "/services/passport-renewal" },
       { name: "India Tax Filing (ITR)", href: "/services/india-tax-filing" },
       { name: "NRI Tax Filing", href: "/nris" },
     ],

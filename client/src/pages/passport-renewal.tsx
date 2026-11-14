@@ -19,6 +19,7 @@ import { FaqJsonLd } from "@/components/json-ld";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
 import QuickAnswer from "@/components/quick-answer";
 import { QUICK_ANSWERS } from "@/components/quick-answers";
+import { PASSPORT_PAID, PASSPORT_PRICE } from "@shared/passport-pricing";
 
 const APP_URL = "https://lesser.tax/app/auth/sign-up";
 
@@ -87,10 +88,7 @@ const FAQS = [
     q: "Which countries do you support?",
     a: "We currently support Indian nationals residing in the United States only.",
   },
-  {
-    q: "What does the $140 fee cover?",
-    a: "It covers our preparation, form filling, document checklist, photo guidance, and full application review. Government and VFS charges (consular fees, VFS service fees, courier, transaction charges) are billed separately by the consulate.",
-  },
+  PASSPORT_PRICE.faq,
   {
     q: "Do I need to travel to India?",
     a: "No. The entire process is handled by mail and the VFS centre serving your area. You do not need to travel to India.",
@@ -243,12 +241,12 @@ export default function PassportRenewalPage() {
                   className="absolute -top-3 right-6 px-3 py-1 rounded-full bg-primary text-white text-[11px] font-semibold tracking-wide"
                   data-testid="badge-flat-fee"
                 >
-                  FLAT FEE
+                  {PASSPORT_PRICE.badge}
                 </div>
-                <div className="text-sm text-muted-foreground mb-1">Total Price</div>
+                <div className="text-sm text-muted-foreground mb-1">{PASSPORT_PAID ? "Total Price" : "Price"}</div>
                 <div className="flex items-baseline gap-2 mb-1">
-                  <span className="text-5xl font-bold text-foreground" data-testid="text-price">$140</span>
-                  <span className="text-sm text-muted-foreground">all-inclusive prep fee</span>
+                  <span className="text-5xl font-bold text-foreground" data-testid="text-price">{PASSPORT_PRICE.amount}</span>
+                  <span className="text-sm text-muted-foreground">{PASSPORT_PRICE.amountNote}</span>
                 </div>
                 <div className="text-xs text-muted-foreground mb-6">
                   Government & VFS charges billed separately by the consulate.
@@ -349,7 +347,7 @@ export default function PassportRenewalPage() {
             <div className="bg-white rounded-2xl border border-border p-5" data-testid="card-summary-pricing">
               <Shield className="w-5 h-5 text-primary mb-3" />
               <div className="text-xs text-muted-foreground mb-1">Pricing</div>
-              <div className="text-lg font-semibold text-foreground">From $140</div>
+              <div className="text-lg font-semibold text-foreground">{PASSPORT_PRICE.from}</div>
             </div>
           </div>
 

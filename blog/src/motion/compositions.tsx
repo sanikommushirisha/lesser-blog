@@ -5,6 +5,7 @@
 import React from 'react'
 import { AbsoluteFill, interpolate, spring, useCurrentFrame, useVideoConfig, Sequence } from 'remotion'
 import { CONSULATES, FEES, type Plan } from './constants'
+import { PASSPORT_PRICE } from '../../../shared/passport-pricing'
 
 const BG = 'linear-gradient(160deg,#011f1a,#023d35)'
 const ACCENT = '#6ee7b7'
@@ -177,7 +178,7 @@ export function RenewalTimeline({ plan }: { plan: Plan }) {
       <AbsoluteFill key="s5" style={fill}>
         <FadeUp>
           <div style={{ fontSize: 40 * u, fontWeight: 800, color: ACCENT }}>Renew with Lesser</div>
-          <div style={{ fontSize: 22 * u, opacity: 0.75, marginTop: 12 * u }}>Get the packet right the first time · $140 flat · blog.lesser.tax</div>
+          <div style={{ fontSize: 22 * u, opacity: 0.75, marginTop: 12 * u }}>Get the packet right the first time · {PASSPORT_PRICE.short} · blog.lesser.tax</div>
         </FadeUp>
         <div style={{ marginTop: 26 * u }}>
           <Tick size={56 * u} delay={6} />

@@ -1,5 +1,6 @@
 import type { ComponentProps } from "react";
 import QuickAnswer from "./quick-answer";
+import { PASSPORT_PRICE } from "@shared/passport-pricing";
 
 // Answer-first content for each service page, kept together so the figures
 // can be reviewed (and updated each tax season) in one place. Figures are for
@@ -73,11 +74,11 @@ export const QUICK_ANSWERS = {
     id: "quick-answer",
     question: "How do you renew an Indian passport in the USA?",
     answer:
-      "Fill in the renewal form online on the Passport Seva portal, then send the printed application, your current passport and supporting documents to the VFS Global centre that serves your state. Most renewals take 3 to 4 weeks once VFS has the application. Lesser Tax prepares the forms and checks your full packet for a flat $140.",
+      "Fill in the renewal form online on the Passport Seva portal, then send the printed application, your current passport and supporting documents to the VFS Global centre that serves your state. Most renewals take 3 to 4 weeks once VFS has the application. Lesser Tax prepares the forms and checks your full packet " + PASSPORT_PRICE.inSentence + ".",
     facts: [
       { label: "Where to apply", value: "Passport Seva online form, then the VFS Global centre for your consulate's jurisdiction." },
       { label: "Typical timeline", value: "3 to 4 weeks after VFS receives the application. It varies by consulate." },
-      { label: "Lesser Tax fee", value: "$140 flat. Consular, VFS and courier fees are paid separately." },
+      { label: "Lesser Tax fee", value: PASSPORT_PRICE.quickAnswer },
       { label: "Travel to India", value: "Not needed. Everything is done by mail through VFS." },
     ],
     sources: [{ label: "Consulate General of India, New York", href: "https://www.indiainnewyork.gov.in/" }],

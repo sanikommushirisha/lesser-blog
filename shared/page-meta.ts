@@ -7,6 +7,8 @@
 // descriptions 140-160, canonical = the page itself, no em-dashes. The build
 // enforces them (checkMeta in script/prerender.ts).
 
+import { PASSPORT_PRICE } from "./passport-pricing";
+
 export const BASE_URL = "https://lesser.tax";
 export const BRAND = "Lesser Tax";
 
@@ -218,7 +220,7 @@ export const PAGE_META: Record<string, PageMeta> = {
   "/services/passport-renewal": page("/services/passport-renewal", {
     title: `Indian Passport Renewal in the USA for NRIs | ${BRAND}`,
     description:
-      "Renew or reissue your Indian passport from the U.S. We fill the VFS forms, check your documents and photo, and review the full application. Flat $140 fee.",
+      `Renew or reissue your Indian passport from the U.S. We fill the VFS forms, check your documents and photo, and review the full application. ${PASSPORT_PRICE.metaEnding}`,
     ogImage: OG_NRI,
     jsonLd: [
       service({
@@ -227,7 +229,7 @@ export const PAGE_META: Record<string, PageMeta> = {
         path: "/services/passport-renewal",
         description:
           "Help for Indian nationals in the U.S. renewing, reissuing or updating an Indian passport through VFS: form filling, document checklist, photo guidance and review.",
-        price: "140",
+        price: PASSPORT_PRICE.schemaPrice,
       }),
       breadcrumbs(["Marketplace", "/marketplace"], ["Passport renewal", "/services/passport-renewal"]),
     ],

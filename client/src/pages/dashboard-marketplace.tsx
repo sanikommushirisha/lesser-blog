@@ -29,6 +29,7 @@ import teamDavidImg from "@assets/team_david_clean.webp";
 import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
 import teamJithendraImg from "@assets/team_jithendra_clean.webp";
 import teamRobertImg from "@assets/team_robert_clean.webp";
+import { PASSPORT_PRICE } from "@shared/passport-pricing";
 
 const SIGN_IN_URL = "https://lesser.tax/app/auth/sign-in";
 const CONSULT_URL = "https://calendly.com/lesser-tax/consultationcall-with-lesserteam";
@@ -113,7 +114,7 @@ const CATEGORIES: Category[] = [
         icon: BookUser,
         name: "Indian Passport Renewal",
         desc: "Renewals, lost passports and name or address updates: forms prepared and reviewed for you.",
-        tag: "$140 flat",
+        tag: PASSPORT_PRICE.short,
         href: "/services/passport-renewal",
       },
     ],
