@@ -21,13 +21,6 @@ export const NAV_GROUPS = [
     ],
   },
   {
-    label: "Services",
-    items: [
-      { name: "Indian Passport Renewal", description: "For Indian NRIs in the United States", href: "/services/passport-renewal" },
-      { name: "India Tax Filing", description: "File your Indian ITR from the U.S.", href: "/services/india-tax-filing" },
-    ],
-  },
-  {
     label: "Offers",
     items: [
       { name: "Nextdoor", description: "Exclusive offer for Nextdoor employees", href: "/offers/nextdoor" },
