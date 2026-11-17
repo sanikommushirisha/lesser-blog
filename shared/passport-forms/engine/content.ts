@@ -1,0 +1,66 @@
+// Copied from lesser@d62e7418 plus uncommitted changes (lib/passport-forms/content.ts) by scripts/sync-passport-forms.sh.
+// Do not edit here: change it in the lesser repo and re-run the script.
+// Copy for the free passport forms pages: SEO title, H1, meta description,
+// search phrases and FAQ, per form and for the forms hub. Ported from the
+// approved "Lesser Free Passport Forms" prototype (CONTENT module, LD-73), with
+// the checklist and photo facts brought up to the VFS checklists of Nov 2026
+// that the forms now fill. The public pages (marketing site, LD-78) render it;
+// FAQ text must stay visible on any page that emits FAQPage markup.
+/* eslint-disable */
+
+export interface FormContent {
+  title: string;
+  h1: string;
+  desc: string;
+  /** Search phrases the page is written for. */
+  targets: string[];
+  faq: [question: string, answer: string][];
+}
+
+export interface HubContent {
+  title: string;
+  h1: string;
+  desc: string;
+  faq: [question: string, answer: string][];
+}
+
+export const CONTENT: { hub: HubContent } & Record<string, FormContent | HubContent> = {
+  hub: {
+    title: 'Indian Passport Renewal Forms USA: Fill Annexure E Free',
+    desc: 'Fill and download every VFS Global USA form for Indian passport renewal: Annexure E, Affidavit for Change in Appearance & Signature, Name Change Affidavit, Annexure F, D, C and the Joint Photo Declaration. Free PDFs, nothing stored.',
+    h1: 'Indian passport renewal forms for VFS USA: fill and download free',
+    faq: [
+      ['Which forms are mandatory for Indian passport renewal in the USA?', 'Every adult sends the government online application (printed, with ARN), the VFS document checklist as the cover page, Annexure E and the Affidavit for Change in Appearance and Signature. Situations add more: Annexure F for a lost or damaged passport, the name change affidavit, Annexure J (joint photo declaration) to add a spouse without a marriage certificate, and Annexure D (plus C if one parent can’t consent) for a child.'],
+      ['Which passport forms need to be notarized in the USA?', 'Per the VFS USA checklists: Annexure D, the Affidavit of Name Change and the joint photo declaration must be notarized, and so must the colour copy of your US status document. Annexure E and the appearance affidavit are signed by you without a notary, except short-validity re-issues for asylum and U-visa cases, where the affidavit is notarized too.'],
+      ['Can I type the forms, or do they have to be handwritten?', 'Typed forms are accepted. VFS only rejects double-sided printouts. Print on A4, one side, and sign in blue or black ink.'],
+      ['My name or address doesn’t fit in the Annexure E boxes. What do I do?', 'The official Annexure E PDF has fixed-size boxes. This tool shrinks the text to fit the box instead of cutting it off, so long names and addresses print in full.'],
+      ['Which VFS checklist version is current?', 'The VFS USA checklists dated 3 Nov 2026 (adult) and 1 Nov 2026 (minor). There is one per case: normal, lost, damaged and Tatkal, for adults and for minors, and this tool fills the one your case needs. We check for new versions and show the edition date on every checklist.'],
+      ['Is this an official VFS or Government of India form?', 'The checklist, Annexure E and the appearance affidavit are the official VFS USA PDFs, filled in. Annexure F and the name change affidavit are typeset with the same wording as the PDFs VFS USA publishes (checked 17 November 2026). VFS publishes no PDF for Annexures C, D and J, so those follow the official Passport Seva specimens. All keep the same headings, points and signature blocks. Lesser is not affiliated with VFS Global or the Government of India.']
+    ]
+  },
+  checklist: { title: 'VFS Passport Renewal Checklist USA (PDF): Fill Free', h1: 'VFS passport renewal checklist (USA): fill the cover page online', desc: 'Fill the VFS Global USA re-issue checklist for your case with your name, passport number, email and mobile on every page. Free PDF, Nov 2026 edition.', targets: ['vfs passport renewal checklist usa pdf', 'indian passport renewal documents checklist usa', 'adult checklist re-issue of passport'],
+    faq: [['Do I have to send the VFS checklist?', 'Yes. VFS asks you to print it, complete it and put it on top of your packet as the cover page.'], ['Which checklist do I use?', 'Adult re-issue for a normal renewal. Lost, damaged, Tatkal and minor cases each have their own VFS checklist; the tool picks the one for your case and fills it.'], ['Where do I sign?', 'Under “(Signature of the Applicant)” near the end of the checklist. The tool tells you the page for your edition.']] },
+  annexe: { title: 'Annexure E for Passport Renewal (VFS USA): Fill Online', h1: 'Annexure E for Indian passport renewal (VFS USA): fill online and download', desc: 'Fill Annexure E, the self-declaration every VFS USA applicant signs. Crossed-out options done for you, long names fit, free PDF.', targets: ['annexure e passport', 'annexure e pdf vfs usa', 'annexure e sample filled', 'how to fill annexure e for passport renewal'],
+    faq: [['Is Annexure E mandatory for passport renewal in the USA?', 'Yes. VFS USA lists Annexure E as mandatory for every adult and minor re-issue.'], ['Does Annexure E need to be notarized?', 'No. VFS USA says it must be signed by the applicant. No notary.'], ['Is Annexure E the same as a name change affidavit?', 'Not any more. Since 2016 Annexure E is the applicant’s self-declaration (formerly Annexure I). The name change affidavit is a separate, notarized document.'], ['What do I cross out in points 3 and 7?', 'Point 3: keep how you became a citizen (usually “birth”) and strike the rest. Point 7: keep “never repatriated” unless you were repatriated and repaid. The tool does both.'], ['My name doesn’t fit the box. Can I handwrite it?', 'You can, but you don’t need to: the tool shrinks the text to fit.']] },
+  affidavit: { title: 'Affidavit for Change in Appearance & Signature: Fill Free', h1: 'Affidavit for Change in Appearance and Signature (Indian passport, USA)', desc: 'Every VFS USA applicant sends this affidavit, even if nothing changed. Fill it online, paste one photo, sign. Free PDF.', targets: ['affidavit for change in appearance and signature', 'change of appearance affidavit indian passport', 'affidavit for change of appearance & signature vfs usa'],
+    faq: [['Is it mandatory if my appearance hasn’t changed?', 'Yes. VFS USA: “Affidavit for Change in Appearance & Signature is Mandatory for all applicants.” You state that your appearance and signature have not changed.'], ['Does it need to be notarized?', 'No, you sign it. The exception is short-validity passport re-issues for asylum and U-visa cases, where it must be notarized.'], ['Which photo do I paste?', 'Your one 35 × 45 mm photo. Since the Nov 2026 VFS checklists, one physical photo is sent, pasted on this affidavit, and the same photo is uploaded to the government form.'], ['Can I use Tatkal if my appearance or signature changed?', 'No. Adults with a change in appearance or signature aren’t eligible for Tatkal.']] },
+  namechange: { title: 'Name Change Affidavit for Indian Passport (USA): Fill Free', h1: 'Affidavit of name change for an Indian passport in the USA (notarized)', desc: 'Fill the affidavit for change in name that VFS USA requires notarized. Former and new name, witnesses, notary block. Free PDF.', targets: ['name change affidavit indian passport usa', 'affidavit of name change vfs usa', 'notarized affidavit for name change passport'],
+    faq: [['Do I need newspaper ads?', 'Only if the change isn’t due to marriage, remarriage or divorce: one national daily in India and one in the USA (or the state gazette), plus two documents in the new name.'], ['Does it need a notary?', 'Yes. VFS USA requires the original, notarized with stamp and notary signature. The notary stamp’s expiry date must not be corrected by hand.'], ['Is a spelling correction a name change?', 'Not if it doesn’t change the name phonetically. Splitting a given name into first name and surname needs two documents in the desired name instead.'], ['Can I use Tatkal?', 'No. Name changes aren’t eligible for Tatkal.']] },
+  annexj: { title: 'Annexure J Joint Photo Declaration (VFS USA): Fill Free', h1: 'Annexure J joint photo declaration: add your spouse’s name (USA)', desc: 'No marriage certificate? Fill Annexure J, the joint declaration both spouses sign with a joint photo. VFS USA wants it notarized. Free PDF.', targets: ['joint photo declaration passport', 'annexure j passport', 'add spouse name in passport without marriage certificate'],
+    faq: [['Do I need a marriage certificate to add my spouse’s name?', 'No. VFS USA accepts a marriage certificate copy or a duly notarized joint photo declaration signed by both husband and wife.'], ['Does it need a notary in the USA?', 'Yes, VFS USA asks for it notarized. Passport Seva itself doesn’t require a notary, so this is a VFS USA rule.'], ['What photo goes on it?', 'A recent joint photograph of husband and wife, self-attested (signed across) by both.'], ['Do both spouses sign?', 'Yes, both sign, and both sign in front of the notary.']] },
+  annexf: { title: 'Annexure F for Lost or Damaged Indian Passport (USA): Fill', h1: 'Annexure F for a lost or damaged Indian passport in the USA', desc: 'Annexure F is mandatory at VFS USA for lost or damaged passports. Fill the official declaration, with your police report details, free.', targets: ['annexure f passport', 'annexure f lost passport', 'lost indian passport in usa what to do'],
+    faq: [['Do I need a police report?', 'For a lost passport, yes: a report naming you and the lost passport, not more than 6 months old. A damaged passport is sent itself instead.'], ['Annexure F or Annexure L?', 'F. Annexure L was the old letter for this declaration before the 2016 changes.'], ['Can I use Tatkal for a lost passport?', 'No. Lost, stolen and damaged passports aren’t eligible for Tatkal.'], ['Why is the fee higher?', 'VFS USA charges $271 for a lost or damaged 36-page re-issue (passport fee $250, ICWF $2, VFS $19), and $321 for 60 pages.']] },
+  annexd: { title: 'Annexure D for Minor Passport (USA): Fill Online Free', h1: 'Annexure D for a minor’s Indian passport in the USA', desc: 'Both parents sign Annexure D and get it notarized for every minor application at VFS USA. Fill both parents’ details once, free PDF.', targets: ['annexure d passport', 'annexure d for minor passport', 'annexure d format pdf usa'],
+    faq: [['Does Annexure D need to be notarized in the USA?', 'Yes. VFS USA: signed by both parents and notarized.'], ['What is the ARN on Annexure D?', 'The Application Reference Number from your child’s government online form. Fill that form first.'], ['What if one parent is outside the US?', 'That parent signs Annexure D before a notary where they are and sends it, with a notarized no-objection letter. If they can’t, use Annexure C.'], ['Annexure C or D?', 'D when both parents consent. C when one parent can’t or won’t (abroad, divorced with sole custody, deceased, deserted).']] },
+  annexc: { title: 'Annexure C for Minor Passport, One Parent (USA): Fill', h1: 'Annexure C: when one parent can’t consent to a minor’s passport', desc: 'Fill Annexure C with the right reason (a–i) kept and the rest crossed out, as the form instructs. Free PDF.', targets: ['annexure c passport', 'annexure c for minor passport', 'annexure c vs annexure d passport difference'],
+    faq: [['When do I need Annexure C?', 'When one parent hasn’t given consent for the minor’s passport: abroad, divorced or separated, court case, refusing, or whereabouts unknown.'], ['What do I cross out?', 'Every reason (a) to (i) that doesn’t apply. The form says “Please put a cross mark on all other options above which are not applicable.”'], ['What else do I attach?', 'The supporting documents listed under your reason, such as the divorce decree and custody order. VFS USA also asks for Annexure D in sole-custody and deceased-parent cases.']] },
+  govform: { title: 'How to Fill the Indian Passport Re-issue Form Online (USA)', h1: 'Passport Seva re-issue form (GPSP 2.0): every answer, ready to copy', desc: 'Step-by-step answers for the government online form on mportal.passportindia.gov.in/mission: all 9 steps, exact field labels, copy buttons.', targets: ['indian passport renewal form usa', 'passport seva online form usa', 'how to fill indian passport renewal form online usa'],
+    faq: [['Which Passport Seva website do I use from the USA?', 'The mission portal: mportal.passportindia.gov.in/mission (Global Passport Seva 2.0). Paper forms aren’t accepted.'], ['What if I selected the wrong consulate?', 'You have to fill a new form. The ARN must match your VFS payment, so check jurisdiction before you submit.'], ['Can I edit the form after submitting?', 'No. Any error means a new application.'], ['Where do I sign the printout?', 'Uploaded signature on page 1, physical signature on the last page. No thumbprint.']] }
+};
+
+export const HUB_CONTENT: HubContent = CONTENT.hub;
+
+/** One form's copy, by form id ("annexe", "checklist" ...). */
+export function formContent(id: string): FormContent {
+  return CONTENT[id] as FormContent;
+}

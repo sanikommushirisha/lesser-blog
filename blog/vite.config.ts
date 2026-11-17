@@ -9,6 +9,11 @@ export default defineConfig({
   // asset URL has to carry that prefix.
   base: '/blog/',
   plugins: [react(), tailwindcss()],
+  // Components in ../shared (the free passport form widgets) would otherwise
+  // resolve `react` from the repo root, which is the marketing site's React 18.
+  // Two Reacts in one bundle break hydration (React error #525), so React
+  // always comes from this app's own node_modules (React 19).
+  resolve: { dedupe: ['react', 'react-dom'] },
   // Tailwind 4 runs as the Vite plugin above, so this app needs no PostCSS
   // config. Declaring an empty one inline stops Vite walking up the tree and
   // picking up the marketing site's root postcss.config.js, which would feed

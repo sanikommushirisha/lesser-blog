@@ -215,6 +215,14 @@ export default function PassportRenewalPage() {
                 </a>
               </div>
 
+              <p className="-mt-4 mb-8 text-sm text-muted-foreground">
+                Prefer to do it yourself?{" "}
+                <a href="/tools/indian-passport-forms" className="font-semibold text-primary hover:underline" data-testid="link-free-forms">
+                  Fill the Indian passport renewal forms free
+                </a>
+                .
+              </p>
+
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
                 <div className="flex items-center gap-2" data-testid="text-hero-stat-time">
                   <Clock className="w-4 h-4 text-primary" />

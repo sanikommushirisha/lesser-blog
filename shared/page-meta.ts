@@ -234,6 +234,68 @@ export const PAGE_META: Record<string, PageMeta> = {
       breadcrumbs(["Marketplace", "/marketplace"], ["Passport renewal", "/services/passport-renewal"]),
     ],
   }),
+  // Free Indian passport forms (LD-78): the hub and one page per form. Copy and
+  // FAQs come from shared/passport-forms/engine/content.ts (synced from the app).
+  "/tools/indian-passport-forms": page("/tools/indian-passport-forms", {
+    title: "Indian Passport Renewal Forms USA: Fill Free | Lesser Tax",
+    description: "Fill every VFS USA form for Indian passport renewal: Annexure E, the appearance affidavit, Annexures C, D, F and J, and the checklist. Free, nothing stored.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"])],
+  }),
+  "/tools/indian-passport-forms/passport-seva-online-form": page("/tools/indian-passport-forms/passport-seva-online-form", {
+    title: "Passport Seva Re-issue Form Answers (USA) | Lesser Tax",
+    description: "Get every answer for the Passport Seva re-issue form on the mission portal, in the portal's order and ready to copy, then a PDF of your answers. Free.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Passport Seva form answers", "/tools/indian-passport-forms/passport-seva-online-form"])],
+  }),
+  "/tools/indian-passport-forms/vfs-checklist": page("/tools/indian-passport-forms/vfs-checklist", {
+    title: "VFS Passport Renewal Checklist USA: Fill Free | Lesser Tax",
+    description: "Fill the VFS USA checklist for your Indian passport renewal: the Nov 2026 edition for your case, adult, minor, lost, damaged or Tatkal. Free filled PDF.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["VFS checklist", "/tools/indian-passport-forms/vfs-checklist"])],
+  }),
+  "/tools/indian-passport-forms/annexure-e": page("/tools/indian-passport-forms/annexure-e", {
+    title: "Annexure E for Passport Renewal (VFS USA) | Lesser Tax",
+    description: "Fill Annexure E for Indian passport renewal at VFS USA: points 3 and 7 crossed out for you, long names fit, no notary needed. Download the filled PDF free.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Annexure E", "/tools/indian-passport-forms/annexure-e"])],
+  }),
+  "/tools/indian-passport-forms/affidavit-change-in-appearance-and-signature": page("/tools/indian-passport-forms/affidavit-change-in-appearance-and-signature", {
+    title: "Appearance and Signature Affidavit (VFS USA) | Lesser Tax",
+    description: "Every VFS USA applicant sends the Affidavit for Change in Appearance and Signature, even if nothing changed. Fill it online and download the PDF free.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Appearance affidavit", "/tools/indian-passport-forms/affidavit-change-in-appearance-and-signature"])],
+  }),
+  "/tools/indian-passport-forms/name-change-affidavit": page("/tools/indian-passport-forms/name-change-affidavit", {
+    title: "Name Change Affidavit for Indian Passport | Lesser Tax",
+    description: "Fill the name change affidavit VFS USA needs notarized for an Indian passport: old and new name, witnesses and notary block. Download the filled PDF free.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Name change affidavit", "/tools/indian-passport-forms/name-change-affidavit"])],
+  }),
+  "/tools/indian-passport-forms/annexure-j-joint-photo-declaration": page("/tools/indian-passport-forms/annexure-j-joint-photo-declaration", {
+    title: "Annexure J Joint Photo Declaration (VFS USA) | Lesser Tax",
+    description: "No marriage certificate? Fill Annexure J, the joint photo declaration both spouses sign to add a spouse's name to an Indian passport. Free filled PDF.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Annexure J", "/tools/indian-passport-forms/annexure-j-joint-photo-declaration"])],
+  }),
+  "/tools/indian-passport-forms/annexure-f": page("/tools/indian-passport-forms/annexure-f", {
+    title: "Annexure F for Lost or Damaged Passport | Lesser Tax",
+    description: "Fill Annexure F, the declaration VFS USA requires to replace a lost or damaged Indian passport, with your police report details. Download the PDF free.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Annexure F", "/tools/indian-passport-forms/annexure-f"])],
+  }),
+  "/tools/indian-passport-forms/annexure-d": page("/tools/indian-passport-forms/annexure-d", {
+    title: "Annexure D for a Minor's Passport (USA) | Lesser Tax",
+    description: "Both parents sign Annexure D for every minor's Indian passport at VFS USA, before a notary. Fill both parents' details once and download the PDF free.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Annexure D", "/tools/indian-passport-forms/annexure-d"])],
+  }),
+  "/tools/indian-passport-forms/annexure-c": page("/tools/indian-passport-forms/annexure-c", {
+    title: "Annexure C: One Parent Can't Consent (Minor) | Lesser Tax",
+    description: "Fill Annexure C when one parent can't consent to a minor's Indian passport: the right reason kept, the others crossed out. Download the filled PDF free.",
+    ogImage: OG_NRI,
+    jsonLd: [breadcrumbs(["Passport renewal", "/services/passport-renewal"], ["Passport forms", "/tools/indian-passport-forms"], ["Annexure C", "/tools/indian-passport-forms/annexure-c"])],
+  }),
   "/webinars": page("/webinars", {
     title: `Webinars on Tax, Money and Investing | ${BRAND}`,
     description:

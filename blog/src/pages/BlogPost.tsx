@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useMemo, useRef, useState } from 'react'
+import { createContext, Fragment, useContext, useEffect, useMemo, useRef, useState, type ReactNode } from 'react'
 import { Link, useParams } from 'react-router-dom'
 import { Helmet } from 'react-helmet-async'
 import { PortableText, type PortableTextComponents } from '@portabletext/react'
@@ -19,6 +19,7 @@ import { SITE_URL } from '../lib/base'
 import { useIntercomForPost } from '../lib/intercom'
 import { splitBody, blockText, slugify, type Block, type FaqItem } from '../lib/editorial'
 import { RenewalWidget, ScrollExplainer, AskWidget } from '../motion/Widgets'
+import { PASSPORT_WIDGETS, renderPassportWidget } from '../lib/passport-widgets'
 import { abVariant } from '../motion/events'
 import { YouTubePlayer } from '../components/YouTubePlayer'
 import { FeaturedVideo } from '../components/FeaturedVideo'
@@ -354,16 +355,30 @@ const MOTION: Record<string, { concept: 'renewal' | 'scroll' | 'ask'; ab?: boole
   'rsu-taxes-h1b-2026': { concept: 'ask', questions: ['rsu', 'tatkaal'] },
 }
 
-/** Split main blocks after the section introduced by the h2 matching `re`
- *  (i.e., just before the NEXT h2), so widgets can sit between sections. */
-function splitAfterSection(main: Block[], re: RegExp): [Block[], Block[]] {
+/** Where the section introduced by the h2 matching `re` ends (just before the
+ *  NEXT h2), so widgets can sit between sections. No match: the end. */
+function sectionEnd(main: Block[], re: RegExp): number {
   const isH2 = (b: Block) => b._type === 'block' && b.style === 'h2'
   let hit = -1
   for (let i = 0; i < main.length; i++) {
     if (hit === -1 && isH2(main[i]) && re.test(blockText(main[i]))) hit = i
-    else if (hit !== -1 && isH2(main[i])) return [main.slice(0, i), main.slice(i)]
+    else if (hit !== -1 && isH2(main[i])) return i
   }
-  return [main, []]
+  return main.length
+}
+
+/** The body with widgets inserted after their sections, in reading order. */
+function withInserts(main: Block[], inserts: { after: RegExp; node: ReactNode }[], components: PortableTextComponents): ReactNode {
+  const placed = inserts.map((x, i) => ({ at: sectionEnd(main, x.after), node: x.node, i })).sort((a, b) => a.at - b.at || a.i - b.i)
+  const out: ReactNode[] = []
+  let from = 0
+  placed.forEach((x, k) => {
+    if (x.at > from) out.push(<PortableText key={`b${k}`} value={main.slice(from, x.at) as never} components={components} />)
+    out.push(<Fragment key={`w${k}`}>{x.node}</Fragment>)
+    from = Math.max(from, x.at)
+  })
+  if (from < main.length) out.push(<PortableText key="rest" value={main.slice(from) as never} components={components} />)
+  return out
 }
 
 export function BlogPost() {
@@ -572,20 +587,30 @@ export function BlogPost() {
 
           <div id={GATED_ID} className={GATED_CLASS}>
           <div className="mt-8">
-            {motion?.splitAfterH2 && sections ? (
-              (() => {
-                const [before, after] = splitAfterSection(sections.main, motion.splitAfterH2)
-                return (
-                  <>
-                    <PortableText value={before as never} components={components} />
-                    {motion.concept === 'renewal' && motion.ab && variant === 'b' && (
-                      <RenewalWidget slug={post.slug} placement="mid" variant={variant} />
-                    )}
-                    {motion.concept === 'scroll' && <ScrollExplainer slug={post.slug} />}
-                    <PortableText value={after as never} components={components} />
-                  </>
-                )
-              })()
+            {sections && (motion?.splitAfterH2 || PASSPORT_WIDGETS[post.slug]) ? (
+              withInserts(
+                sections.main,
+                [
+                  ...(motion?.splitAfterH2
+                    ? [
+                        {
+                          after: motion.splitAfterH2,
+                          node: (
+                            <>
+                              {motion.concept === 'renewal' && motion.ab && variant === 'b' && (
+                                <RenewalWidget slug={post.slug} placement="mid" variant={variant} />
+                              )}
+                              {motion.concept === 'scroll' && <ScrollExplainer slug={post.slug} />}
+                            </>
+                          ),
+                        },
+                      ]
+                    : []),
+                  // Free passport form widgets (LD-76/77): lib/passport-widgets.tsx.
+                  ...(PASSPORT_WIDGETS[post.slug] ?? []).map((w, i) => ({ after: w.after, node: renderPassportWidget(w, post.slug, i) })),
+                ],
+                components,
+              )
             ) : (
               <PortableText value={(sections?.main ?? post.body) as never} components={components} />
             )}
