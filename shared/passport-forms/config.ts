@@ -16,7 +16,7 @@ export const APP_SIGNUP_URL = "https://lesser.tax/app/auth/sign-up";
 /** Blank official PDFs, served by the marketing site at /passport-forms/<file> (synced from the app). */
 export const PDF_BASE = "";
 
-export type FormDef = { id: string; slug: string; name: string; kind: string; signs: string; notary: string; when: string; src: string };
+export type FormDef = { id: string; slug: string; name: string; aka: string; kind: string; signs: string; notary: string; when: string; src: string };
 
 export const FORMS_LIST = FORM_LIST as FormDef[];
 

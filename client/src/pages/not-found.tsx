@@ -6,8 +6,6 @@ import SharedNavbar from "@/components/shared-navbar";
 const LINKS: { href: string; title: string; desc: string }[] = [
   { href: "/", title: "Tax filing and planning", desc: "Flat-fee CPA tax filing for tech professionals." },
   { href: "/nris", title: "NRI tax filing", desc: "U.S. and India taxes: FBAR, FATCA, PFIC and more." },
-  { href: "/services/india-tax-filing", title: "India tax filing (ITR)", desc: "File your Indian tax return from the U.S." },
-  { href: "/services/passport-renewal", title: "Indian passport renewal", desc: "Renew your Indian passport from the U.S." },
   { href: "/business", title: "Business tax filing", desc: "Form 1120, 1065 or 1120-S for a flat $100." },
   { href: "/blog", title: "Tax guides", desc: "Answers to NRI, passport and business tax questions." },
 ];

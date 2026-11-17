@@ -54,7 +54,7 @@ const INDIA_SERVICES: ServiceCardData[] = [
     name: "India Tax Filing",
     desc: "File your Indian ITR from the U.S., handled by vetted Indian CAs.",
     features: ["Interest & dividend income", "Rental income & capital gains", "DTAA benefits"],
-    href: "/services/india-tax-filing",
+    href: "/marketplace",
     cta: "File India Taxes",
   },
   {
@@ -69,11 +69,11 @@ const INDIA_SERVICES: ServiceCardData[] = [
 
 const POPULAR_PICKS: { label: string; href: string }[] = [
   { label: "FBAR & FATCA", href: "/nris" },
-  { label: "India ITR Filing", href: "/services/india-tax-filing" },
+  { label: "India ITR Filing", href: "/marketplace" },
   { label: "Rental LLCs", href: "/business/realestate" },
   { label: "Partnerships & K-1s", href: "/business/partnerships" },
   { label: "March 15 Deadline", href: "/business/deadline" },
-  { label: "Passport Renewal", href: "/services/passport-renewal" },
+  { label: "Passport Renewal", href: "/marketplace" },
 ];
 
 export default function DashboardTaxationPage() {

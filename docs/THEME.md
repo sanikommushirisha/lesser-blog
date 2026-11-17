@@ -163,7 +163,7 @@ referenced nowhere. Left alone as an orphan — worth deleting or asking about.
 - `npm run check` — clean
 - `npm run build` — both apps build; 53 blog URLs prerendered
 - In-browser computed-style audit across `/`, `/pricing`, `/business`,
-  `/nris`, `/services/passport-renewal`, `/services/india-tax-filing`,
+  `/nris`, `/marketplace`,
   `/business/partnerships`, `/offers/google`, `/offers/nextdoor`, `/terms`
   and the blog index: every page reports `rgb(250, 248, 240)` background and
   `Plus Jakarta Sans`, and a full-DOM scan for blue-dominant computed

@@ -58,7 +58,7 @@ export type HeadingLevel = 2 | 3;
 function Shell({ id, title, intro, level = 3, children }: { id: string; title: string; intro?: string; level?: HeadingLevel; children: ReactNode }) {
   const H = level === 2 ? "h2" : "h3";
   return (
-    <section aria-labelledby={`${id}-title`} className="not-prose my-8 flex flex-col gap-5 rounded-[24px] border border-[#e0e8e5] bg-[#faf8f0] p-4 sm:p-6" data-passport-widget={id}>
+    <section aria-labelledby={`${id}-title`} className="not-prose my-8 flex flex-col gap-5 rounded-[24px] border border-[#e0e8e5] bg-[#f6f9f8] p-4 sm:p-6" data-passport-widget={id}>
       <div className="flex flex-col gap-1.5">
         <span className={EYEBROW}>Free passport forms · VFS USA</span>
         <H id={`${id}-title`} className="m-0 text-[22px] font-extrabold leading-tight tracking-[-0.02em] text-[#1a1a1a]">

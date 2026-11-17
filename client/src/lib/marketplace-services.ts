@@ -8,8 +8,8 @@ export type MarketplaceService = {
   description: string;
   /** App path the tool opens at. Absent while the tool is "Coming Soon". */
   appPath?: string;
-  /** The site's own page about this service, linked from the card. */
-  learnMorePath?: string;
+  /** Shows "Learn more": opens the chat with a question about this service. */
+  learnMore?: boolean;
 };
 
 export const MARKETPLACE_SERVICES: MarketplaceService[] = [
@@ -19,7 +19,7 @@ export const MARKETPLACE_SERVICES: MarketplaceService[] = [
     description:
       "Renew or re-issue your Indian passport from abroad. Guided application, document checklist, and live tracking. Most users finish in about 10 minutes.",
     appPath: "/passport-flow",
-    learnMorePath: "/services/passport-renewal",
+    learnMore: true,
   },
   {
     id: "india-tax-filing",
@@ -27,7 +27,7 @@ export const MARKETPLACE_SERVICES: MarketplaceService[] = [
     description:
       "File your Indian income tax return with a guided wizard. Covers salary, capital gains, house property, deductions, and tax-regime selection.",
     appPath: "/india",
-    learnMorePath: "/services/india-tax-filing",
+    learnMore: true,
   },
   {
     id: "us-business-formation",

@@ -265,6 +265,8 @@ export function serveStatic(app: Express) {
     const q = req.originalUrl.indexOf("?");
     res.redirect(301, "/webinars/how-to-invest-startups-before-going-public" + (q >= 0 ? req.originalUrl.slice(q) : ""));
   });
+  // The two service pages were removed: their links (search results, old posts) go to the NRI services page.
+  app.get(["/services/passport-renewal", "/services/india-tax-filing"], (_req: Request, res: Response) => res.redirect(301, "/marketplace"));
   app.use(express.static(distPath, staticOptions()));
 
   app.use("/{*path}", marketingPages(distPath, path.resolve(__dirname, "prerendered")));

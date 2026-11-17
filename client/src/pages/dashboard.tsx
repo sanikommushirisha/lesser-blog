@@ -253,7 +253,7 @@ const TAX_GROUPS: { flag?: string; icon?: LucideIcon; title: string; desc: strin
         title: "India Tax Filing",
         desc: "Claim TDS, report interest, rent and capital gains, and file your ITR from the U.S.",
         stat: "From $69",
-        href: "/services/india-tax-filing",
+        href: "/marketplace",
       },
       {
         badge: "Compliant",
@@ -374,11 +374,11 @@ const MARKETPLACE: {
     title: "Documentation",
     desc: "India services for NRIs in the United States",
     items: [
-      { name: `Indian Passport Renewal: ${PASSPORT_PRICE.short}`, href: "/services/passport-renewal" },
-      { name: "India Tax Filing (ITR)", href: "/services/india-tax-filing" },
+      { name: `Indian Passport Renewal: ${PASSPORT_PRICE.short}`, href: "/marketplace" },
+      { name: "India Tax Filing (ITR)", href: "/marketplace" },
       { name: "NRI Tax Filing", href: "/nris" },
     ],
-    cta: { label: "Explore Documentation", href: "/services/passport-renewal" },
+    cta: { label: "Explore Documentation", href: "/marketplace" },
   },
   {
     icon: Building2,

@@ -8,13 +8,13 @@ import { PASSPORT_PRICE } from '../../../shared/passport-pricing'
 type Service = { href: string; name: string; pitch: string; cta: string }
 
 const PASSPORT: Service = {
-  href: '/services/passport-renewal',
+  href: '/marketplace',
   name: 'Indian passport renewal',
   pitch: `We fill your VFS forms, check every document and photo, and review the full application before you submit. ${PASSPORT_PRICE.sentence}`,
   cta: 'Renew your Indian passport with Lesser Tax',
 }
 const INDIA_ITR: Service = {
-  href: '/services/india-tax-filing',
+  href: '/marketplace',
   name: 'India tax filing (ITR) for NRIs',
   pitch: 'Vetted Chartered Accountants file your Indian return from the U.S., with DTAA relief and TDS refunds handled. From $69.',
   cta: 'File your India tax return',

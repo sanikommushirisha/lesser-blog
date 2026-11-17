@@ -6,14 +6,18 @@ import type { ReactNode } from "react";
 import { ArrowRight, HelpCircle } from "lucide-react";
 import SharedNavbar from "@/components/shared-navbar";
 import { FaqJsonLd } from "@/components/json-ld";
+import PageBackdrop from "@/components/page-backdrop";
 import RelatedGuides, { GUIDES } from "@/components/related-guides";
 import lesserLogo from "@assets/lesser_logo.png";
 
 export function FormsPageFrame({ sourcePage, children }: { sourcePage: string; children: ReactNode }) {
   return (
-    <div className="min-h-screen bg-[#faf8f0]">
+    <div className="min-h-screen bg-white">
       <SharedNavbar variant="individual" sourcePage={sourcePage} />
-      <main className="pt-28 pb-16">{children}</main>
+      <div className="relative">
+        <PageBackdrop />
+        <main className="relative pt-28 pb-16">{children}</main>
+      </div>
       <RelatedGuides heading="Indian passport renewal guides" guides={GUIDES.passport} />
       <FormsFooter />
     </div>
@@ -29,7 +33,7 @@ export function FaqSection({ items }: { items: [string, string][] }) {
       <FaqJsonLd items={items.map(([question, answer]) => ({ question, answer }))} />
       <div className="space-y-3">
         {items.map(([q, a], i) => (
-          <details key={i} className="group rounded-2xl border border-border bg-white p-5 transition-all duration-300 hover:border-primary/30">
+          <details key={i} className="group rounded-2xl border border-[#e0e8e5] bg-white p-5 shadow-[0_1px_3px_0_rgb(2_6_23/0.04),0_1px_2px_-1px_rgb(2_6_23/0.06)] transition-all duration-300 hover:border-primary/40">
             <summary className="flex cursor-pointer list-none items-center justify-between gap-4">
               <h3 className="m-0 flex items-start gap-3 text-base font-semibold tracking-normal text-foreground">
                 <HelpCircle className="mt-0.5 h-5 w-5 flex-shrink-0 text-primary" />
@@ -52,7 +56,7 @@ function FormsFooter() {
         <div className="flex flex-col items-center justify-between gap-4 sm:flex-row">
           <img src={lesserLogo} alt="Lesser Tax" width={96} height={96} className="h-8 w-auto opacity-70 brightness-0 invert" />
           <div className="flex items-center gap-4 text-xs text-white/60">
-            <a href="/services/passport-renewal" className="transition-colors hover:text-white">Passport renewal</a>
+            <a href="/marketplace" className="transition-colors hover:text-white">Passport renewal</a>
             <a href="/privacy" className="transition-colors hover:text-white">Privacy</a>
             <a href="/terms" className="transition-colors hover:text-white">Terms</a>
             <a href="mailto:use@lesser.tax" className="transition-colors hover:text-white">use@lesser.tax</a>

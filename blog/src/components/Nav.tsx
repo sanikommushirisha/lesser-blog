@@ -57,9 +57,6 @@ function WhatsApp() {
   )
 }
 
-const pillLink =
-  'flex items-center rounded-full px-4 py-1.5 text-sm font-medium text-muted-foreground transition-all duration-300 hover:bg-white hover:text-foreground hover:shadow-sm'
-
 const mobileLink =
   'flex w-full items-center gap-3 rounded-xl px-4 py-3 text-sm font-medium text-muted-foreground transition-all duration-300 hover:bg-primary/5 hover:text-foreground'
 
@@ -146,12 +143,6 @@ export function Nav() {
                 </div>
               )
             })}
-            <a href="/marketplace" className={pillLink}>
-              Marketplace
-            </a>
-            <a href="/blog" className={pillLink}>
-              Blog
-            </a>
           </div>
         </div>
 
@@ -221,14 +212,6 @@ export function Nav() {
                   </div>
                 )
               })}
-              <a href="/marketplace" className={mobileLink}>
-                <span className="h-1 w-1 rounded-full bg-primary/40" />
-                Marketplace
-              </a>
-              <a href="/blog" className={mobileLink}>
-                <span className="h-1 w-1 rounded-full bg-primary/40" />
-                Blog
-              </a>
               <div className="mx-4 my-2 h-px bg-border/50" />
               <div className="flex flex-col gap-2 px-2 pb-1 pt-1">
                 <a

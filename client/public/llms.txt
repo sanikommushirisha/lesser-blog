@@ -6,8 +6,6 @@
 
 - [Tax filing and planning for tech professionals](https://lesser.tax/): flat-fee CPA tax filing and year-round planning, from $99 a year.
 - [NRI tax filing (U.S. and India)](https://lesser.tax/nris): FBAR, FATCA, PFIC, Indian rental income, foreign tax credits and RNOR planning.
-- [India tax filing (ITR) for NRIs](https://lesser.tax/services/india-tax-filing): Indian income tax returns filed from the U.S. by vetted Chartered Accountants, from $69.
-- [Indian passport renewal in the USA](https://lesser.tax/services/passport-renewal): VFS form filling, document checklist, photo guidance and application review. Pricing is on the page.
 - [Business tax filing](https://lesser.tax/business): Form 1120, 1065 or 1120-S for a flat $100, CPA-reviewed.
 - [Partnership tax filing](https://lesser.tax/business/partnerships): Form 1065 and K-1s at $100 per entity.
 - [Book a tax expert](https://lesser.tax/dashboard/tax-experts): one-on-one consultations with vetted CPAs and tax experts.

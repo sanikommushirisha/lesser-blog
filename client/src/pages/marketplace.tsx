@@ -1,3 +1,4 @@
+import PageBackdrop from "@/components/page-backdrop";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { motion } from "framer-motion";
 import { ArrowRight, Loader2, Search } from "lucide-react";
@@ -24,16 +25,6 @@ const RELATED_LINKS: { href: string; title: string; desc: string }[] = [
     href: "/nris",
     title: "U.S. tax filing for NRIs",
     desc: "FBAR, FATCA, PFIC and foreign tax credits on your U.S. return.",
-  },
-  {
-    href: "/services/passport-renewal",
-    title: "Indian passport renewal guide",
-    desc: "Who qualifies, the documents VFS asks for, and our flat fee.",
-  },
-  {
-    href: "/services/india-tax-filing",
-    title: "India ITR filing from the U.S.",
-    desc: "Interest, rent and capital gains in India, with DTAA benefits.",
   },
   {
     href: "/dashboard/tax-experts",
@@ -64,19 +55,12 @@ function RelatedLinks() {
         <a href="/nris" className="font-semibold text-primary hover:underline">
           U.S. tax return as an NRI
         </a>
-        , your{" "}
+        , your Indian income tax return, and documents like your{" "}
         <a
-          href="/services/india-tax-filing"
+          href="/tools/indian-passport-forms"
           className="font-semibold text-primary hover:underline"
         >
-          Indian income tax return
-        </a>
-        , and documents like your{" "}
-        <a
-          href="/services/passport-renewal"
-          className="font-semibold text-primary hover:underline"
-        >
-          Indian passport
+          Indian passport forms
         </a>
         .
       </p>
@@ -227,21 +211,55 @@ function ServiceCard({
               <ArrowRight className="h-[14px] w-[14px] transition-transform group-hover:translate-x-0.5" />
             )}
           </button>
-          {service.learnMorePath && (
-            // A real link to the service's own page, so crawlers can follow it.
-            <a
-              href={service.learnMorePath}
-              onClick={(e) => e.stopPropagation()}
+          {service.learnMore && (
+            // Opens the chat with the question already typed; the visitor adds details and sends.
+            <button
+              type="button"
+              onClick={(e) => {
+                e.stopPropagation();
+                askAboutService(service.title);
+              }}
               className="text-[13px] font-medium text-gray-500 underline-offset-2 hover:text-primary hover:underline"
               data-testid={`link-learn-more-${service.id}`}
             >
               Learn more<span className="sr-only"> about {service.title}</span>
-            </a>
+            </button>
           )}
         </div>
       )}
     </motion.div>
   );
+}
+
+type IntercomCall = (command: string, arg?: string) => void;
+
+/**
+ * Opens the chat with "I'd like to know more about <service>" already typed.
+ * Intercom ignores the prefill when its Messenger is already open on an
+ * earlier chat, so it is closed first; and if the box still comes up empty
+ * (Messenger settings can drop the text), the text is put in it directly.
+ */
+function askAboutService(title: string) {
+  const ic = (window as unknown as { Intercom?: IntercomCall }).Intercom;
+  if (!ic) return;
+  const text = `Hi, I'd like to know more about ${title}.`;
+  ic("hide");
+  window.setTimeout(() => {
+    ic("showNewMessage", text);
+    window.setTimeout(() => {
+      try {
+        const frame = document.querySelector<HTMLIFrameElement>("iframe.intercom-messenger-frame");
+        const box = frame?.contentDocument?.querySelector<HTMLTextAreaElement>("textarea");
+        if (box && !box.value) {
+          const set = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value")?.set;
+          set?.call(box, text);
+          box.dispatchEvent(new Event("input", { bubbles: true }));
+        }
+      } catch {
+        // The Messenger frame is not reachable: the chat is open, the visitor types it themselves.
+      }
+    }, 700);
+  }, 150);
 }
 
 export default function MarketplacePage() {
@@ -288,8 +306,9 @@ export default function MarketplacePage() {
 
       <SharedNavbar variant="individual" sourcePage="/marketplace" />
 
-      <main className="min-h-screen bg-background pb-24 pt-28">
-        <div className="mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6">
+      <main className="relative min-h-screen overflow-hidden bg-white pb-24 pt-28">
+        <PageBackdrop />
+        <div className="relative mx-auto flex max-w-6xl flex-col gap-6 px-4 sm:px-6">
           <MarketplaceHeader query={query} onQueryChange={setQuery} />
 
           <section

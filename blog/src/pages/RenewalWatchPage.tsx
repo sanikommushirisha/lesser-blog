@@ -115,7 +115,7 @@ export function RenewalWatchPage() {
 
       <div className="mt-8 flex flex-col items-center gap-3 border-t border-border pt-6">
         <a
-          href="https://lesser.tax/services/passport-renewal"
+          href="https://lesser.tax/marketplace"
           target="_blank"
           rel="noopener noreferrer"
           onClick={() => track('cta', { concept: 'renewal-share', slug: comboId })}

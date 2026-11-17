@@ -139,7 +139,7 @@ const TOPICS: { title: string; body: string; href: string; link: string }[] = [
   {
     title: "Indian income and your India tax return",
     body: "NRO interest, rental income and capital gains in India, TDS refunds and claiming India-U.S. treaty (DTAA) relief.",
-    href: "/services/india-tax-filing",
+    href: "/marketplace",
     link: "India tax filing (ITR)",
   },
   {
