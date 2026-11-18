@@ -6,27 +6,11 @@ import { openIntercomWithText } from '../../../shared/intercom-prefill'
 // workspace's Messenger to load; all data access happens server-side.
 const APP_ID = 'o461n2j4'
 const WIDGET_SRC = `https://widget.intercom.io/widget/${APP_ID}`
-// The composer opens once per visitor across the whole blog, not once per post.
-const AUTO_OPEN_KEY = 'lesser_blog_intercom_auto_opened'
 // The widget is loaded early so it is booted when the composer opens. The script
 // is async and layout-stable, so LCP/CLS are unaffected.
 const LOAD_DELAY_MS = 1_000
 const AUTO_OPEN_DELAY_MS = 5_000
 
-function hasAutoOpened(): boolean {
-  try {
-    return window.localStorage.getItem(AUTO_OPEN_KEY) === '1'
-  } catch {
-    return false
-  }
-}
-function markAutoOpened() {
-  try {
-    window.localStorage.setItem(AUTO_OPEN_KEY, '1')
-  } catch {
-    // private mode: it may open again on the next post, which is harmless
-  }
-}
 
 type IntercomFn = ((command: string, ...args: unknown[]) => void) & {
   q?: unknown[]
@@ -83,8 +67,8 @@ export interface PostContext {
  * - at 5s, opens the composer with "I'm reading <title> and I have a question: "
  *   typed in. Nothing is sent: the reader finishes the sentence and presses
  *   send, and Intercom only creates a conversation then.
- * - opens once per visitor (localStorage); repeat visits just get the launcher.
- *   Never over the email gate; it can open on a later post.
+ * - opens on every post the reader opens, each visit, not once per visitor.
+ *   Never over the email gate; it opens on a later post.
  * - post title/slug/category ride along as custom attributes so the inbox
  *   shows what the visitor was reading and Fin can tailor answers.
  */
@@ -104,8 +88,8 @@ export function useIntercomForPost(post: PostContext | null) {
     const loadTimer = window.setTimeout(() => ensureLoaded(attributes), LOAD_DELAY_MS)
     const openTimer = window.setTimeout(() => {
       ensureLoaded(attributes)
-      if (hasAutoOpened() || isGateOpen()) return
-      if (openIntercomWithText(`I'm reading "${title}" and I have a question: `)) markAutoOpened()
+      if (isGateOpen()) return
+      openIntercomWithText(`I'm reading "${title}" and I have a question: `)
     }, AUTO_OPEN_DELAY_MS)
 
     return () => {
