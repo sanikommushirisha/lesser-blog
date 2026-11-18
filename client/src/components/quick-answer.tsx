@@ -23,6 +23,7 @@ export default function QuickAnswer({
   facts,
   factsCaption,
   sources,
+  updated = CONTENT_UPDATED,
 }: {
   id: string;
   question: string;
@@ -30,6 +31,8 @@ export default function QuickAnswer({
   facts?: QuickFact[];
   factsCaption?: string;
   sources?: Source[];
+  /** Month the figures were last checked; defaults to the site-wide CONTENT_UPDATED. */
+  updated?: string;
 }) {
   const headingId = `${id}-heading`;
   return (
@@ -82,7 +85,7 @@ export default function QuickAnswer({
               </p>
             )}
             <p className="shrink-0">
-              Updated {CONTENT_UPDATED}. General information, not advice for your situation.
+              Updated {updated}. General information, not advice for your situation.
             </p>
           </div>
         </div>

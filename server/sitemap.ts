@@ -52,7 +52,7 @@ export function isExcluded(pathname: string): boolean {
 export function priorityFor(pathname: string): number {
   if (pathname === "/") return 1.0;
   if (/^\/(nris|business|services\/|marketplace)/.test(pathname)) return 0.9;
-  if (pathname === "/blog") return 0.8;
+  if (pathname === "/blog" || /^\/tools(\/|$)/.test(pathname)) return 0.8;
   if (pathname.startsWith("/blog/videos/")) return 0.6;
   if (pathname.startsWith("/blog/") || pathname.startsWith("/offers/")) return 0.7;
   if (/^\/(privacy|terms)$/.test(pathname)) return 0.3;

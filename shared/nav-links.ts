@@ -37,8 +37,7 @@ export const NAV_GROUPS = [
       { name: "Blog", description: "Guides on U.S. taxes, NRI rules and passports", href: "/blog" },
       { name: "NRI Services", description: "India tax filing, passport renewal and more", href: "/marketplace" },
       { name: "Passport Forms", description: "Free Indian passport renewal forms, filled for you", href: "/tools/indian-passport-forms" },
-      // Tax Tools: planned for later, kept out of the menu until it exists.
-      // { name: "Tax Tools", description: "Free calculators and checklists", href: "/tools" },
+      { name: "Tax Tools", description: "Free tax estimator, RSU and 401(k) calculators", href: "/tools" },
     ],
   },
 ];

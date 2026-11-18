@@ -100,6 +100,23 @@ function breadcrumbs(...trail: [string, string][]) {
   };
 }
 
+/** A free browser tool (calculator): WebApplication markup, free to use, from Lesser Tax. */
+function webApp(opts: { name: string; path: string; description: string }) {
+  return {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    name: opts.name,
+    url: `${BASE_URL}${opts.path}`,
+    description: opts.description,
+    applicationCategory: "FinanceApplication",
+    operatingSystem: "Any",
+    isAccessibleForFree: true,
+    offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
+    provider: PROVIDER,
+    inLanguage: "en-US",
+  };
+}
+
 function service(opts: {
   name: string;
   serviceType: string;
@@ -198,6 +215,36 @@ export const PAGE_META: Record<string, PageMeta> = {
         price: "99",
       }),
       breadcrumbs(["NRI tax filing", "/nris"]),
+    ],
+  }),
+  // Free tax tools (LD-41 hub, LD-42 estimator, LD-43 RSU, LD-44 401(k)).
+  "/tools": page("/tools", {
+    title: "Free Tax Calculators for NRIs and Tech | Lesser Tax",
+    description: "Free tax estimator, RSU calculator, 401(k) calculator and Indian passport forms for tech professionals and NRIs in the US. No sign-up, nothing stored.",
+    jsonLd: [breadcrumbs(["Free tax tools", "/tools"])],
+  }),
+  "/tools/tax-estimator": page("/tools/tax-estimator", {
+    title: "2026 Tax Estimator: Federal and State Refund | Lesser Tax",
+    description: "Estimate your 2026 federal and state income tax, payroll tax, effective rate and refund or amount owed. Covers RSUs, bonuses, 401(k) and HSA for CA, NY, NJ.",
+    jsonLd: [
+      webApp({ name: "2026 Tax Estimator", path: "/tools/tax-estimator", description: "Estimate 2026 federal and state income tax, FICA and your refund or amount owed." }),
+      breadcrumbs(["Free tax tools", "/tools"], ["Tax estimator", "/tools/tax-estimator"]),
+    ],
+  }),
+  "/tools/rsu-calculator": page("/tools/rsu-calculator", {
+    title: "RSU Tax Calculator: Withholding and Sale (2026) | Lesser Tax",
+    description: "See the tax when RSUs vest, whether 22% withholding covers it, and your capital gain or loss when you sell. Free RSU calculator for tech employees.",
+    jsonLd: [
+      webApp({ name: "RSU Tax Calculator", path: "/tools/rsu-calculator", description: "Calculate RSU income at vest, the under-withholding gap and capital gains on sale." }),
+      breadcrumbs(["Free tax tools", "/tools"], ["RSU calculator", "/tools/rsu-calculator"]),
+    ],
+  }),
+  "/tools/401k-calculator": page("/tools/401k-calculator", {
+    title: "401(k) Calculator: Roth vs Traditional (2026) | Lesser Tax",
+    description: "Project your 401(k) balance, tax saved this year and room under the 2026 limit. Compare Roth and traditional, and cash out vs keep if you return to India.",
+    jsonLd: [
+      webApp({ name: "401(k) Calculator", path: "/tools/401k-calculator", description: "Project 401(k) growth, tax savings and Roth versus traditional, with a return-to-India comparison." }),
+      breadcrumbs(["Free tax tools", "/tools"], ["401(k) calculator", "/tools/401k-calculator"]),
     ],
   }),
   // Free Indian passport forms (LD-78): the hub and one page per form. Copy and
