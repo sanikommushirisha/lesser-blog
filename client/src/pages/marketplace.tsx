@@ -12,6 +12,7 @@ import {
 import { appUrl, fetchPortalUser, type PortalUser } from "@/lib/portal";
 import teamDavidImg from "@assets/team_david_clean.webp";
 import teamVishweshImg from "@assets/team_vishwesh_clean.webp";
+import { openIntercomWithText } from "@shared/intercom-prefill";
 import teamJithendraImg from "@assets/team_jithendra_clean.webp";
 
 // The app's marketplace, on the public site. Live tools ask a signed-out
@@ -231,35 +232,9 @@ function ServiceCard({
   );
 }
 
-type IntercomCall = (command: string, arg?: string) => void;
-
-/**
- * Opens the chat with "I'd like to know more about <service>" already typed.
- * Intercom ignores the prefill when its Messenger is already open on an
- * earlier chat, so it is closed first; and if the box still comes up empty
- * (Messenger settings can drop the text), the text is put in it directly.
- */
+/** Opens the chat with "I'd like to know more about <service>" typed in the box (not sent). */
 function askAboutService(title: string) {
-  const ic = (window as unknown as { Intercom?: IntercomCall }).Intercom;
-  if (!ic) return;
-  const text = `Hi, I'd like to know more about ${title}.`;
-  ic("hide");
-  window.setTimeout(() => {
-    ic("showNewMessage", text);
-    window.setTimeout(() => {
-      try {
-        const frame = document.querySelector<HTMLIFrameElement>("iframe.intercom-messenger-frame");
-        const box = frame?.contentDocument?.querySelector<HTMLTextAreaElement>("textarea");
-        if (box && !box.value) {
-          const set = Object.getOwnPropertyDescriptor(HTMLTextAreaElement.prototype, "value")?.set;
-          set?.call(box, text);
-          box.dispatchEvent(new Event("input", { bubbles: true }));
-        }
-      } catch {
-        // The Messenger frame is not reachable: the chat is open, the visitor types it themselves.
-      }
-    }, 700);
-  }, 150);
+  openIntercomWithText(`Hi, I'd like to know more about ${title}.`);
 }
 
 export default function MarketplacePage() {
