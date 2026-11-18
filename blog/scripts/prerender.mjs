@@ -79,6 +79,18 @@ for (const slug of Object.keys(RENEWAL_VIDEOS)) {
 }
 console.log(`prerendered ${Object.keys(RENEWAL_VIDEOS).length} /r/ share pages (noindex, not in sitemap)`)
 
+// Free tools (/tools/:slug). Prerendered for their meta and hero, but noindex
+// and left out of the sitemap while they are under tax review (TOOLS_LIVE in
+// src/tools/catalog.ts). Add them to the sitemap below when that changes.
+const { TOOLS } = await import(entryServer)
+for (const tool of TOOLS) {
+  const route = `/tools/${tool.slug}`
+  const outDir = path.join(dist, 'tools', tool.slug)
+  fs.mkdirSync(outDir, { recursive: true })
+  fs.writeFileSync(path.join(outDir, 'index.html'), buildPage(route, { route }))
+}
+console.log(`prerendered ${TOOLS.length} /tools/ pages (noindex, not in sitemap)`)
+
 // sitemap.xml
 const urls = sitemapUrls({ posts, videos: VIDEOS })
 const sitemap = sitemapXml(urls)
